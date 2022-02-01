@@ -1,0 +1,11 @@
+# spec files
+.suo
+.user
+
+# build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]in/
+[Ll]og/
