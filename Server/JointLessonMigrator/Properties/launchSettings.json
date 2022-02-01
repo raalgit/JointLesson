@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "JointLessonMigrator": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "environment": "local"
+      }
+    }
+  }
+}
