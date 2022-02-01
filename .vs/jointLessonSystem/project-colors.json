@@ -5,7 +5,17 @@
       "ProjectGuid": "2e5f898c-692f-465d-91a3-75c036aed1bd",
       "DisplayName": "jointLessonSystem",
       "ColorIndex": 0
+    },
+    "30416e83-9f81-4288-8a35-3f0d09dfc31e": {
+      "ProjectGuid": "30416e83-9f81-4288-8a35-3f0d09dfc31e",
+      "DisplayName": "JointLessonTerminal",
+      "ColorIndex": 1
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Прочие файлы",
+      "ColorIndex": -1
     }
   },
-  "NextColorIndex": 1
+  "NextColorIndex": 2
 }
