@@ -1,6 +1,8 @@
 # spec files
 .suo
 .user
+.v1
+.v2
 
 # build results
 [Dd]ebug/
