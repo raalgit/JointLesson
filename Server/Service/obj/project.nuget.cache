@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "KjtANnmD0zyPZKL29zCvuESUqupkFcseK+mS5CGNHO1j4/ceo0J/fKrgtNS/qXJjSxa0soXPubVr8l7AkQVa5Q==",
+  "success": true,
+  "projectFilePath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\Service\\Service.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ivanp\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\6.0.0\\microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

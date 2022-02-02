@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "kMgyofsbRfErqT77dCvyIqwNyRhSi0kTgBRlkjtOQ91xt0gGtdPFtQx2AZleBInDWlhz2NnwlVJoFFsCJuVtgQ==",
+  "success": true,
+  "projectFilePath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\DAL\\DAL.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ivanp\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\6.0.0\\microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
