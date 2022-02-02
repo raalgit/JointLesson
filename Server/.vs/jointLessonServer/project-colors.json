@@ -5,7 +5,12 @@
       "ProjectGuid": "2e5f898c-692f-465d-91a3-75c036aed1bd",
       "DisplayName": "jointLessonServer",
       "ColorIndex": 0
+    },
+    "6b39fd13-73a4-41d6-93b8-bda477d95968": {
+      "ProjectGuid": "6b39fd13-73a4-41d6-93b8-bda477d95968",
+      "DisplayName": "JointLessonMigrator",
+      "ColorIndex": 1
     }
   },
-  "NextColorIndex": 1
+  "NextColorIndex": 2
 }
