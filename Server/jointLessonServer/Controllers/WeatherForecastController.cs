@@ -1,4 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using Utility.Utilities.Abstraction;
+using Utility.Utilities.Implementation;
 
 namespace jointLessonSystem.Controllers
 {
@@ -6,16 +9,19 @@ namespace jointLessonSystem.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
+        private readonly IServiceProvider serviceProvider;
+
         private static readonly string[] Summaries = new[]
         {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+        };
 
         private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IServiceProvider provider)
         {
             _logger = logger;
+            serviceProvider = provider;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
