@@ -30,11 +30,15 @@
                 <RowDefinition Height="50px" />
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="0" Grid.Column="0" Background="#1A1A1A">
+            <StackPanel 
+                Orientation="Horizontal" 
+                Grid.Row="0" 
+                Grid.Column="0" 
+                Background="#1A1A1A">
                 <RadioButton Content="Панель регистрации"
                              Background="#383838"
                              Height="50px"
-                             Width="350px"
+                             Width="300px"
                              FontSize="24"
                              IsChecked="True"
                              Command="{Binding AuthOpenCommand}"
@@ -43,10 +47,26 @@
                 <RadioButton Content="Панель курсов"
                              Background="#383838"
                              Height="50px"
-                             Width="350px"
+                             Width="300px"
                              FontSize="24"
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding CourseOpenCommand}">
+                </RadioButton>
+                <RadioButton Content="Окно курса"
+                             Background="#383838"
+                             Height="50px"
+                             Width="300px"
+                             FontSize="24"
+                             Style="{StaticResource MenuButtonTheme}"
+                             Command="{Binding CurrentCourseOpenCommand}">
+                </RadioButton>
+                <RadioButton Content="Окно редактора"
+                             Background="#383838"
+                             Height="50px"
+                             Width="300px"
+                             FontSize="24"
+                             Style="{StaticResource MenuButtonTheme}"
+                             Command="{Binding EditorOpenCommand}">
                 </RadioButton>
 
 
@@ -58,8 +78,14 @@
 
             </ContentControl>
 
-            <StackPanel Grid.Row="2" Grid.Column="0" Background="#1A1A1A">
-
+            <StackPanel Grid.Row="2" Grid.Column="0" Background="#EFEFEF">
+                <TextBlock Text="© Все права защищены JointLesson"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Margin="0 10 30 0"
+                       Foreground="#04202C"
+                       FontSize="24"
+                       />
             </StackPanel>
         </Grid>
     </Border>

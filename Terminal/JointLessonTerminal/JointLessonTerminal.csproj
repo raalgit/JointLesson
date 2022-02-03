@@ -63,6 +63,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MVVM\View\CurrentCourseWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\View\EditorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MVVM\View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -91,12 +99,20 @@
     <Compile Include="MVVM\Model\ServerModels\WorkBook.cs" />
     <Compile Include="MVVM\ViewModel\AuthWindowViewModel.cs" />
     <Compile Include="MVVM\ViewModel\CourseListViewModel.cs" />
+    <Compile Include="MVVM\ViewModel\CurrentCourseWindowViewModel.cs" />
+    <Compile Include="MVVM\ViewModel\EditorWindowViewModel.cs" />
     <Compile Include="MVVM\ViewModel\MainWindowViewModel.cs" />
     <Compile Include="MVVM\View\AuthWindow.xaml.cs">
       <DependentUpon>AuthWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MVVM\View\CourseListWindow.xaml.cs">
       <DependentUpon>CourseListWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\View\CurrentCourseWindow.xaml.cs">
+      <DependentUpon>CurrentCourseWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\View\EditorWindow.xaml.cs">
+      <DependentUpon>EditorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MVVM\View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

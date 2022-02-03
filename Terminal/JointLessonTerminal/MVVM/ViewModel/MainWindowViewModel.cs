@@ -11,9 +11,14 @@ namespace JointLessonTerminal.MVVM.ViewModel
     {
         public AuthWindowViewModel AuthVM { get; set; }
         public CourseListViewModel CourseVM { get; set; }
+        public EditorWindowViewModel EditorVM { get; set; }
+        public CurrentCourseWindowViewModel CurrentCourseVM { get; set; }
+
 
         public RelayCommand AuthOpenCommand { get; set; }
         public RelayCommand CourseOpenCommand { get; set; }
+        public RelayCommand EditorOpenCommand { get; set; }
+        public RelayCommand CurrentCourseOpenCommand { get; set; }
 
 
         private object _currentView;
@@ -33,11 +38,15 @@ namespace JointLessonTerminal.MVVM.ViewModel
         {
             AuthVM = new AuthWindowViewModel();
             CourseVM = new CourseListViewModel();
+            EditorVM = new EditorWindowViewModel();
+            CurrentCourseVM = new CurrentCourseWindowViewModel();
 
             CurrentView = AuthVM;
 
             AuthOpenCommand = new RelayCommand(x => CurrentView = AuthVM);
             CourseOpenCommand = new RelayCommand(x => CurrentView = CourseVM);
+            EditorOpenCommand = new RelayCommand(x => CurrentView = EditorVM);
+            CurrentCourseOpenCommand = new RelayCommand(x => CurrentView = CurrentCourseVM);
         }
 
     }

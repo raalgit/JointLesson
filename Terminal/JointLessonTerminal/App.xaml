@@ -19,6 +19,14 @@
             <DataTemplate DataType="{x:Type viewModel:CourseListViewModel}">
                 <view:CourseListWindow />
             </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:CurrentCourseWindowViewModel}">
+                <view:CurrentCourseWindow />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:EditorWindowViewModel}">
+                <view:EditorWindow />
+            </DataTemplate>
             
         </ResourceDictionary>
     </Application.Resources>
