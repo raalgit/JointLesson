@@ -10,7 +10,37 @@
       "ProjectGuid": "6b39fd13-73a4-41d6-93b8-bda477d95968",
       "DisplayName": "JointLessonMigrator",
       "ColorIndex": 1
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Прочие файлы",
+      "ColorIndex": -1
+    },
+    "d3f292da-f09b-40fd-a0db-45e06aeeb01a": {
+      "ProjectGuid": "d3f292da-f09b-40fd-a0db-45e06aeeb01a",
+      "DisplayName": "Service",
+      "ColorIndex": 2
+    },
+    "2bbc60be-b5b2-45fc-b818-237f60dfcac2": {
+      "ProjectGuid": "2bbc60be-b5b2-45fc-b818-237f60dfcac2",
+      "DisplayName": "jointLessonServer",
+      "ColorIndex": 3
+    },
+    "fb7eb5f4-c9a2-4f36-a6aa-9cd396381228": {
+      "ProjectGuid": "fb7eb5f4-c9a2-4f36-a6aa-9cd396381228",
+      "DisplayName": "DAL",
+      "ColorIndex": 4
+    },
+    "291375fa-484c-476e-a86c-e37ff06c683a": {
+      "ProjectGuid": "291375fa-484c-476e-a86c-e37ff06c683a",
+      "DisplayName": "BLL",
+      "ColorIndex": 5
+    },
+    "547dade0-60bc-4c1d-98b7-b99ae656958a": {
+      "ProjectGuid": "547dade0-60bc-4c1d-98b7-b99ae656958a",
+      "DisplayName": "Utility",
+      "ColorIndex": 6
     }
   },
-  "NextColorIndex": 2
+  "NextColorIndex": 7
 }

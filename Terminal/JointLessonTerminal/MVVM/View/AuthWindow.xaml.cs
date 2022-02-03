@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace JointLessonTerminal
+namespace JointLessonTerminal.MVVM.View
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для AuthWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class AuthWindow : UserControl
     {
-        public MainWindow()
+        public AuthWindow()
         {
             InitializeComponent();
         }

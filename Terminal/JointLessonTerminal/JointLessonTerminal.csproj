@@ -55,7 +55,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
+    <Page Include="MVVM\View\AuthWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\View\CourseListWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -63,10 +71,41 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Core\ObservableObject.cs" />
+    <Compile Include="Core\RelayCommand.cs" />
+    <Compile Include="MVVM\Model\ServerModels\AuthData.cs" />
+    <Compile Include="MVVM\Model\ServerModels\Course.cs" />
+    <Compile Include="MVVM\Model\ServerModels\CourseTeacher.cs" />
+    <Compile Include="MVVM\Model\ServerModels\Discipline.cs" />
+    <Compile Include="MVVM\Model\ServerModels\Group.cs" />
+    <Compile Include="MVVM\Model\ServerModels\GroupAtCourse.cs" />
+    <Compile Include="MVVM\Model\ServerModels\InnerModels\LessonType.cs" />
+    <Compile Include="MVVM\Model\ServerModels\Lesson.cs" />
+    <Compile Include="MVVM\Model\ServerModels\LessonTabel.cs" />
+    <Compile Include="MVVM\Model\ServerModels\Manual.cs" />
+    <Compile Include="MVVM\Model\ServerModels\Role.cs" />
+    <Compile Include="MVVM\Model\ServerModels\Statistic.cs" />
+    <Compile Include="MVVM\Model\ServerModels\Test.cs" />
+    <Compile Include="MVVM\Model\ServerModels\User.cs" />
+    <Compile Include="MVVM\Model\ServerModels\UserRole.cs" />
+    <Compile Include="MVVM\Model\ServerModels\WorkBook.cs" />
+    <Compile Include="MVVM\ViewModel\AuthWindowViewModel.cs" />
+    <Compile Include="MVVM\ViewModel\CourseListViewModel.cs" />
+    <Compile Include="MVVM\ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="MVVM\View\AuthWindow.xaml.cs">
+      <DependentUpon>AuthWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\View\CourseListWindow.xaml.cs">
+      <DependentUpon>CourseListWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Theme\MenuButtonTheme.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -93,6 +132,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Fonts\" />
+    <Folder Include="Images\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
