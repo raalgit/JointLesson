@@ -12,10 +12,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BLL\BLL.csproj" />
-    <ProjectReference Include="..\DAL\DAL.csproj" />
-    <ProjectReference Include="..\Service\Service.csproj" />
-    <ProjectReference Include="..\Utility\Utility.csproj" />
+    <ProjectReference Include="..\ApiModels\JL.ApiModels.csproj" />
+    <ProjectReference Include="..\BLL\JL.BLL.csproj" />
+    <ProjectReference Include="..\DAL\JL.DAL.csproj" />
+    <ProjectReference Include="..\Service\JL.Service.csproj" />
+    <ProjectReference Include="..\Utility\JL.Utility.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +29,10 @@
     <Content Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ModelsAPI\" />
   </ItemGroup>
 
 </Project>

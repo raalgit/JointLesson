@@ -55,9 +55,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\Utility\\Utility.csproj",
-      "projectName": "Utility",
-      "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\Utility\\Utility.csproj",
+      "projectUniqueName": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\Utility\\JL.Utility.csproj",
+      "projectName": "JL.Utility",
+      "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\Utility\\JL.Utility.csproj",
       "packagesPath": "C:\\Users\\ivanp\\.nuget\\packages\\",
       "outputPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\Utility\\obj\\",
       "projectStyle": "PackageReference",

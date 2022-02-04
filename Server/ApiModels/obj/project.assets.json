@@ -1,30 +1,11 @@
 {
   "version": 3,
   "targets": {
-    "net6.0": {
-      "JL.ApiModels/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v6.0",
-        "compile": {
-          "bin/placeholder/JL.ApiModels.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/JL.ApiModels.dll": {}
-        }
-      }
-    }
+    "net6.0": {}
   },
-  "libraries": {
-    "JL.ApiModels/1.0.0": {
-      "type": "project",
-      "path": "../ApiModels/JL.ApiModels.csproj",
-      "msbuildProject": "../ApiModels/JL.ApiModels.csproj"
-    }
-  },
+  "libraries": {},
   "projectFileDependencyGroups": {
-    "net6.0": [
-      "JL.ApiModels >= 1.0.0"
-    ]
+    "net6.0": []
   },
   "packageFolders": {
     "C:\\Users\\ivanp\\.nuget\\packages\\": {},
@@ -33,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\BLL\\JL.BLL.csproj",
-      "projectName": "JL.BLL",
-      "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\BLL\\JL.BLL.csproj",
+      "projectUniqueName": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\ApiModels\\JL.ApiModels.csproj",
+      "projectName": "JL.ApiModels",
+      "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\ApiModels\\JL.ApiModels.csproj",
       "packagesPath": "C:\\Users\\ivanp\\.nuget\\packages\\",
-      "outputPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\BLL\\obj\\",
+      "outputPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\ApiModels\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\MainPrograms\\VisualStudio\\Shared\\NuGetPackages"
@@ -57,11 +38,7 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {
-            "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\ApiModels\\JL.ApiModels.csproj": {
-              "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\ApiModels\\JL.ApiModels.csproj"
-            }
-          }
+          "projectReferences": {}
         }
       },
       "warningProperties": {

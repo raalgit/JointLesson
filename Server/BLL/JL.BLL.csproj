@@ -7,11 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Auth\" />
-    <Folder Include="Admin\" />
-    <Folder Include="Student\" />
-    <Folder Include="Teacher\" />
-    <Folder Include="User\" />
+    <ProjectReference Include="..\ApiModels\JL.ApiModels.csproj" />
   </ItemGroup>
 
 </Project>

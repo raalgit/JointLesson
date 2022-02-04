@@ -85,53 +85,66 @@
           "Microsoft.AspNetCore.App"
         ]
       },
-      "BLL/1.0.0": {
+      "JL.ApiModels/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "compile": {
-          "bin/placeholder/BLL.dll": {}
+          "bin/placeholder/JL.ApiModels.dll": {}
         },
         "runtime": {
-          "bin/placeholder/BLL.dll": {}
+          "bin/placeholder/JL.ApiModels.dll": {}
         }
       },
-      "DAL/1.0.0": {
+      "JL.BLL/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "JL.ApiModels": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/JL.BLL.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/JL.BLL.dll": {}
+        }
+      },
+      "JL.DAL/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0"
         },
         "compile": {
-          "bin/placeholder/DAL.dll": {}
+          "bin/placeholder/JL.DAL.dll": {}
         },
         "runtime": {
-          "bin/placeholder/DAL.dll": {}
+          "bin/placeholder/JL.DAL.dll": {}
         }
       },
-      "Service/1.0.0": {
+      "JL.Service/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0"
         },
         "compile": {
-          "bin/placeholder/Service.dll": {}
+          "bin/placeholder/JL.Service.dll": {}
         },
         "runtime": {
-          "bin/placeholder/Service.dll": {}
+          "bin/placeholder/JL.Service.dll": {}
         }
       },
-      "Utility/1.0.0": {
+      "JL.Utility/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0"
         },
         "compile": {
-          "bin/placeholder/Utility.dll": {}
+          "bin/placeholder/JL.Utility.dll": {}
         },
         "runtime": {
-          "bin/placeholder/Utility.dll": {}
+          "bin/placeholder/JL.Utility.dll": {}
         }
       }
     }
@@ -287,34 +300,40 @@
         "swashbuckle.aspnetcore.swaggerui.nuspec"
       ]
     },
-    "BLL/1.0.0": {
+    "JL.ApiModels/1.0.0": {
       "type": "project",
-      "path": "../BLL/BLL.csproj",
-      "msbuildProject": "../BLL/BLL.csproj"
+      "path": "../ApiModels/JL.ApiModels.csproj",
+      "msbuildProject": "../ApiModels/JL.ApiModels.csproj"
     },
-    "DAL/1.0.0": {
+    "JL.BLL/1.0.0": {
       "type": "project",
-      "path": "../DAL/DAL.csproj",
-      "msbuildProject": "../DAL/DAL.csproj"
+      "path": "../BLL/JL.BLL.csproj",
+      "msbuildProject": "../BLL/JL.BLL.csproj"
     },
-    "Service/1.0.0": {
+    "JL.DAL/1.0.0": {
       "type": "project",
-      "path": "../Service/Service.csproj",
-      "msbuildProject": "../Service/Service.csproj"
+      "path": "../DAL/JL.DAL.csproj",
+      "msbuildProject": "../DAL/JL.DAL.csproj"
     },
-    "Utility/1.0.0": {
+    "JL.Service/1.0.0": {
       "type": "project",
-      "path": "../Utility/Utility.csproj",
-      "msbuildProject": "../Utility/Utility.csproj"
+      "path": "../Service/JL.Service.csproj",
+      "msbuildProject": "../Service/JL.Service.csproj"
+    },
+    "JL.Utility/1.0.0": {
+      "type": "project",
+      "path": "../Utility/JL.Utility.csproj",
+      "msbuildProject": "../Utility/JL.Utility.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
-      "BLL >= 1.0.0",
-      "DAL >= 1.0.0",
-      "Service >= 1.0.0",
-      "Swashbuckle.AspNetCore >= 6.2.3",
-      "Utility >= 1.0.0"
+      "JL.ApiModels >= 1.0.0",
+      "JL.BLL >= 1.0.0",
+      "JL.DAL >= 1.0.0",
+      "JL.Service >= 1.0.0",
+      "JL.Utility >= 1.0.0",
+      "Swashbuckle.AspNetCore >= 6.2.3"
     ]
   },
   "packageFolders": {
@@ -349,17 +368,20 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\BLL\\BLL.csproj": {
-              "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\BLL\\BLL.csproj"
+            "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\ApiModels\\JL.ApiModels.csproj": {
+              "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\ApiModels\\JL.ApiModels.csproj"
             },
-            "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\DAL\\DAL.csproj": {
-              "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\DAL\\DAL.csproj"
+            "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\BLL\\JL.BLL.csproj": {
+              "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\BLL\\JL.BLL.csproj"
             },
-            "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\Service\\Service.csproj": {
-              "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\Service\\Service.csproj"
+            "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\DAL\\JL.DAL.csproj": {
+              "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\DAL\\JL.DAL.csproj"
             },
-            "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\Utility\\Utility.csproj": {
-              "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\Utility\\Utility.csproj"
+            "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\Service\\JL.Service.csproj": {
+              "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\Service\\JL.Service.csproj"
+            },
+            "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\Utility\\JL.Utility.csproj": {
+              "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\Utility\\JL.Utility.csproj"
             }
           }
         }

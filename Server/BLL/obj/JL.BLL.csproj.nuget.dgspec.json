@@ -1,7 +1,7 @@
 {
   "format": 1,
   "restore": {
-    "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\BLL\\BLL.csproj": {}
+    "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\BLL\\JL.BLL.csproj": {}
   },
   "projects": {
     "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\ApiModels\\JL.ApiModels.csproj": {
@@ -62,12 +62,12 @@
         }
       }
     },
-    "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\BLL\\BLL.csproj": {
+    "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\BLL\\JL.BLL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\BLL\\BLL.csproj",
-        "projectName": "BLL",
-        "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\BLL\\BLL.csproj",
+        "projectUniqueName": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\BLL\\JL.BLL.csproj",
+        "projectName": "JL.BLL",
+        "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\BLL\\JL.BLL.csproj",
         "packagesPath": "C:\\Users\\ivanp\\.nuget\\packages\\",
         "outputPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\BLL\\obj\\",
         "projectStyle": "PackageReference",

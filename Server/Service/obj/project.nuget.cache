@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "KjtANnmD0zyPZKL29zCvuESUqupkFcseK+mS5CGNHO1j4/ceo0J/fKrgtNS/qXJjSxa0soXPubVr8l7AkQVa5Q==",
+  "dgSpecHash": "IONDLLDL1bEtTU+F6By2QMK0A9j0pgfRwlwfoFWERztKRn9Cq8TR6IgXoH0/dmO/vhOy8mmhB6FJXdeeVAvwvQ==",
   "success": true,
-  "projectFilePath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\Service\\Service.csproj",
+  "projectFilePath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\Service\\JL.Service.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ivanp\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\6.0.0\\microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512"
   ],

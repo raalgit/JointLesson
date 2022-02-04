@@ -55,9 +55,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\DAL\\DAL.csproj",
-      "projectName": "DAL",
-      "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\DAL\\DAL.csproj",
+      "projectUniqueName": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\DAL\\JL.DAL.csproj",
+      "projectName": "JL.DAL",
+      "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\DAL\\JL.DAL.csproj",
       "packagesPath": "C:\\Users\\ivanp\\.nuget\\packages\\",
       "outputPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\DAL\\obj\\",
       "projectStyle": "PackageReference",

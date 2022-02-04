@@ -55,9 +55,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\Service\\Service.csproj",
-      "projectName": "Service",
-      "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\Service\\Service.csproj",
+      "projectUniqueName": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\Service\\JL.Service.csproj",
+      "projectName": "JL.Service",
+      "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\Service\\JL.Service.csproj",
       "packagesPath": "C:\\Users\\ivanp\\.nuget\\packages\\",
       "outputPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\Service\\obj\\",
       "projectStyle": "PackageReference",
