@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Utility.Utilities.Abstraction
+namespace JL.Utility.UtilityModels.Request
 {
-    public interface ITestUtility2 : IUtility<int, int>
+    public class LogoutRequest
     {
-        int getData();
     }
 }

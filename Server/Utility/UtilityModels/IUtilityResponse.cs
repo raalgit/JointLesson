@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Utility.Utilities.Abstraction
+namespace JL.Utility.UtilityModels
 {
-    public interface ITestUtility1 : IUtility<int, int>
+    public interface IUtilityResponse
     {
-        int getData();
+        bool IsSuccess { get; set; }
     }
 }

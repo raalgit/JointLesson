@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service
+namespace JL.Utility.UtilityModels.Response
 {
-    public interface IServiceJL
+    public class LogoutResponse : UtilityResponse, IUtilityResponse
     {
-        IServiceProvider _serviceProvider { get; }
     }
 }

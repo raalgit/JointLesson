@@ -16,7 +16,7 @@ namespace Service
         public static void AddIService(this IServiceCollection serviceCollection)
         {
             // Получение базового интерфейса 
-            var baseInterfaceType = typeof(IServiceJL<,>);
+            var baseInterfaceType = typeof(IServiceJL);
 
             // Получение всех интерфейсов и классов
             var interfaceAssemblies = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes()).ToList();
@@ -25,13 +25,9 @@ namespace Service
             var utilityInterfaces =
                 interfaceAssemblies.Where(x =>
                     x.IsInterface &&
-                    x.GetInterfaces()
-                        .Any(y =>
-                            y.IsGenericType &&
-                            y != baseInterfaceType &&
-                            y.GetGenericTypeDefinition() == baseInterfaceType
-                            )
-                        )
+                    x != baseInterfaceType &&
+                    baseInterfaceType.IsAssignableFrom(x)
+                    )
                 .ToList();
 
             if (utilityInterfaces == null || utilityInterfaces.Count == 0) return;

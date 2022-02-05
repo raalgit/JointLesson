@@ -20,12 +20,12 @@ namespace jointLessonServer.Controllers
 
         [HttpPost]
         [Route("/auth/login")]
-        public LoginResponse Login([FromBody] LoginRequest request)
+        public async Task<LoginResponse> Login([FromBody] LoginRequest request)
         {
             try
             {
                 var authBehavior = new AuthBehavior(_serviceProvider);
-                return authBehavior.Login(request);
+                return await authBehavior.Login(request);
             }
             catch (Exception er)
             {
@@ -39,9 +39,21 @@ namespace jointLessonServer.Controllers
 
         [HttpGet]
         [Route("/auth/logout")]
-        public LogoutResponse Logout()
+        public async Task<LogoutResponse> Logout()
         {
-            return null;
+            try
+            {
+                var authBehavior = new AuthBehavior(_serviceProvider);
+                return await authBehavior.Logout();
+            }
+            catch (Exception er)
+            {
+                return new LogoutResponse()
+                {
+                    IsSuccess = false,
+                    Message = er.Message
+                };
+            }
         }
     }
 }

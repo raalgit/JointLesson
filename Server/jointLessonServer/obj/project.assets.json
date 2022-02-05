@@ -99,7 +99,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
-          "JL.ApiModels": "1.0.0"
+          "JL.ApiModels": "1.0.0",
+          "JL.Service": "1.0.0"
         },
         "compile": {
           "bin/placeholder/JL.BLL.dll": {}
@@ -125,6 +126,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
+          "JL.ApiModels": "1.0.0",
+          "JL.Utility": "1.0.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0"
         },
         "compile": {

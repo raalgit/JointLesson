@@ -13,6 +13,29 @@
         "build": {
           "buildTransitive/netcoreapp3.1/_._": {}
         }
+      },
+      "JL.ApiModels/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/JL.ApiModels.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/JL.ApiModels.dll": {}
+        }
+      },
+      "JL.Utility/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0"
+        },
+        "compile": {
+          "bin/placeholder/JL.Utility.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/JL.Utility.dll": {}
+        }
       }
     }
   },
@@ -41,10 +64,22 @@
         "microsoft.extensions.dependencyinjection.abstractions.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "JL.ApiModels/1.0.0": {
+      "type": "project",
+      "path": "../ApiModels/JL.ApiModels.csproj",
+      "msbuildProject": "../ApiModels/JL.ApiModels.csproj"
+    },
+    "JL.Utility/1.0.0": {
+      "type": "project",
+      "path": "../Utility/JL.Utility.csproj",
+      "msbuildProject": "../Utility/JL.Utility.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "JL.ApiModels >= 1.0.0",
+      "JL.Utility >= 1.0.0",
       "Microsoft.Extensions.DependencyInjection.Abstractions >= 6.0.0"
     ]
   },
@@ -79,7 +114,14 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\ApiModels\\JL.ApiModels.csproj": {
+              "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\ApiModels\\JL.ApiModels.csproj"
+            },
+            "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\Utility\\JL.Utility.csproj": {
+              "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\Utility\\JL.Utility.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

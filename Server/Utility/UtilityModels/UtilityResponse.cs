@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service
+namespace JL.Utility.UtilityModels
 {
-    public interface IServiceJL
+    public class UtilityResponse : IUtilityResponse
     {
-        IServiceProvider _serviceProvider { get; }
+        public bool IsSuccess { get; set; }
     }
 }

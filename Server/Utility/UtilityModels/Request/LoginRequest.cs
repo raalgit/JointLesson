@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service
+namespace JL.Utility.UtilityModels.Request
 {
-    public interface IServiceJL
+    public class LoginRequest
     {
-        IServiceProvider _serviceProvider { get; }
     }
 }

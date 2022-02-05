@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service
+namespace JL.ApiModels
 {
-    public interface IServiceJL
+    public interface IRequest
     {
-        IServiceProvider _serviceProvider { get; }
     }
 }
