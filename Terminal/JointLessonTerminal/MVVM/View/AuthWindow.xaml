@@ -16,6 +16,14 @@
                    Margin="0 30 0 0">
             
         </TextBlock>
-        
+        <RadioButton Content="Вход"
+                             Background="#383838"
+                             Height="50px"
+                             Width="300px"
+                             FontSize="24"
+                             IsChecked="True"
+                             Command="{Binding SendRequestCommand}"
+                             Style="{StaticResource MenuButtonTheme}">
+        </RadioButton>
     </StackPanel>
 </UserControl>

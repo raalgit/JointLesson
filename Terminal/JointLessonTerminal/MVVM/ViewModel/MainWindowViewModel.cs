@@ -1,4 +1,7 @@
 ﻿using JointLessonTerminal.Core;
+using JointLessonTerminal.Core.HTTPRequests;
+using JointLessonTerminal.MVVM.Model.HttpModels.Request;
+using JointLessonTerminal.MVVM.Model.HttpModels.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
