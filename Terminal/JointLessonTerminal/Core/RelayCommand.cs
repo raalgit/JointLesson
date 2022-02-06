@@ -25,7 +25,11 @@ namespace JointLessonTerminal.Core
             _canExecute = canExecute;
         }
 
-        public bool CanExecute(object parameter) => _canExecute == null || _canExecute(parameter);
+        public bool CanExecute(object parameter) 
+        {  
+            var canExecute = _canExecute == null || _canExecute(parameter);
+            return canExecute;
+        }
 
         public void Execute(object parameter)
         {
