@@ -11,7 +11,7 @@ namespace JointLessonTerminal.Core.HTTPRequests
     {
         public RequestMethod Method { get; set; }
         public TReq Object { get; set; }
-
-        public string JWT { get; set; }
+        public string UrlFilter { get; set; }
+        public bool UseCurrentToken { get; set; }
     }
 }

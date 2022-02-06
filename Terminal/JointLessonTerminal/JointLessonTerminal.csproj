@@ -119,6 +119,7 @@
     <Compile Include="Core\HTTPRequests\RequestSender.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\LoginRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\LoginResponse.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Response\LogoutResponse.cs" />
     <Compile Include="MVVM\Model\ServerModels\AuthData.cs" />
     <Compile Include="MVVM\Model\ServerModels\Course.cs" />
     <Compile Include="MVVM\Model\ServerModels\CourseTeacher.cs" />

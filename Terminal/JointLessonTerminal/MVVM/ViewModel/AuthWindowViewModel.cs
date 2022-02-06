@@ -30,13 +30,27 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     {
                         Login = "test",
                         Password = "test"
-                    }
+                    },
+                    UseCurrentToken = false
                 };
+
+                var logoutRequest = new RequestModel<object>()
+                {
+                    Method = Core.HTTPRequests.Enums.RequestMethod.Get,
+                    UseCurrentToken = true
+                };
+
                 try
                 {
-                    var response = await RequestSender<LoginRequest, LoginResponse>.SendRequest(loginRequest, "/auth/login");
+                    var responsePost = await RequestSender<LoginRequest, LoginResponse>.SendRequest(loginRequest, "/auth/login");
                     var settings = UserSettings.GetInstance();
-                    if (response.isSuccess) settings.JWT = response.jwt;
+                    if (responsePost.isSuccess) settings.JWT = responsePost.jwt;
+
+                    var responseGet = await RequestSender<object, LogoutResponse>.SendRequest(logoutRequest, "/auth/logout");
+                    if (responseGet.isSuccess) settings.JWT = string.Empty;
+
+                    responseGet = await RequestSender<object, LogoutResponse>.SendRequest(logoutRequest, "/auth/logout");
+                    if (responseGet.isSuccess) settings.JWT = string.Empty;
                 }
                 catch (Exception er)
                 {
