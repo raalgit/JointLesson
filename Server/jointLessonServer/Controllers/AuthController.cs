@@ -1,6 +1,9 @@
 ﻿using BLL.Behavior;
+using JL.Settings;
+using jointLessonServer.Attributes;
 using jointLessonServer.ModelsAPI.AuthModels.Request;
 using jointLessonServer.ModelsAPI.AuthModels.Response;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +22,7 @@ namespace jointLessonServer.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("/auth/login")]
         public async Task<LoginResponse> Login([FromBody] LoginRequest request)
         {
@@ -38,6 +42,7 @@ namespace jointLessonServer.Controllers
         }
 
         [HttpGet]
+        [JwtAuthentication(role: "User")]
         [Route("/auth/logout")]
         public async Task<LogoutResponse> Logout()
         {

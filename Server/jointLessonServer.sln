@@ -15,7 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JL.BLL", "BLL\JL.BLL.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JL.Utility", "Utility\JL.Utility.csproj", "{547DADE0-60BC-4C1D-98B7-B99AE656958A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JL.ApiModels", "ApiModels\JL.ApiModels.csproj", "{3F837B3D-7AB8-427E-8DA2-D55A2DF292CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JL.ApiModels", "ApiModels\JL.ApiModels.csproj", "{3F837B3D-7AB8-427E-8DA2-D55A2DF292CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JL.PersistModels", "JL.PersistModels\JL.PersistModels.csproj", "{42F99266-E873-407E-9F6D-3D73C4B54CF9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JL.Settings", "JL.Settings\JL.Settings.csproj", "{EF3B31CB-E9AD-4B3E-9DF0-16B74CF44A4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +55,14 @@ Global
 		{3F837B3D-7AB8-427E-8DA2-D55A2DF292CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F837B3D-7AB8-427E-8DA2-D55A2DF292CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F837B3D-7AB8-427E-8DA2-D55A2DF292CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42F99266-E873-407E-9F6D-3D73C4B54CF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42F99266-E873-407E-9F6D-3D73C4B54CF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42F99266-E873-407E-9F6D-3D73C4B54CF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42F99266-E873-407E-9F6D-3D73C4B54CF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF3B31CB-E9AD-4B3E-9DF0-16B74CF44A4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF3B31CB-E9AD-4B3E-9DF0-16B74CF44A4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF3B31CB-E9AD-4B3E-9DF0-16B74CF44A4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF3B31CB-E9AD-4B3E-9DF0-16B74CF44A4D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

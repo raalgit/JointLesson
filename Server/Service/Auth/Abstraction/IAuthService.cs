@@ -13,5 +13,10 @@ namespace JL.Service.Auth.Abstraction
     {
         Task<LoginResponse> Login(LoginRequest request);
         Task<LogoutResponse> Logout();
+
+
+
+        Task<Persist.User> GetUserById(int id);
+        Task<List<Persist.Role>> GetRolesByUserId(int id);
     }
 }

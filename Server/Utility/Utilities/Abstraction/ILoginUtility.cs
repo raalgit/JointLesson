@@ -11,6 +11,6 @@ namespace JL.Utility.Utilities.Abstraction
 {
     public interface ILoginUtility : IUtility<LoginRequest, LoginResponse>
     {
-        Task<LoginResponse> Login(LoginRequest request);
+        Task<LoginResponse> Login(LoginRequest request, Persist.User user);
     }
 }

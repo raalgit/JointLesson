@@ -13,8 +13,6 @@
     <Folder Include="Student\Implementation\" />
     <Folder Include="Teacher\Abstraction\" />
     <Folder Include="Teacher\Implementation\" />
-    <Folder Include="User\Abstraction\" />
-    <Folder Include="User\Implementation\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ApiModels\JL.ApiModels.csproj" />
+    <ProjectReference Include="..\JL.PersistModels\JL.PersistModels.csproj" />
     <ProjectReference Include="..\Utility\JL.Utility.csproj" />
   </ItemGroup>
 

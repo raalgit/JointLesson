@@ -45,7 +45,17 @@
       "ProjectGuid": "547dade0-60bc-4c1d-98b7-b99ae656958a",
       "DisplayName": "JL.Utility",
       "ColorIndex": 7
+    },
+    "42f99266-e873-407e-9f6d-3d73c4b54cf9": {
+      "ProjectGuid": "42f99266-e873-407e-9f6d-3d73c4b54cf9",
+      "DisplayName": "JL.PersistModels",
+      "ColorIndex": 8
+    },
+    "ef3b31cb-e9ad-4b3e-9df0-16b74cf44a4d": {
+      "ProjectGuid": "ef3b31cb-e9ad-4b3e-9df0-16b74cf44a4d",
+      "DisplayName": "JL.Settings",
+      "ColorIndex": 9
     }
   },
-  "NextColorIndex": 8
+  "NextColorIndex": 10
 }
