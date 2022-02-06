@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="StudentModels\Request\" />
+    <Folder Include="StudentModels\Response\" />
+    <Folder Include="TeacherModels\Request\" />
+    <Folder Include="TeacherModels\Response\" />
+    <Folder Include="UserModels\Request\" />
+    <Folder Include="UserModels\Response\" />
+  </ItemGroup>
+
+</Project>

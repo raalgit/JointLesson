@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Service
 {
-    public interface IServiceJL<TRequest, TResponse>
+    public interface IServiceJL
     {
+        IServiceProvider _serviceProvider { get; }
     }
 }

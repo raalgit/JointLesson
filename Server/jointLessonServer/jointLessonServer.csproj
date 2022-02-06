@@ -8,14 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.15.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BLL\BLL.csproj" />
-    <ProjectReference Include="..\DAL\DAL.csproj" />
-    <ProjectReference Include="..\Service\Service.csproj" />
-    <ProjectReference Include="..\Utility\Utility.csproj" />
+    <ProjectReference Include="..\ApiModels\JL.ApiModels.csproj" />
+    <ProjectReference Include="..\BLL\JL.BLL.csproj" />
+    <ProjectReference Include="..\DAL\JL.DAL.csproj" />
+    <ProjectReference Include="..\JL.PersistModels\JL.PersistModels.csproj" />
+    <ProjectReference Include="..\Service\JL.Service.csproj" />
+    <ProjectReference Include="..\Utility\JL.Utility.csproj" />
   </ItemGroup>
 
   <ItemGroup>

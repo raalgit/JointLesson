@@ -8,7 +8,7 @@
     },
     "6b39fd13-73a4-41d6-93b8-bda477d95968": {
       "ProjectGuid": "6b39fd13-73a4-41d6-93b8-bda477d95968",
-      "DisplayName": "JointLessonMigrator",
+      "DisplayName": "JL.JointLessonMigrator",
       "ColorIndex": 1
     },
     "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
@@ -16,31 +16,46 @@
       "DisplayName": "Прочие файлы",
       "ColorIndex": -1
     },
-    "d3f292da-f09b-40fd-a0db-45e06aeeb01a": {
-      "ProjectGuid": "d3f292da-f09b-40fd-a0db-45e06aeeb01a",
-      "DisplayName": "Service",
-      "ColorIndex": 2
-    },
     "2bbc60be-b5b2-45fc-b818-237f60dfcac2": {
       "ProjectGuid": "2bbc60be-b5b2-45fc-b818-237f60dfcac2",
       "DisplayName": "jointLessonServer",
-      "ColorIndex": 3
+      "ColorIndex": 2
     },
-    "fb7eb5f4-c9a2-4f36-a6aa-9cd396381228": {
-      "ProjectGuid": "fb7eb5f4-c9a2-4f36-a6aa-9cd396381228",
-      "DisplayName": "DAL",
-      "ColorIndex": 4
+    "d3f292da-f09b-40fd-a0db-45e06aeeb01a": {
+      "ProjectGuid": "d3f292da-f09b-40fd-a0db-45e06aeeb01a",
+      "DisplayName": "JL.Service",
+      "ColorIndex": 3
     },
     "291375fa-484c-476e-a86c-e37ff06c683a": {
       "ProjectGuid": "291375fa-484c-476e-a86c-e37ff06c683a",
-      "DisplayName": "BLL",
+      "DisplayName": "JL.BLL",
+      "ColorIndex": 4
+    },
+    "3f837b3d-7ab8-427e-8da2-d55a2df292ca": {
+      "ProjectGuid": "3f837b3d-7ab8-427e-8da2-d55a2df292ca",
+      "DisplayName": "JL.ApiModels",
       "ColorIndex": 5
+    },
+    "fb7eb5f4-c9a2-4f36-a6aa-9cd396381228": {
+      "ProjectGuid": "fb7eb5f4-c9a2-4f36-a6aa-9cd396381228",
+      "DisplayName": "JL.DAL",
+      "ColorIndex": 6
     },
     "547dade0-60bc-4c1d-98b7-b99ae656958a": {
       "ProjectGuid": "547dade0-60bc-4c1d-98b7-b99ae656958a",
-      "DisplayName": "Utility",
-      "ColorIndex": 6
+      "DisplayName": "JL.Utility",
+      "ColorIndex": 7
+    },
+    "42f99266-e873-407e-9f6d-3d73c4b54cf9": {
+      "ProjectGuid": "42f99266-e873-407e-9f6d-3d73c4b54cf9",
+      "DisplayName": "JL.PersistModels",
+      "ColorIndex": 8
+    },
+    "ef3b31cb-e9ad-4b3e-9df0-16b74cf44a4d": {
+      "ProjectGuid": "ef3b31cb-e9ad-4b3e-9df0-16b74cf44a4d",
+      "DisplayName": "JL.Settings",
+      "ColorIndex": 9
     }
   },
-  "NextColorIndex": 7
+  "NextColorIndex": 10
 }

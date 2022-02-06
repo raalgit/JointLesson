@@ -2561,9 +2561,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\JointLessonMigrator\\JointLessonMigrator.csproj",
-      "projectName": "JointLessonMigrator",
-      "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\JointLessonMigrator\\JointLessonMigrator.csproj",
+      "projectUniqueName": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\JointLessonMigrator\\JL.JointLessonMigrator.csproj",
+      "projectName": "JL.JointLessonMigrator",
+      "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\JointLessonMigrator\\JL.JointLessonMigrator.csproj",
       "packagesPath": "C:\\Users\\ivanp\\.nuget\\packages\\",
       "outputPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\JointLessonMigrator\\obj\\",
       "projectStyle": "PackageReference",
