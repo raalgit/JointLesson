@@ -3,6 +3,8 @@
 .user
 .v1
 .v2
+.*
+!/.gitignore
 
 # build results
 [Dd]ebug/
