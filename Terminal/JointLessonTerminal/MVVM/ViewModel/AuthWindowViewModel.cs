@@ -32,9 +32,16 @@ namespace JointLessonTerminal.MVVM.ViewModel
                         Password = "test"
                     }
                 };
-                var response = await RequestSender<LoginRequest, LoginResponse>.SendRequest(loginRequest, "/auth/login");
-                var settings = UserSettings.GetInstance();
-                if (response.isSuccess) settings.JWT = response.jwt;
+                try
+                {
+                    var response = await RequestSender<LoginRequest, LoginResponse>.SendRequest(loginRequest, "/auth/login");
+                    var settings = UserSettings.GetInstance();
+                    if (response.isSuccess) settings.JWT = response.jwt;
+                }
+                catch (Exception er)
+                {
+                    // TODO: вывод ошибки
+                }
             });
         }
     }
