@@ -48,7 +48,7 @@ namespace JointLessonTerminal.Core.HTTPRequests
                     // Устновка типа передаваемых данных
                     httpRequest.ContentType = "application/json";
                     
-                    string json = JsonSerializer.Serialize<TReq>(requestModel.Object);
+                    string json = JsonSerializer.Serialize<TReq>(requestModel.Body);
 
                     httpRequest.ContentLength = json.Length;
                     

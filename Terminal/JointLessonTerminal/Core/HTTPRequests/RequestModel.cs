@@ -10,8 +10,8 @@ namespace JointLessonTerminal.Core.HTTPRequests
     public class RequestModel<TReq>
     {
         public RequestMethod Method { get; set; }
-        public TReq Object { get; set; }
+        public TReq Body { get; set; }
         public string UrlFilter { get; set; }
-        public bool UseCurrentToken { get; set; }
+        public bool UseCurrentToken { get; set; } = true;
     }
 }

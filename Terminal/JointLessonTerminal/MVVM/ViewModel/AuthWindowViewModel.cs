@@ -26,7 +26,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 var loginRequest = new RequestModel<LoginRequest>()
                 {
                     Method = Core.HTTPRequests.Enums.RequestMethod.Post,
-                    Object = new LoginRequest()
+                    Body = new LoginRequest()
                     {
                         Login = "test",
                         Password = "test"
@@ -36,8 +36,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
                 var logoutRequest = new RequestModel<object>()
                 {
-                    Method = Core.HTTPRequests.Enums.RequestMethod.Get,
-                    UseCurrentToken = true
+                    Method = Core.HTTPRequests.Enums.RequestMethod.Get
                 };
 
                 try
