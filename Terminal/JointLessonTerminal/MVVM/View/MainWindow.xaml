@@ -18,58 +18,87 @@
     </Window.DataContext>
     
     <Border Background="#EFEFEF"
-            CornerRadius="50">
+            CornerRadius="0 0 50 50">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             
             <Grid.RowDefinitions>
-                <RowDefinition Height="100px"/>
+                <RowDefinition Height="80"/>
                 <RowDefinition />
-                <RowDefinition Height="50px" />
+                <RowDefinition Height="50" />
             </Grid.RowDefinitions>
 
             <StackPanel 
-                Orientation="Horizontal" 
                 Grid.Row="0" 
-                Grid.Column="0" 
+                Grid.Column="0"
                 Background="#1A1A1A">
-                <RadioButton Content="Панель регистрации"
-                             Background="#383838"
-                             Height="50px"
-                             Width="300px"
-                             FontSize="24"
-                             IsChecked="True"
-                             Command="{Binding AuthOpenCommand}"
-                             Style="{StaticResource MenuButtonTheme}">
-                </RadioButton>
-                <RadioButton Content="Панель курсов"
-                             Background="#383838"
-                             Height="50px"
-                             Width="300px"
-                             FontSize="24"
-                             Style="{StaticResource MenuButtonTheme}"
-                             Command="{Binding CourseOpenCommand}">
-                </RadioButton>
-                <RadioButton Content="Окно курса"
-                             Background="#383838"
-                             Height="50px"
-                             Width="300px"
-                             FontSize="24"
-                             Style="{StaticResource MenuButtonTheme}"
-                             Command="{Binding CurrentCourseOpenCommand}">
-                </RadioButton>
-                <RadioButton Content="Окно редактора"
-                             Background="#383838"
-                             Height="50px"
-                             Width="300px"
-                             FontSize="24"
-                             Style="{StaticResource MenuButtonTheme}"
-                             Command="{Binding EditorOpenCommand}">
-                </RadioButton>
 
+                <Grid x:Name="top_menu_layout">
+                    
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
 
+                    <StackPanel HorizontalAlignment="Left"
+                                Orientation="Horizontal"
+                                Grid.Column="0">
+                        <Button Visibility="{Binding MenuVisibility.ProfileBtnVisibility}"
+                                Margin="20 0 0 0"
+                                Background="Transparent"
+                                Width="80"
+                                Height="80"
+                                HorizontalAlignment="Left">
+                            <StackPanel>
+                                <Image Width="50"
+                                       Height="50"
+                                       Source="../../Images/profile-btn.png" />
+                                <TextBlock Text="Профиль"
+                                           Foreground="#EFEFEF"
+                                           FontSize="16"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Visibility="{Binding MenuVisibility.BackBtnVisibility}"
+                                Margin="20 0 0 0"
+                                Background="Transparent"
+                                Width="80"
+                                Height="80"
+                                HorizontalAlignment="Left">
+                            <StackPanel>
+                                <Image Width="50"
+                                       Height="50"
+                                       Source="../../Images/back-btn.png" />
+                                <TextBlock Text="Вернуться"
+                                           Foreground="#EFEFEF"
+                                           FontSize="16"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                    <StackPanel HorizontalAlignment="Right"
+                                Orientation="Horizontal"
+                                Grid.Column="1">
+                        <Button Visibility="{Binding MenuVisibility.ExitBtnVisibility}"
+                                Command="{Binding ExitFromSystemCommand}"
+                                Margin="0 0 20 0"
+                                Background="Transparent"
+                                Width="80"
+                                Height="80"
+                                HorizontalAlignment="Left">
+                            <StackPanel>
+                                <Image Width="50"
+                                       Height="50"
+                                       Source="../../Images/sign-out.png" />
+                                <TextBlock Text="Выйти"
+                                           Foreground="#EFEFEF"
+                                           FontSize="16"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                
+                </Grid>
             </StackPanel>
 
             <ContentControl Grid.Row="1" 

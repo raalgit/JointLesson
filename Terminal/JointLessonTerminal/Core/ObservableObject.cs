@@ -11,10 +11,16 @@ namespace JointLessonTerminal.Core
     public class ObservableObject : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler<WindowEvent> WindowStateChanged;
 
         protected void OnPropsChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        protected void SendEventSignal(WindowEvent winEvent)
+        {
+            WindowStateChanged?.Invoke(this, winEvent);
         }
     }
 }
