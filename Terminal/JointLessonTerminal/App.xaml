@@ -10,6 +10,7 @@
             
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Theme/MenuButtonTheme.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="Theme/MenuInputBoxTheme.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate DataType="{x:Type viewModel:AuthWindowViewModel}">

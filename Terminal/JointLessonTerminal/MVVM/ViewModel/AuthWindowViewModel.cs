@@ -8,52 +8,68 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace JointLessonTerminal.MVVM.ViewModel
 {
     public class AuthWindowViewModel : ObservableObject
     {
-        /// <summary>
-        /// Пример отправки HTTP запроса
-        /// </summary>
         public RelayCommand SendRequestCommand { get; set; }
+
+        public string Login { get; set; }
+        public string Password { get; set; }
 
 
         public AuthWindowViewModel()
         {
+            // Событие при нажатии на кнопку
             SendRequestCommand = new RelayCommand(async x =>
             {
+                // Если пароль и/или логин не ввели
+                if (string.IsNullOrEmpty(Login) || string.IsNullOrEmpty(Password))
+                {
+                    MessageBox.Show("Введите логин и пароль");
+                    return;
+                }
+
+                // Создание модели http запроса
                 var loginRequest = new RequestModel<LoginRequest>()
                 {
                     Method = Core.HTTPRequests.Enums.RequestMethod.Post,
                     Body = new LoginRequest()
                     {
-                        Login = "test",
-                        Password = "test"
+                        Login = Login,
+                        Password = Password
                     },
                     UseCurrentToken = false
                 };
 
-                var logoutRequest = new RequestModel<object>()
-                {
-                    Method = Core.HTTPRequests.Enums.RequestMethod.Get
-                };
-
                 try
                 {
+                    // Отправка http запроса для авторизации
                     var responsePost = await RequestSender<LoginRequest, LoginResponse>.SendRequest(loginRequest, "/auth/login");
                     var settings = UserSettings.GetInstance();
-                    if (responsePost.isSuccess) settings.JWT = responsePost.jwt;
 
-                    var responseGet = await RequestSender<object, LogoutResponse>.SendRequest(logoutRequest, "/auth/logout");
-                    if (responseGet.isSuccess) settings.JWT = string.Empty;
+                    // Если авторизация прошла
+                    if (responsePost.isSuccess)
+                    {
+                        // Сохранение токена авторизации
+                        settings.JWT = responsePost.jwt;
+                        MessageBox.Show("Вы вошли в систему");
 
-                    responseGet = await RequestSender<object, LogoutResponse>.SendRequest(logoutRequest, "/auth/logout");
-                    if (responseGet.isSuccess) settings.JWT = string.Empty;
+                        // Отправка сигнала главному окну о завершении авторизации
+                        var signal = new WindowEvent();
+                        signal.Type = WindowEventType.AUTHORIZED;
+                        SendEventSignal(signal);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка авторизации");
+                    }
                 }
                 catch (Exception er)
                 {
-                    // TODO: вывод ошибки
+                    MessageBox.Show(er.Message);
                 }
             });
         }
