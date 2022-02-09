@@ -31,7 +31,11 @@
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\JL.PersistModels\\JL.PersistModels.csproj": {
+                "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\JL.PersistModels\\JL.PersistModels.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -154,7 +158,11 @@
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\JL.PersistModels\\JL.PersistModels.csproj": {
+                "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\JL.PersistModels\\JL.PersistModels.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -167,6 +175,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.2, )"
+            },
             "Microsoft.Extensions.DependencyInjection.Abstractions": {
               "target": "Package",
               "version": "[6.0.0, )"
@@ -370,9 +382,17 @@
               "target": "Package",
               "version": "[5.2.7, )"
             },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[6.0.2, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.2.3, )"
+            },
+            "System.Configuration.ConfigurationManager": {
+              "target": "Package",
+              "version": "[6.0.0, )"
             },
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
@@ -431,6 +451,9 @@
             "projectReferences": {
               "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\ApiModels\\JL.ApiModels.csproj": {
                 "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\ApiModels\\JL.ApiModels.csproj"
+              },
+              "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\DAL\\JL.DAL.csproj": {
+                "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\DAL\\JL.DAL.csproj"
               },
               "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\JL.PersistModels\\JL.PersistModels.csproj": {
                 "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\JL.PersistModels\\JL.PersistModels.csproj"

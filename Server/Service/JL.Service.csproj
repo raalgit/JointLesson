@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ApiModels\JL.ApiModels.csproj" />
+    <ProjectReference Include="..\DAL\JL.DAL.csproj" />
     <ProjectReference Include="..\JL.PersistModels\JL.PersistModels.csproj" />
     <ProjectReference Include="..\Utility\JL.Utility.csproj" />
   </ItemGroup>

@@ -1,8 +1,12 @@
 using DAL;
+using JL.DAL;
 using JL.Settings;
 using jointLessonServer.Middleware;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 using Service;
+using System.Configuration;
 using Utility;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,6 +40,11 @@ builder.Services.AddSwaggerGen(c =>
 });
 builder.Services.AddCors();
 
+// Добавление контекста базы данных
+var environment = Environment.GetEnvironmentVariable("environment") ?? throw new NullReferenceException();
+var configuration = getConfiguration(environment);
+builder.Services.AddDbContext<JLContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
 // Добавление сервисов проета
 builder.Services.AddIService();
 builder.Services.AddIUtility();
@@ -62,3 +71,28 @@ app.MapControllers();
 app.UseMiddleware<JWTMiddleware>();
 
 app.Run();
+
+
+
+
+IConfiguration getConfiguration(string environment)
+{
+    if (string.IsNullOrEmpty(environment))
+        throw new ArgumentNullException(nameof(environment));
+
+    IConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+    configurationBuilder
+        .SetBasePath(AppDomain.CurrentDomain.BaseDirectory);
+
+    switch (environment)
+    {
+        case "local":
+            configurationBuilder.AddJsonFile("appsettings-local.json", true, true);
+            break;
+        case "test":
+            configurationBuilder.AddJsonFile("appsettings-test.json", true, true);
+            break;
+    }
+
+    return configurationBuilder.Build();
+}

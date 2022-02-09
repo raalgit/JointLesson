@@ -27,6 +27,8 @@ namespace JointLessonMigrator
             Console.WriteLine("Получение строки подключения к базе данных");
             string connectionString = configuration.GetConnectionString("DefaultConnection");
 
+            DataBase.EnsureDatabase(connectionString);
+
             Console.WriteLine("Инициализация сервиса мигратора");
             IServiceCollection services = new ServiceCollection()
                 .AddLogging(x => x.AddFluentMigratorConsole())

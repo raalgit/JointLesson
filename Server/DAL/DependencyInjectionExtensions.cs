@@ -17,7 +17,7 @@ namespace DAL
         public static void AddIRepository(this IServiceCollection serviceCollection)
         {
             // Получение базового интерфейса 
-            var baseInterfaceType = typeof(IRepository<,>);
+            var baseInterfaceType = typeof(IRepository<>);
 
             // Получение всех интерфейсов и классов
             var interfaceAssemblies = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes()).ToList();

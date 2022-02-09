@@ -15,4 +15,8 @@
     <Folder Include="UserModels\Response\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\JL.PersistModels\JL.PersistModels.csproj" />
+  </ItemGroup>
+
 </Project>
