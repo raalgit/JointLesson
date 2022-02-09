@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JL.DAL.Repository.Abstraction;
 
 namespace JL.Service.Auth.Implementation
 {
@@ -15,9 +16,24 @@ namespace JL.Service.Auth.Implementation
     {
         public IServiceProvider _serviceProvider { get; }
 
-        public AuthService(IServiceProvider serviceProvider)
+        public IAuthDataRepository _authDataRepository { get; }
+        public IUserRepository _userRepository { get; }
+        public IUserRoleRepository _userRoleRepository { get; }
+        public IRoleRepository _roleRepository { get; }
+
+
+        public AuthService(
+            IServiceProvider serviceProvider,
+            IAuthDataRepository authDataRepository,
+            IUserRepository userRepository,
+            IUserRoleRepository userRoleRepository,
+            IRoleRepository roleRepository)
         {
             _serviceProvider = serviceProvider;
+            _authDataRepository = authDataRepository;
+            _userRepository = userRepository;
+            _roleRepository = roleRepository;
+            _userRoleRepository = userRoleRepository;
         }
 
 
@@ -27,19 +43,19 @@ namespace JL.Service.Auth.Implementation
 
             ILoginUtility? loginUtility = null;
 
-            // get user fron repo by login & pass
-            var user = new Persist.User()
-            {
-                ThirdName = "edwaeaw",
-                SecondName = "dwaw",
-                Id = 1,
-                GroupId = 2,
-                FirstName = "31231",
-                AvatarId = "3223"
-            };
+            // Получение хэша пароля
+            var passwordHash = request.Password;
 
-            if (user == null) throw new NullReferenceException(nameof(user));
+            // Поиск авторизационных данных по логину и паролю
+            var authData = _authDataRepository.Get().FirstOrDefault(x => x.Login == request.Login && x.PasswordHash == passwordHash) 
+                ?? throw new Exception("Логин и/или пароль не найден(ы)");
 
+            // Поиск данных пользователя
+            var user = _userRepository.Get().FirstOrDefault(x => x.Id == authData.UserId) 
+                ?? throw new Exception("Данные пользователя не найдены");
+
+            var roles = await GetRolesByUserId(user.Id);
+            
             loginUtility = _serviceProvider.GetService<ILoginUtility>() ?? throw new NullReferenceException(nameof(loginUtility));
 
             var utilityResponse = await loginUtility.Login(new Utility.UtilityModels.Request.LoginRequest(), user);
@@ -49,6 +65,9 @@ namespace JL.Service.Auth.Implementation
             }
 
             response.JWT = utilityResponse.JWT;
+            response.Roles = roles;
+            response.User = user;
+
             return response;
         }
 
@@ -71,32 +90,16 @@ namespace JL.Service.Auth.Implementation
 
         public async Task<Persist.User> GetUserById(int id)
         {
-            return new Persist.User()
-            {
-                AvatarId = "3123123",
-                FirstName = "ivan",
-                GroupId = 32,
-                Id = 2,
-                SecondName = "3422",
-                ThirdName = "4334"
-            };
+            return _userRepository.Get().FirstOrDefault(x => x.Id == id) ?? throw new Exception($"Пользователь с номером {id} не найден");
         }
 
         public async Task<List<Persist.Role>> GetRolesByUserId(int id)
         {
-            return new List<Persist.Role>(2)
-            {
-                new Persist.Role()
-                {
-                     DisplayName = "User",
-                     SystemName = "User"
-                },
-                new Persist.Role()
-                {
-                     DisplayName = "Student",
-                     SystemName = "Student"
-                }
-            };
+            return (from user in _userRepository.Get()
+                    join user_role in _userRoleRepository.Get() on user.Id equals user_role.UserId
+                    join role in _roleRepository.Get() on user_role.RoleId equals role.Id
+                    where user.Id == id
+                    select role).ToList();
         }
     }
 }

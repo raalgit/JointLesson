@@ -10,10 +10,10 @@ namespace JointLessonMigrator
 {
     public static class DataBase
     {
-        public static void EnsureDatabase(string connectionString, string name)
+        public static void EnsureDatabase(string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("JointLessonDB", name);
+            parameters.Add("name", "JointLessonDB");
             
             // Создаем подключение к ms sql server
             using var connection = new SqlConnection(connectionString);
@@ -25,7 +25,7 @@ namespace JointLessonMigrator
             // Если базы данных нет, то создаем ее
             if (!records.Any())
             {
-                connection.Execute($"CREATE DATABASE {name}");
+                connection.Execute($"CREATE DATABASE JointLessonDB");
             }
         }
     }

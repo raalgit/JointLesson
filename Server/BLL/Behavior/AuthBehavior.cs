@@ -30,8 +30,15 @@ namespace BLL.Behavior
             {
                 throw new ArgumentNullException(nameof(request));
             }
+            try
+            {
+                return await authService.Login(request);
+            }
+            catch(Exception er)
+            {
+                throw er;
+            }
 
-            return await authService.Login(request);
         }
 
         public async Task<LogoutResponse> Logout()
