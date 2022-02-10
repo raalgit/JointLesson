@@ -8,10 +8,10 @@ namespace JointLessonTerminal.Model.ServerModels
 {
     public class WorkBook
     {
-        public int Id { get; set; }
-        public int UserId { get; set; }
-        public int LessonId { get; set; }
-        public string Text { get; set; }
-        public int Page { get; set; }
+        public int id { get; set; }
+        public int userId { get; set; }
+        public int lessonId { get; set; }
+        public string text { get; set; }
+        public int page { get; set; }
     }
 }

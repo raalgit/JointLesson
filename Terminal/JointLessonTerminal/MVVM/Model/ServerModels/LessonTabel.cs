@@ -8,10 +8,10 @@ namespace JointLessonTerminal.Model.ServerModels
 {
     public class LessonTabel
     {
-        public int Id { get; set; }
-        public int UserId { get; set; }
-        public int LessonId { get; set; }
-        public DateTime EnterDate { get; set; }
-        public DateTime LeaveDate { get; set; }
+        public int id { get; set; }
+        public int userId { get; set; }
+        public int lessonId { get; set; }
+        public DateTime enterDate { get; set; }
+        public DateTime leaveDate { get; set; }
     }
 }

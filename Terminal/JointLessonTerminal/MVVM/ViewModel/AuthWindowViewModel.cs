@@ -47,7 +47,8 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 try
                 {
                     // Отправка http запроса для авторизации
-                    var responsePost = await RequestSender<LoginRequest, LoginResponse>.SendRequest(loginRequest, "/auth/login");
+                    var sender = new RequestSender<LoginRequest, LoginResponse>();
+                    var responsePost = await sender.SendRequest(loginRequest, "/auth/login");
                     var settings = UserSettings.GetInstance();
 
                     // Если авторизация прошла
@@ -55,6 +56,9 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     {
                         // Сохранение токена авторизации
                         settings.JWT = responsePost.jwt;
+                        settings.CurrentUser = responsePost.user;
+                        settings.Roles = responsePost.roles.ToArray();
+
                         MessageBox.Show("Вы вошли в систему");
 
                         // Отправка сигнала главному окну о завершении авторизации

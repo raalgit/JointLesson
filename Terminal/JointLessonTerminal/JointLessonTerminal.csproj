@@ -94,6 +94,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MVVM\View\LessonWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MVVM\View\CurrentCourseWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -119,7 +123,10 @@
     <Compile Include="Core\HTTPRequests\RequestSender.cs" />
     <Compile Include="Core\WindowEvent.cs" />
     <Compile Include="Core\WindowEventType.cs" />
+    <Compile Include="MVVM\Model\CourseCollection.cs" />
+    <Compile Include="MVVM\Model\CourseModel.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\LoginRequest.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Response\GetMyCoursesResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\LoginResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\LogoutResponse.cs" />
     <Compile Include="MVVM\Model\ServerModels\AuthData.cs" />
@@ -144,12 +151,16 @@
     <Compile Include="MVVM\ViewModel\CourseListViewModel.cs" />
     <Compile Include="MVVM\ViewModel\CurrentCourseWindowViewModel.cs" />
     <Compile Include="MVVM\ViewModel\EditorWindowViewModel.cs" />
+    <Compile Include="MVVM\ViewModel\LessonWindowViewModel.cs" />
     <Compile Include="MVVM\ViewModel\MainWindowViewModel.cs" />
     <Compile Include="MVVM\View\AuthWindow.xaml.cs">
       <DependentUpon>AuthWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MVVM\View\CourseListWindow.xaml.cs">
       <DependentUpon>CourseListWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\View\LessonWindow.xaml.cs">
+      <DependentUpon>LessonWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MVVM\View\CurrentCourseWindow.xaml.cs">
       <DependentUpon>CurrentCourseWindow.xaml</DependentUpon>
@@ -201,10 +212,25 @@
     <Folder Include="Fonts\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\exit-btn.png" />
-    <Resource Include="Images\sign-out.png" />
-    <Resource Include="Images\back-btn.png" />
-    <Resource Include="Images\profile-btn.png" />
+    <Resource Include="Images\start-btn.png" />
+    <Resource Include="Images\enter-btn.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="Images\exit-btn.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Images\course-template.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\sign-out.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\back-btn.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\profile-btn.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Text.Json.6.0.1\build\System.Text.Json.targets" Condition="Exists('..\packages\System.Text.Json.6.0.1\build\System.Text.Json.targets')" />

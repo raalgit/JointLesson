@@ -8,9 +8,9 @@ namespace JointLessonTerminal.Model.ServerModels
 {
     public class AuthData
     {
-        public int Id { get; set; }
-        public int UserId { get; set; }
-        public string Login { get; set; }
-        public string PasswordHash { get; set; }
+        public int id { get; set; }
+        public int userId { get; set; }
+        public string login { get; set; }
+        public string passwordHash { get; set; }
     }
 }

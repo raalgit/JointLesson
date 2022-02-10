@@ -8,6 +8,5 @@ namespace Service
 {
     public interface IServiceJL
     {
-        IServiceProvider _serviceProvider { get; }
     }
 }

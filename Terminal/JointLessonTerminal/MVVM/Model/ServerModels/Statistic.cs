@@ -8,9 +8,9 @@ namespace JointLessonTerminal.Model.ServerModels
 {
     public class Statistic
     {
-        public int Id { get; set; }
-        public int UserId { get; set; }
-        public string SuccessExecution { get; set; }
-        public string FailedExecution { get; set; }
+        public int id { get; set; }
+        public int userId { get; set; }
+        public string successExecution { get; set; }
+        public string failedExecution { get; set; }
     }
 }

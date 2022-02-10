@@ -1,11 +1,30 @@
 {
   "version": 3,
   "targets": {
-    "net6.0": {}
+    "net6.0": {
+      "JL.PersistModels/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/JL.PersistModels.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/JL.PersistModels.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "JL.PersistModels/1.0.0": {
+      "type": "project",
+      "path": "../JL.PersistModels/JL.PersistModels.csproj",
+      "msbuildProject": "../JL.PersistModels/JL.PersistModels.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net6.0": []
+    "net6.0": [
+      "JL.PersistModels >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\ivanp\\.nuget\\packages\\": {},
@@ -38,7 +57,11 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\JL.PersistModels\\JL.PersistModels.csproj": {
+              "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\JL.PersistModels\\JL.PersistModels.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

@@ -8,7 +8,7 @@ namespace JointLessonTerminal.Model.ServerModels
 {
     public class Group
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
     }
 }

@@ -3,12 +3,15 @@ using System;
 using System.Configuration;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace JointLessonTerminal.Core.HTTPRequests
 {
+    
     public class RequestSender<TReq, TRes>
     {
         /// <summary>
@@ -18,7 +21,7 @@ namespace JointLessonTerminal.Core.HTTPRequests
         /// <param name="route">адрес api</param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public static async Task<TRes> SendRequest(RequestModel<TReq> requestModel, string route)
+        public async Task<TRes> SendRequest(RequestModel<TReq> requestModel, string route)
         {
             TRes response = default;
 
@@ -28,66 +31,67 @@ namespace JointLessonTerminal.Core.HTTPRequests
             uri = new Uri(uri, route);
             if (!string.IsNullOrEmpty(requestModel.UrlFilter)) uri = new Uri(uri, requestModel.UrlFilter);
 
-            string apiUrl = uri.ToString();
+            var result = (HttpResponseMessage)null;
+            var requestParams = (HttpRequestMessage)null;
 
-            // Создание HTTP запроса
-            var httpRequest = (HttpWebRequest)WebRequest.Create(apiUrl);
-
-            // Установка метода запроса
-            httpRequest.Method = requestModel.Method.ToString();
-
-            var settings = UserSettings.GetInstance();
-            if (!string.IsNullOrEmpty(settings.JWT) && requestModel.UseCurrentToken) httpRequest.Headers.Add("Authorization", "Bearer " + settings.JWT);
-
-            // Проверка типа запроса
-            switch (requestModel.Method)
+            using (var httpclient = new HttpClient())
             {
-                // Если POST запрос, то производим запись данных в тело запроса
-                case Enums.RequestMethod.Post:
+                // Создание HTTP запроса
+                requestParams = new HttpRequestMessage();
+                requestParams.RequestUri = uri;
 
-                    // Устновка типа передаваемых данных
-                    httpRequest.ContentType = "application/json";
-                    
-                    string json = JsonSerializer.Serialize<TReq>(requestModel.Body);
+                var settings = UserSettings.GetInstance();
+                if (!string.IsNullOrEmpty(settings.JWT) && requestModel.UseCurrentToken) requestParams.Headers.Add("Authorization", "Bearer " + settings.JWT);
 
-                    httpRequest.ContentLength = json.Length;
-                    
-                    using (Stream postStream = httpRequest.GetRequestStream())
-                    {
-                        var jsonData = Encoding.UTF8.GetBytes(json);
-                        postStream.Write(jsonData, 0, jsonData.Length);
-                    }
-                    break;
+                // Проверка типа запроса
+                switch (requestModel.Method)
+                {
+                    case Enums.RequestMethod.Post:
+                        requestParams.Method = HttpMethod.Post;
+                        string jsonPost = JsonSerializer.Serialize<TReq>(requestModel.Body);
+                        var contentPost = new StringContent(jsonPost, Encoding.UTF8, "application/json");
+                        requestParams.Content = contentPost;
+                        result = await httpclient.SendAsync(requestParams);
+                        break;
 
-                // Если GET запрос, то 
-                case Enums.RequestMethod.Get:
+                    case Enums.RequestMethod.Get:
+                        requestParams.Method = HttpMethod.Get;
+                        requestParams.Headers.Add("Accept", "text/plain");
+                        result = await httpclient.SendAsync(requestParams);
+                        break;
 
-                    // Устновка типа передаваемых данных
-                    httpRequest.ContentType = "text/plain";
-                    break;
+                    case Enums.RequestMethod.Delete:
+                        requestParams.Method = HttpMethod.Delete;
+                        result = await httpclient.SendAsync(requestParams);
+                        break;
 
-                // Если DELETE запрос, то 
-                case Enums.RequestMethod.Delete:
-                    break;
+                    case Enums.RequestMethod.Put:
+                        requestParams.Method = HttpMethod.Put;
+                        string jsonPut = JsonSerializer.Serialize<TReq>(requestModel.Body);
+                        var contentPut = new StringContent(jsonPut, Encoding.UTF8, "application/json");
+                        requestParams.Content = contentPut;
+                        result = await httpclient.SendAsync(requestParams);
+                        break;
 
-                // Если PUT запрос, то 
-                case Enums.RequestMethod.Put:
-                    break;
-
-                default:
-                    throw new ArgumentException(nameof(requestModel.Method));
+                    default:
+                        throw new ArgumentException(nameof(requestModel.Method));
+                }
             }
 
-            WebResponse httpResponse = await httpRequest.GetResponseAsync();
-            using (var responseStream = httpResponse.GetResponseStream())
+            using (var streamResponse = await result.Content.ReadAsStreamAsync())
             {
-                if (responseStream != null)
+                if (streamResponse != null)
                 {
-                    var responseStreamReader = new StreamReader(responseStream, Encoding.Default);
+                    var responseStreamReader = new StreamReader(streamResponse, Encoding.UTF8);
                     var responseStr = responseStreamReader.ReadToEnd();
                     response = JsonSerializer.Deserialize<TRes>(responseStr);
                 }
             }
+
+            result.EnsureSuccessStatusCode();
+
+            requestParams.Dispose();
+            result.Dispose();
 
             return response;
         }

@@ -1,4 +1,6 @@
-﻿using Service;
+﻿using JL.ApiModels.UserModels.Response;
+using JL.Settings;
+using Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +11,6 @@ namespace JL.Service.User.Abstraction
 {
     public interface IUserService : IServiceJL
     {
+        Task<GetMyCoursesResponse> GetMyCourses(UserSettings userSettings);
     }
 }

@@ -8,12 +8,12 @@ namespace JointLessonTerminal.Model.ServerModels
 {
     public class Course
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public int CreatorId { get; set; }
-        public int AvatarId { get; set; }
-        public int ManualId { get; set; }
-        public int DisciplineId { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+        public int creatorId { get; set; }
+        public string avatarId { get; set; }
+        public int manualId { get; set; }
+        public int disciplineId { get; set; }
     }
 }

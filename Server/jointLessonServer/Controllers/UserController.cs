@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BLL.Behavior;
+using JL.ApiModels.UserModels.Response;
+using jointLessonServer.Attributes;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace jointLessonServer.Controllers
@@ -14,6 +17,26 @@ namespace jointLessonServer.Controllers
         {
             _logger = logger;
             _serviceProvider = provider;
+        }
+
+        [HttpGet]
+        [JwtAuthentication(role: "User")]
+        [Route("/user/my-courses")]
+        public async Task<GetMyCoursesResponse> GetMyCourses()
+        {
+            try
+            {
+                var userBehavior = new UserBehavior(_serviceProvider);
+                return await userBehavior.GetMyCourses();
+            }
+            catch (Exception er)
+            {
+                return new GetMyCoursesResponse()
+                {
+                    IsSuccess = false,
+                    Message = er.Message
+                };
+            }
         }
     }
 }

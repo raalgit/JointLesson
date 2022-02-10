@@ -44,6 +44,7 @@ builder.Services.AddCors();
 var environment = Environment.GetEnvironmentVariable("environment") ?? throw new NullReferenceException();
 var configuration = getConfiguration(environment);
 builder.Services.AddDbContext<JLContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddHttpContextAccessor();
 
 // Добавление сервисов проета
 builder.Services.AddIService();

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:JointLessonTerminal.MVVM.View"
         xmlns:viewModel="clr-namespace:JointLessonTerminal.MVVM.ViewModel"
         mc:Ignorable="d"
-        Title="Joint lesson" Height="720" Width="1280"
+        Title="Joint lesson" Height="auto" Width="auto"
         WindowStyle="None"
         ResizeMode="CanResizeWithGrip"
         MouseDown="Window_MouseDown"
@@ -30,7 +30,7 @@
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
 
-            <StackPanel 
+            <StackPanel
                 Grid.Row="0" 
                 Grid.Column="0"
                 Background="#1A1A1A">
@@ -50,7 +50,8 @@
                                 Background="Transparent"
                                 Width="80"
                                 Height="80"
-                                HorizontalAlignment="Left">
+                                HorizontalAlignment="Left"
+                                BorderThickness="0">
                             <StackPanel>
                                 <Image Width="50"
                                        Height="50"
@@ -60,12 +61,15 @@
                                            FontSize="16"/>
                             </StackPanel>
                         </Button>
+                        
                         <Button Visibility="{Binding MenuVisibility.BackBtnVisibility}"
+                                Command="{Binding BackCommand}"
                                 Margin="20 0 0 0"
                                 Background="Transparent"
                                 Width="80"
                                 Height="80"
-                                HorizontalAlignment="Left">
+                                HorizontalAlignment="Left"
+                                BorderThickness="0">
                             <StackPanel>
                                 <Image Width="50"
                                        Height="50"
@@ -86,7 +90,8 @@
                                 Background="Transparent"
                                 Width="80"
                                 Height="80"
-                                HorizontalAlignment="Left">
+                                HorizontalAlignment="Left"
+                                BorderThickness="0">
                             <StackPanel>
                                 <Image Width="50"
                                        Height="50"

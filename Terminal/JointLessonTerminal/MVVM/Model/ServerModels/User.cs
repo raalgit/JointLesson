@@ -8,11 +8,11 @@ namespace JointLessonTerminal.Model.ServerModels
 {
     public class User
     {
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string SecondName { get; set; }
-        public string ThirdName { get; set; }
-        public int GroupId { get; set; }
-        public string AvatarId { get; set; }
+        public int id { get; set; }
+        public string firstName { get; set; }
+        public string secondName { get; set; }
+        public string thirdName { get; set; }
+        public int groupId { get; set; }
+        public string avatarId { get; set; }
     }
 }

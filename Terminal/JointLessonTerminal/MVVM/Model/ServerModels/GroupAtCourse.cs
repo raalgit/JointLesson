@@ -8,10 +8,10 @@ namespace JointLessonTerminal.Model.ServerModels
 {
     public class GroupAtCourse
     {
-        public int Id { get; set; }
-        public int CourseId { get; set; }
-        public int GroupId { get; set; }
-        public int LastMaterialPage { get; set; }
-        public bool IsActive { get; set; }
+        public int id { get; set; }
+        public int courseId { get; set; }
+        public int groupId { get; set; }
+        public int lastMaterialPage { get; set; }
+        public bool isActive { get; set; }
     }
 }

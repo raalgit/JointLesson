@@ -14,12 +14,11 @@ namespace JL.Service.Auth.Implementation
 {
     public class AuthService : IAuthService
     {
-        public IServiceProvider _serviceProvider { get; }
-
-        public IAuthDataRepository _authDataRepository { get; }
-        public IUserRepository _userRepository { get; }
-        public IUserRoleRepository _userRoleRepository { get; }
-        public IRoleRepository _roleRepository { get; }
+        private readonly IServiceProvider _serviceProvider;
+        private readonly IAuthDataRepository _authDataRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IUserRoleRepository _userRoleRepository;
+        private readonly IRoleRepository _roleRepository ;
 
 
         public AuthService(

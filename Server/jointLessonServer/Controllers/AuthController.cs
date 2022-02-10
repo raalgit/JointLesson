@@ -40,25 +40,5 @@ namespace jointLessonServer.Controllers
                 };
             }
         }
-
-        [HttpGet]
-        [JwtAuthentication(role: "User")]
-        [Route("/auth/logout")]
-        public async Task<LogoutResponse> Logout()
-        {
-            try
-            {
-                var authBehavior = new AuthBehavior(_serviceProvider);
-                return await authBehavior.Logout();
-            }
-            catch (Exception er)
-            {
-                return new LogoutResponse()
-                {
-                    IsSuccess = false,
-                    Message = er.Message
-                };
-            }
-        }
     }
 }

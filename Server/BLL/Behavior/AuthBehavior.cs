@@ -14,14 +14,13 @@ namespace BLL.Behavior
     public class AuthBehavior
     {
         private readonly IServiceProvider _serviceProvider;
-
-        private readonly IAuthService authService;
+        private readonly IAuthService _authService;
 
         public AuthBehavior(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
 
-            authService = _serviceProvider.GetService<IAuthService>() ?? throw new NullReferenceException(nameof(authService));
+            _authService = _serviceProvider.GetService<IAuthService>() ?? throw new NullReferenceException(nameof(_authService));
         }
 
         public async Task<LoginResponse> Login(LoginRequest request)
@@ -32,7 +31,7 @@ namespace BLL.Behavior
             }
             try
             {
-                return await authService.Login(request);
+                return await _authService.Login(request);
             }
             catch(Exception er)
             {
@@ -43,7 +42,7 @@ namespace BLL.Behavior
 
         public async Task<LogoutResponse> Logout()
         {
-            return await authService.Logout();
+            return await _authService.Logout();
         }
     }
 }

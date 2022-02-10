@@ -8,12 +8,12 @@ namespace JointLessonTerminal.Model.ServerModels
 {
     public class Lesson
     {
-        public int Id { get; set; }
-        public int GroupAtCourseId { get; set; }
-        public int LastMaterialPage { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
-        public int TeacherId { get; set; }
-        public InnerModels.LessonType Type { get; set; }
+        public int id { get; set; }
+        public int groupAtCourseId { get; set; }
+        public int lastMaterialPage { get; set; }
+        public DateTime startDate { get; set; }
+        public DateTime? endDate { get; set; }
+        public int teacherId { get; set; }
+        public InnerModels.LessonType type { get; set; }
     }
 }

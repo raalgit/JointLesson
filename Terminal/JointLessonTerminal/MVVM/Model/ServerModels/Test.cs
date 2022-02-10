@@ -8,11 +8,11 @@ namespace JointLessonTerminal.Model.ServerModels
 {
     public class Test
     {
-        public int Id { get; set; }
-        public int BlockId { get; set; }
-        public int UserId { get; set; }
-        public int LessonId { get; set; }
-        public DateTime SendDate { get; set; }
-        public string ResultId { get; set; }
+        public int id { get; set; }
+        public int blockId { get; set; }
+        public int userId { get; set; }
+        public int lessonId { get; set; }
+        public DateTime sendDate { get; set; }
+        public string resultId { get; set; }
     }
 }

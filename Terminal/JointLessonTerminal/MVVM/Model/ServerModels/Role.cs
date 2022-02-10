@@ -8,8 +8,8 @@ namespace JointLessonTerminal.Model.ServerModels
 {
     public class Role
     {
-        public int Id { get; set; }
-        public string SystemName { get; set; }
-        public string DisplayName { get; set; }
+        public int id { get; set; }
+        public string systemName { get; set; }
+        public string displayName { get; set; }
     }
 }

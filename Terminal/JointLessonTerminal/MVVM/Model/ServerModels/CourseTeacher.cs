@@ -8,8 +8,8 @@ namespace JointLessonTerminal.Model.ServerModels
 {
     public class CourseTeacher
     {
-        public int Id { get; set; }
-        public int CourseId { get; set; }
-        public int UserId { get; set; }
+        public int id { get; set; }
+        public int courseId { get; set; }
+        public int userId { get; set; }
     }
 }

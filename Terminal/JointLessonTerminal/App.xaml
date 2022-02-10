@@ -28,6 +28,10 @@
             <DataTemplate DataType="{x:Type viewModel:EditorWindowViewModel}">
                 <view:EditorWindow />
             </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:LessonWindowViewModel}">
+                <view:LessonWindow />
+            </DataTemplate>
             
         </ResourceDictionary>
     </Application.Resources>

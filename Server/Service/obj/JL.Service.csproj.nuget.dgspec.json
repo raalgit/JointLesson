@@ -223,7 +223,11 @@
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\JL.PersistModels\\JL.PersistModels.csproj": {
+                "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\JL.PersistModels\\JL.PersistModels.csproj"
+              }
+            }
           }
         },
         "warningProperties": {

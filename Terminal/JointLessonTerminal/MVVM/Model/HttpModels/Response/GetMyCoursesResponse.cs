@@ -9,13 +9,11 @@ using System.Threading.Tasks;
 namespace JointLessonTerminal.MVVM.Model.HttpModels.Response
 {
     [Serializable]
-    public class LoginResponse : IResponse
+    public class GetMyCoursesResponse : IResponse
     {
-        public User user { get; set; }
-        public List<Role> roles { get; set; }
-        public string jwt { get; set; }
-
         public bool isSuccess { get; set; }
         public string message { get; set; }
+
+        public List<Course> courses { get; set; }
     }
 }

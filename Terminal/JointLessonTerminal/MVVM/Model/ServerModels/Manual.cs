@@ -8,9 +8,9 @@ namespace JointLessonTerminal.Model.ServerModels
 {
     public class Manual
     {
-        public int Id { get; set; }
-        public string FileId { get; set; }
-        public int AuthorId { get; set; }
-        public string Title { get; set; }
+        public int id { get; set; }
+        public string fileId { get; set; }
+        public int authorId { get; set; }
+        public string title { get; set; }
     }
 }

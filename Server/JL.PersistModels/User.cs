@@ -15,7 +15,7 @@ namespace JL.Persist
         public string FirstName { get; set; }
         public string SecondName { get; set; }
         public string ThirdName { get; set; }
-        public int GroupId { get; set; }
+        public int? GroupId { get; set; }
         public string AvatarId { get; set; }
     }
 }

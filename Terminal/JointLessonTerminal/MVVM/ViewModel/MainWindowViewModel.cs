@@ -20,10 +20,12 @@ namespace JointLessonTerminal.MVVM.ViewModel
         public CourseListViewModel CourseVM { get; set; }
         public EditorWindowViewModel EditorVM { get; set; }
         public CurrentCourseWindowViewModel CurrentCourseVM { get; set; }
+        public LessonWindowViewModel LessonVM { get; set; }
         #endregion
 
         #region Отображение кнопок в верхнем меню
         public RelayCommand ExitFromSystemCommand { get; set; }
+        public RelayCommand BackCommand { get; set; }
 
         public TopMenuVisibility MenuVisibility { get; set; }
         #endregion
@@ -56,6 +58,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
             CourseVM = new CourseListViewModel();
             EditorVM = new EditorWindowViewModel();
             CurrentCourseVM = new CurrentCourseWindowViewModel();
+            LessonVM = new LessonWindowViewModel();
 
             CurrentView = AuthVM;
 
@@ -73,13 +76,33 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 MenuVisibility.BackBtnVisibility = Visibility.Hidden;
                 CurrentView = AuthVM;
             });
+
+            BackCommand = new RelayCommand(x =>
+            {
+                MenuVisibility.BackBtnVisibility = Visibility.Hidden;
+                CurrentView = CourseVM;
+            });
         }
 
         #region Сигналы от дочерних окон
         private void subscribeOnChildrenWindowSignals()
         {
             AuthVM.WindowStateChanged += onAuthCompleted;
+            CourseVM.WindowStateChanged += onCourseCompleted;
         }
+
+        private void onCourseCompleted(object sender, WindowEvent e)
+        {
+            switch (e.Type)
+            {
+                case WindowEventType.COURSESELECTED:
+                    CurrentCourseVM.InitData(e.Argument as CourseModel);
+                    MenuVisibility.BackBtnVisibility = Visibility.Visible;
+                    CurrentView = CurrentCourseVM;
+                    break;
+            }
+        }
+
         private void onAuthCompleted(object sender, WindowEvent e)
         {
             switch (e.Type)
@@ -88,8 +111,12 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     MenuVisibility.ExitBtnVisibility = Visibility.Visible;
                     MenuVisibility.BackBtnVisibility = Visibility.Hidden;
                     MenuVisibility.ProfileBtnVisibility = Visibility.Visible;
+                    CourseVM.InitCourseData();
                     CurrentView = CourseVM;
-                    
+                    break;
+                case WindowEventType.COURSESELECTED:
+                    CurrentCourseVM.InitData(e.Argument as CourseModel);
+                    CurrentView = CurrentCourseVM;
                     break;
             }
         } 
