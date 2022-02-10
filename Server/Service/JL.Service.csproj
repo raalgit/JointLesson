@@ -10,10 +10,6 @@
   <ItemGroup>
     <Folder Include="Admin\Abstraction\" />
     <Folder Include="Admin\Implementation\" />
-    <Folder Include="Student\Abstraction\" />
-    <Folder Include="Student\Implementation\" />
-    <Folder Include="Teacher\Abstraction\" />
-    <Folder Include="Teacher\Implementation\" />
   </ItemGroup>
 
   <ItemGroup>

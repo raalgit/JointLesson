@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "rbrqfy8UTaCLqn+/oD5c9adRoSeV195zyZQlSyncRvj3kSIH1MjbZwtdLpf3cLV4WDg0QFd42YKRketj5A2zLw==",
+  "dgSpecHash": "d3WGTvNzt/6VJaky1D+t0d+gQHTH0bXqhBRjWgd3DL+IPRys0vbaWKSUJWkCdblOQiojqBMHqk5I3BlEJSCH2w==",
   "success": true,
-  "projectFilePath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\JointLessonMigrator\\JL.JointLessonMigrator.csproj",
+  "projectFilePath": "F:\\4курс\\Диплом\\JointLessonSystem\\GIT123\\JointLesson\\Server\\JointLessonMigrator\\JL.JointLessonMigrator.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ivanp\\.nuget\\packages\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",
     "C:\\Users\\ivanp\\.nuget\\packages\\fluentmigrator\\3.3.2\\fluentmigrator.3.3.2.nupkg.sha512",

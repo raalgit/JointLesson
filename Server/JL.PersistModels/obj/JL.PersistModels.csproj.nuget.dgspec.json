@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\JL.PersistModels\\JL.PersistModels.csproj": {}
+    "F:\\4курс\\Диплом\\JointLessonSystem\\GIT123\\JointLesson\\Server\\JL.PersistModels\\JL.PersistModels.csproj": {}
   },
   "projects": {
-    "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\JL.PersistModels\\JL.PersistModels.csproj": {
+    "F:\\4курс\\Диплом\\JointLessonSystem\\GIT123\\JointLesson\\Server\\JL.PersistModels\\JL.PersistModels.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\JL.PersistModels\\JL.PersistModels.csproj",
+        "projectUniqueName": "F:\\4курс\\Диплом\\JointLessonSystem\\GIT123\\JointLesson\\Server\\JL.PersistModels\\JL.PersistModels.csproj",
         "projectName": "JL.PersistModels",
-        "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\JL.PersistModels\\JL.PersistModels.csproj",
+        "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\GIT123\\JointLesson\\Server\\JL.PersistModels\\JL.PersistModels.csproj",
         "packagesPath": "C:\\Users\\ivanp\\.nuget\\packages\\",
-        "outputPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\JL.PersistModels\\obj\\",
+        "outputPath": "F:\\4курс\\Диплом\\JointLessonSystem\\GIT123\\JointLesson\\Server\\JL.PersistModels\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\MainPrograms\\VisualStudio\\Shared\\NuGetPackages"

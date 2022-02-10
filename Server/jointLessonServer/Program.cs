@@ -1,9 +1,11 @@
 using DAL;
 using JL.DAL;
+using JL.DAL.Mongo;
 using JL.Settings;
 using jointLessonServer.Middleware;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Service;
 using System.Configuration;
@@ -52,6 +54,9 @@ builder.Services.AddIUtility();
 builder.Services.AddIRepository();
 
 builder.Services.Configure<ApplicationSettings>(builder.Configuration.GetSection("ApplicationSettings"));
+
+builder.Services.Configure<MongoDbSettings>(configuration.GetSection("MongoDbSettings"));
+builder.Services.AddSingleton<IMongoDbSettings>(sp => sp.GetRequiredService<IOptions<MongoDbSettings>>().Value);
 
 var app = builder.Build();
 

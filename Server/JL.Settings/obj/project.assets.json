@@ -33,11 +33,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\JL.Settings\\JL.Settings.csproj",
+      "projectUniqueName": "F:\\4курс\\Диплом\\JointLessonSystem\\GIT123\\JointLesson\\Server\\JL.Settings\\JL.Settings.csproj",
       "projectName": "JL.Settings",
-      "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\JL.Settings\\JL.Settings.csproj",
+      "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\GIT123\\JointLesson\\Server\\JL.Settings\\JL.Settings.csproj",
       "packagesPath": "C:\\Users\\ivanp\\.nuget\\packages\\",
-      "outputPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\JL.Settings\\obj\\",
+      "outputPath": "F:\\4курс\\Диплом\\JointLessonSystem\\GIT123\\JointLesson\\Server\\JL.Settings\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\MainPrograms\\VisualStudio\\Shared\\NuGetPackages"
@@ -58,8 +58,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\JL.PersistModels\\JL.PersistModels.csproj": {
-              "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\JL.PersistModels\\JL.PersistModels.csproj"
+            "F:\\4курс\\Диплом\\JointLessonSystem\\GIT123\\JointLesson\\Server\\JL.PersistModels\\JL.PersistModels.csproj": {
+              "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\GIT123\\JointLesson\\Server\\JL.PersistModels\\JL.PersistModels.csproj"
             }
           }
         }

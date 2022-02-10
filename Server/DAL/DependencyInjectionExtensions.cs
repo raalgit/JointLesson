@@ -1,4 +1,5 @@
 ﻿using DAL.Repository;
+using JL.DAL.Mongo.Repository;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ namespace DAL
         /// <param name="serviceCollection">Коллекция служб</param>
         public static void AddIRepository(this IServiceCollection serviceCollection)
         {
+            serviceCollection.AddSingleton<IMongoRepository, MongoRepository>();
+
             // Получение базового интерфейса 
             var baseInterfaceType = typeof(IRepository<>);
 

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Dk4vkQXJ+16DvbxilR0rBFjqV7KBD0q3TXnfeX7wW1IiBjnOWUProMGf4iVOimcQ9AYacWyjNA9EoY8EaiE9KA==",
+  "dgSpecHash": "lOKAM3X1YY20d1EzprVApcYPA6n8O+mID67ibXXT+BdjItcj0Nr1/9VO1JVtc7kUV06XvYax3H5FfcHb3eDEhg==",
   "success": true,
-  "projectFilePath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\Utility\\JL.Utility.csproj",
+  "projectFilePath": "F:\\4курс\\Диплом\\JointLessonSystem\\GIT123\\JointLesson\\Server\\Utility\\JL.Utility.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ivanp\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\ivanp\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\6.0.0\\microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512",
