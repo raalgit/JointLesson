@@ -1384,6 +1384,7 @@
     "net6.0": [
       "JL.ApiModels >= 1.0.0",
       "JL.Service >= 1.0.0",
+      "JL.Settings >= 1.0.0",
       "Microsoft.AspNetCore.Http.Abstractions >= 2.2.0"
     ]
   },
@@ -1421,6 +1422,9 @@
           "projectReferences": {
             "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\ApiModels\\JL.ApiModels.csproj": {
               "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\ApiModels\\JL.ApiModels.csproj"
+            },
+            "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\JL.Settings\\JL.Settings.csproj": {
+              "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\JL.Settings\\JL.Settings.csproj"
             },
             "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\Service\\JL.Service.csproj": {
               "projectPath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\Service\\JL.Service.csproj"

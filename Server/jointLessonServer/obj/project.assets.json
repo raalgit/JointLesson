@@ -2241,6 +2241,7 @@
         "dependencies": {
           "JL.ApiModels": "1.0.0",
           "JL.Service": "1.0.0",
+          "JL.Settings": "1.0.0",
           "Microsoft.AspNetCore.Http.Abstractions": "2.2.0"
         },
         "compile": {

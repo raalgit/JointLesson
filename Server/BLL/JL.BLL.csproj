@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ApiModels\JL.ApiModels.csproj" />
+    <ProjectReference Include="..\JL.Settings\JL.Settings.csproj" />
     <ProjectReference Include="..\Service\JL.Service.csproj" />
   </ItemGroup>
 
