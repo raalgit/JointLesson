@@ -55,7 +55,12 @@
       "ProjectGuid": "ef3b31cb-e9ad-4b3e-9df0-16b74cf44a4d",
       "DisplayName": "JL.Settings",
       "ColorIndex": 9
+    },
+    "2aaad8c3-c2f3-43b9-95af-cb22b1b31a35": {
+      "ProjectGuid": "2aaad8c3-c2f3-43b9-95af-cb22b1b31a35",
+      "DisplayName": "JL.Utility2L",
+      "ColorIndex": 10
     }
   },
-  "NextColorIndex": 10
+  "NextColorIndex": 11
 }
