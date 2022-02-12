@@ -10,6 +10,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="8*"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0"
@@ -102,5 +103,22 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <Button Grid.Column="0"
+                Grid.Row="2"
+                Visibility="{Binding EnterBtnVisibility}"
+                Command="{Binding OpenEditorPageCommand}"
+                Margin="5"
+                Background="Transparent"
+                HorizontalAlignment="Left"
+                BorderThickness="0">
+            <StackPanel Height="auto">
+                <Image MaxHeight="50"
+                       MaxWidth="50"
+                       Source="../../Images/enter-btn.png" />
+                <TextBlock Text="Панель контруктора"
+                           Foreground="#EFEFEF"
+                           FontSize="16"/>
+            </StackPanel>
+        </Button>
     </Grid>
 </UserControl>

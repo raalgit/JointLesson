@@ -9,6 +9,7 @@ namespace JointLessonTerminal.Core
     public enum WindowEventType
     {
         AUTHORIZED,
-        COURSESELECTED
+        COURSESELECTED,
+        NEEDTOOPENEDITORPAGE
     }
 }

@@ -27,13 +27,13 @@ namespace JointLessonTerminal.Core.HTTPRequests
 
             // Получение полного адреса нужного api 
             string serverUrl = ConfigurationManager.AppSettings["ServerUrl"].ToString();
+            serverUrl += route;
+            if (!string.IsNullOrEmpty(requestModel.UrlFilter)) serverUrl += requestModel.UrlFilter;
             var uri = new Uri(serverUrl);
-            uri = new Uri(uri, route);
-            if (!string.IsNullOrEmpty(requestModel.UrlFilter)) uri = new Uri(uri, requestModel.UrlFilter);
 
             var result = (HttpResponseMessage)null;
             var requestParams = (HttpRequestMessage)null;
-
+            
             using (var httpclient = new HttpClient())
             {
                 // Создание HTTP запроса

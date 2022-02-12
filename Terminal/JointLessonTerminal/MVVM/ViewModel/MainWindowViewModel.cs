@@ -100,6 +100,11 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     MenuVisibility.BackBtnVisibility = Visibility.Visible;
                     CurrentView = CurrentCourseVM;
                     break;
+                case WindowEventType.NEEDTOOPENEDITORPAGE:
+                    EditorVM.InitData();
+                    MenuVisibility.BackBtnVisibility = Visibility.Visible;
+                    CurrentView = EditorVM;
+                    break;
             }
         }
 
@@ -113,10 +118,6 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     MenuVisibility.ProfileBtnVisibility = Visibility.Visible;
                     CourseVM.InitCourseData();
                     CurrentView = CourseVM;
-                    break;
-                case WindowEventType.COURSESELECTED:
-                    CurrentCourseVM.InitData(e.Argument as CourseModel);
-                    CurrentView = CurrentCourseVM;
                     break;
             }
         } 

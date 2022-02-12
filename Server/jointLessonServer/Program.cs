@@ -1,9 +1,14 @@
 using DAL;
 using JL.DAL;
+using JL.DAL.Mongo;
 using JL.Settings;
+using JL.Utility2L.Abstraction;
+using JL.Utility2L.Implementation;
 using jointLessonServer.Middleware;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Service;
 using System.Configuration;
@@ -15,6 +20,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAuthentication(o => o.DefaultScheme = SchemesNamesConst.TokenAuthenticationDefaultScheme);
+
+// Добавление и настройка swagger ui
 builder.Services.AddSwaggerGen(c =>
 {
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -51,7 +58,13 @@ builder.Services.AddIService();
 builder.Services.AddIUtility();
 builder.Services.AddIRepository();
 
+// Регистрация класса настроек
 builder.Services.Configure<ApplicationSettings>(builder.Configuration.GetSection("ApplicationSettings"));
+
+// Регистрация класса найтроек соединения к монго
+builder.Services.Configure<MongoDbSettings>(configuration.GetSection("MongoDbSettings"));
+builder.Services.AddSingleton<IMongoDbSettings>(sp => sp.GetRequiredService<IOptions<MongoDbSettings>>().Value);
+
 
 var app = builder.Build();
 
@@ -69,6 +82,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+
+// Добавление middleware авторизации на основе Jwt
 app.UseMiddleware<JWTMiddleware>();
 
 app.Run();

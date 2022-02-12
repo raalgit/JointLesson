@@ -4,9 +4,11 @@
            TargetType="{x:Type RadioButton}"
            x:Key="MenuButtonTheme">
         <Style.Setters>
-            <Setter Property="Width" Value="100px" />
-            <Setter Property="Height" Value="50px" />
-            <Setter Property="FontSize" Value="18px" />
+            <Setter Property="MinWidth" Value="100px" />
+            <Setter Property="MaxWidth" Value="150" />
+            <Setter Property="MinHeight" Value="30" />
+            <Setter Property="MaxHeight" Value="55px" />
+            <Setter Property="FontSize" Value="12px" />
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
 
@@ -19,7 +21,9 @@
                             <TextBlock Foreground="{TemplateBinding Property=Foreground}"
                                        Text="{TemplateBinding Property=Content}"
                                        VerticalAlignment="Center"
-                                       HorizontalAlignment="Center">
+                                       HorizontalAlignment="Center"
+                                       TextWrapping="Wrap"
+                                       Margin="10">
 
                             </TextBlock>
                         </Grid>

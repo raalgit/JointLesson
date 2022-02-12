@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\JL.PersistModels\JL.PersistModels.csproj" />
+    <ProjectReference Include="..\JL.Utility2L\JL.Utility2L.csproj" />
   </ItemGroup>
 
 </Project>

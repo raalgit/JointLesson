@@ -1,4 +1,5 @@
 ﻿using JL.Persist;
+using JL.PersistModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -29,5 +30,6 @@ namespace JL.DAL
         public DbSet<Test> Tests { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<WorkBook> WorkBooks { get; set; }
+        public DbSet<FileData> FileDatas { get; set; }
     }
 }

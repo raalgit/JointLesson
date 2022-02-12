@@ -14,14 +14,24 @@ namespace JointLessonTerminal.MVVM.ViewModel
 {
     public class CourseListViewModel : ObservableObject
     {
-        private UserSettings userSettings;
-
+        #region открытые поля
+        public RelayCommand OpenEditorPageCommand { get; set; }
         public bool IsTeacher { get; set; } = false;
         public bool IsEditor { get; set; } = false;
-        public bool IsStudent {get; set; } = false;
-
+        public bool IsStudent { get; set; } = false;
         public CourseCollection CourseCollection { get; set; }
-        private CourseModel selectedCourse;
+        public Visibility EnterBtnVisibility
+        {
+            get
+            {
+                return enterBtnVisibility;
+            }
+            set
+            {
+                enterBtnVisibility = value;
+                OnPropsChanged("EnterBtnVisibility");
+            }
+        }
         public CourseModel SelectedCourse
         {
             get
@@ -31,19 +41,26 @@ namespace JointLessonTerminal.MVVM.ViewModel
             set
             {
                 selectedCourse = value;
-                openCourse(selectedCourse);
+                OpenCourse(selectedCourse);
                 OnPropsChanged("SelectedCourse");
             }
         }
-
+        #endregion
+        #region закрытые поля
+        private UserSettings userSettings;
+        private CourseModel selectedCourse;
+        private Visibility enterBtnVisibility;
+        #endregion
 
         public CourseListViewModel()
         {
             CourseCollection = new CourseCollection();
         }
 
+        #region открытые методы
         public void InitCourseData()
         {
+            EnterBtnVisibility = Visibility.Hidden;
             userSettings = UserSettings.GetInstance();
 
             if (userSettings.Roles != null && userSettings.Roles.Length > 0)
@@ -54,9 +71,12 @@ namespace JointLessonTerminal.MVVM.ViewModel
             }
 
             if (IsStudent || IsTeacher) getMyCourses();
+            if (IsEditor) EnterBtnVisibility = Visibility.Visible;
+
+            OpenEditorPageCommand = new RelayCommand(x => OpenEditorPage());
         }
 
-        public void openCourse(object course)
+        public void OpenCourse(object course)
         {
             if (course == null) return;
 
@@ -66,7 +86,16 @@ namespace JointLessonTerminal.MVVM.ViewModel
             SendEventSignal(signal);
         }
 
+        public void OpenEditorPage()
+        {
+            var signal = new WindowEvent();
+            signal.Type = WindowEventType.NEEDTOOPENEDITORPAGE;
+            SendEventSignal(signal);
+        }
 
+        #endregion
+
+        #region закрытые методы
         private async void getMyCourses()
         {
             // Создание модели http запроса
@@ -102,5 +131,6 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
             }
         }
+        #endregion
     }
 }
