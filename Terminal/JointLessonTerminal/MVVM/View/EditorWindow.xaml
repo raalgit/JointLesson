@@ -37,10 +37,11 @@
 
             <Grid Grid.Row="0"
                   Grid.Column="0">
-                <Grid>
+                <Grid Margin="5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
-                        <RowDefinition Height="6*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="8*"/>
                     </Grid.RowDefinitions>
 
                     <Grid Grid.Row="0"
@@ -75,9 +76,331 @@
 
                     <Grid Grid.Row="1"
                           Grid.Column="0"
+                          Margin="0 10 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="2*"/>
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0"
+                                       Content="Дисциплина"/>
+                                <TextBox Grid.Row="1"
+                                         Text="{Binding ManualData.discipline}"/>
+                            </Grid>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="2*"/>
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0"
+                                       Content="Название материала"/>
+                                <TextBox Grid.Row="1"
+                                         Text="{Binding ManualData.name}"/>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+
+                    <Grid Grid.Row="2"
+                          Grid.Column="0"
+                          Margin="0 10 0 0"
                           Background="White"
                           MinWidth="300">
-                        <TextBlock Text="Конструктор" />
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="7*"/>
+                                    <RowDefinition Height="2*"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0"
+                                           Text="Главы">
+                                </TextBlock>
+                                
+                                <ListView Grid.Row="1"
+                                          ItemsSource="{Binding ManualData.chapters}"
+                                          SelectedItem="{Binding ManualData.SelectedChapter}"
+                                          SelectionChanged="ListView_SelectionChanged_1">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="1*"/>
+                                                    <RowDefinition Height="1*"/>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Grid.Row="0" 
+                                                           Text="{Binding name}"/>
+                                                <Grid Grid.Row="1">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="1*"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Button Grid.Column="0">
+                                                        delete
+                                                    </Button>
+                                                    <Button Grid.Column="1">
+                                                        edit
+                                                    </Button>
+                                                </Grid>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+
+                                <Grid Grid.Row="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid Grid.Column="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <TextBox Grid.Row="0" 
+                                                 Text="{Binding ManualData.NewItemName}"/>
+                                        <TextBox Grid.Row="1" 
+                                                 Text="{Binding ManualData.NewItemAccess}"/>
+                                    </Grid>
+                                    <Button Margin="5" 
+                                            Grid.Column="1"
+                                            Command="{Binding ManualData.AddCommand}">
+                                        +
+                                    </Button>
+                                </Grid>
+                                
+                            </Grid>
+
+                            <Grid Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="7*"/>
+                                    <RowDefinition Height="2*"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0"
+                                           Text="Темы">
+
+                                </TextBlock>
+
+                                <ListView Grid.Row="1"
+                                          ItemsSource="{Binding ManualData.SelectedChapter.topics}"
+                                          SelectedItem="{Binding ManualData.SelectedChapter.SelectedTopic}"
+                                          SelectionChanged="ListView_SelectionChanged">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="1*"/>
+                                                    <RowDefinition Height="1*"/>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Grid.Row="0" 
+                                                           Text="{Binding name}"/>
+                                                <Grid Grid.Row="1">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="1*"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Button Grid.Column="0">
+                                                        delete
+                                                    </Button>
+                                                    <Button Grid.Column="1">
+                                                        edit
+                                                    </Button>
+                                                </Grid>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+
+                                <Grid Grid.Row="2"
+                                      Visibility="Collapsed"
+                                      x:Name="TopicSelectionPanel">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid Grid.Column="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <TextBox Grid.Row="0" 
+                                                 Text="{Binding ManualData.SelectedChapter.NewItemName}"/>
+                                        <TextBox Grid.Row="1" 
+                                                 Text="{Binding ManualData.SelectedChapter.NewItemAccess}"/>
+                                    </Grid>
+                                    <Button Margin="5" 
+                                            Grid.Column="1"
+                                            Command="{Binding ManualData.SelectedChapter.AddCommand}">
+                                        +
+                                    </Button>
+                                </Grid>
+                            </Grid>
+
+                            <Grid Grid.Column="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="7*"/>
+                                    <RowDefinition Height="2*"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0"
+                                           Text="Дидактические единицы">
+
+                                </TextBlock>
+
+                                <ListView Grid.Row="1"
+                                          ItemsSource="{Binding ManualData.SelectedChapter.SelectedTopic.didacticUnits}"
+                                          SelectedItem="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit}"
+                                          SelectionChanged="ListView_SelectionChanged_2">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="1*"/>
+                                                    <RowDefinition Height="1*"/>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Grid.Row="0" 
+                                                           Text="{Binding name}"/>
+                                                <Grid Grid.Row="1">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="1*"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Button Grid.Column="0">
+                                                        delete
+                                                    </Button>
+                                                    <Button Grid.Column="1">
+                                                        edit
+                                                    </Button>
+                                                </Grid>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+
+                                <Grid Grid.Row="2"
+                                      x:Name="UnitSelectionPanel"
+                                      Visibility="Collapsed">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid Grid.Column="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <TextBox Grid.Row="0" 
+                                                 Text="{Binding ManualData.SelectedChapter.SelectedTopic.NewItemName}"/>
+                                        <TextBox Grid.Row="1" 
+                                                 Text="{Binding ManualData.SelectedChapter.SelectedTopic.NewItemAccess}"/>
+                                    </Grid>
+                                    <Button Margin="5" 
+                                            Grid.Column="1"
+                                            Command="{Binding ManualData.SelectedChapter.SelectedTopic.AddCommand}">
+                                        +
+                                    </Button>
+                                </Grid>
+                            </Grid>
+
+                            <Grid Grid.Column="3">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="7*"/>
+                                    <RowDefinition Height="2*"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0"
+                                           Text="Страницы">
+
+                                </TextBlock>
+
+                                <ListView Grid.Row="1"
+                                          ItemsSource="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit.pages}"
+                                          SelectedItem="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit.SelectedPage}">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="1*"/>
+                                                    <RowDefinition Height="1*"/>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Grid.Row="0" 
+                                                           Text="{Binding name}"/>
+                                                <Grid Grid.Row="1">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="1*"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Button Grid.Column="0">
+                                                        delete
+                                                    </Button>
+                                                    <Button Grid.Column="1">
+                                                        edit
+                                                    </Button>
+                                                </Grid>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+
+                                <Grid Grid.Row="2"
+                                      x:Name="PagesSelectionPanel"
+                                      Visibility="Collapsed">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid Grid.Column="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <TextBox Grid.Row="0" 
+                                                 Text="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit.NewItemName}"/>
+                                        <TextBox Grid.Row="1" 
+                                                 Text="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit.NewItemAccess}"/>
+                                        <TextBlock Grid.Row="2" 
+                                                   Text="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit.NewItemDocId}"/>
+                                        <Button Content="Browse" 
+                                                Command="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit.UploadCommand}" />
+                                        <TextBox Grid.Row="3" 
+                                                 Text="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit.NewItemType}"/>
+                                    </Grid>
+                                    <Button Margin="5" 
+                                            Grid.Column="1"
+                                            Command="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit.AddCommand}">
+                                        +
+                                    </Button>
+                                </Grid>
+                            </Grid>
+
+                        </Grid>
+                        
                     </Grid>
                 </Grid>
                 

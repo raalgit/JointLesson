@@ -45,7 +45,16 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
-builder.Services.AddCors();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AnyOrigin", builder =>
+    {
+        builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod();
+    });
+});
 
 // Добавление контекста базы данных
 var environment = Environment.GetEnvironmentVariable("environment") ?? throw new NullReferenceException();
@@ -81,6 +90,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
+app.UseCors("AnyOrigin");
+app.UseDefaultFiles();
+app.UseStaticFiles();
 app.MapControllers();
 
 // Добавление middleware авторизации на основе Jwt

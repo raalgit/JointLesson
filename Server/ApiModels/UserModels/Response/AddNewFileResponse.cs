@@ -1,14 +1,14 @@
-﻿using System;
+﻿using jointLessonServer.ModelsAPI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JL.Utility2L.Models.Material
+namespace JL.ApiModels.UserModels.Response
 {
-    public class Module : Block, IBlock
+    public class AddNewFileResponse : ResponseBase, IResponse
     {
         public int FileDataId { get; set; }
-        public int Type { get; set; }
     }
 }

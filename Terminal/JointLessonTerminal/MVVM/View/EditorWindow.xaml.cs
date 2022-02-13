@@ -24,5 +24,23 @@ namespace JointLessonTerminal.MVVM.View
         {
             InitializeComponent();
         }
+
+        private void ListView_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+            var item = (sender as ListView).SelectedItem;
+            TopicSelectionPanel.Visibility = item == null ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = (sender as ListView).SelectedItem;
+            UnitSelectionPanel.Visibility = item == null ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        private void ListView_SelectionChanged_2(object sender, SelectionChangedEventArgs e)
+        {
+            var item = (sender as ListView).SelectedItem;
+            PagesSelectionPanel.Visibility = item == null ? Visibility.Collapsed : Visibility.Visible;
+        }
     }
 }

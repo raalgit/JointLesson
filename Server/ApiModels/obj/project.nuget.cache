@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "nvQUnU4exQRK45Jic/t6Dx9xKqNetSYcDOpmo8FNwknh+78/s7bGTKF6heeX3oolzVcYsE7O5WvlglvdIyZWiQ==",
+  "dgSpecHash": "O/6JbtAGCeOQRy7FX+4ko0J62E+DYqZBm7/76NSxqx/LiJTdiF8B2wR5InI3AJtM4Bh2Pq98VNV5CpbFKERLCQ==",
   "success": true,
   "projectFilePath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\ApiModels\\JL.ApiModels.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ivanp\\.nuget\\packages\\dnsclient\\1.4.0\\dnsclient.1.4.0.nupkg.sha512",
+    "C:\\Users\\ivanp\\.nuget\\packages\\microsoft.aspnetcore.http.features\\5.0.14\\microsoft.aspnetcore.http.features.5.0.14.nupkg.sha512",
     "C:\\Users\\ivanp\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.2\\microsoft.entityframeworkcore.6.0.2.nupkg.sha512",
     "C:\\Users\\ivanp\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\6.0.2\\microsoft.entityframeworkcore.abstractions.6.0.2.nupkg.sha512",
     "C:\\Users\\ivanp\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\6.0.2\\microsoft.entityframeworkcore.analyzers.6.0.2.nupkg.sha512",
@@ -25,6 +26,7 @@
     "C:\\Users\\ivanp\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\ivanp\\.nuget\\packages\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",
     "C:\\Users\\ivanp\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.0\\system.diagnostics.diagnosticsource.6.0.0.nupkg.sha512",
+    "C:\\Users\\ivanp\\.nuget\\packages\\system.io.pipelines\\5.0.1\\system.io.pipelines.5.0.1.nupkg.sha512",
     "C:\\Users\\ivanp\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
   ],
   "logs": []

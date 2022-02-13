@@ -12,7 +12,10 @@
     <Folder Include="StudentModels\Response\" />
     <Folder Include="TeacherModels\Request\" />
     <Folder Include="TeacherModels\Response\" />
-    <Folder Include="UserModels\Request\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.14" />
   </ItemGroup>
 
   <ItemGroup>

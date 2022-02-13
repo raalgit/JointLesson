@@ -1,8 +1,10 @@
 ﻿using BLL.Behavior;
+using JL.ApiModels.UserModels.Request;
 using JL.ApiModels.UserModels.Response;
 using jointLessonServer.Attributes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace jointLessonServer.Controllers
 {
@@ -32,6 +34,46 @@ namespace jointLessonServer.Controllers
             catch (Exception er)
             {
                 return new GetMyCoursesResponse()
+                {
+                    IsSuccess = false,
+                    Message = er.Message
+                };
+            }
+        }
+
+        [HttpPost]
+        [JwtAuthentication(role: "User")]
+        [Route("/user/file")]
+        public async Task<AddNewFileResponse> AddFile(AddNewFileRequest request)
+        {
+            try
+            {
+                var userBehavior = new UserBehavior(_serviceProvider);
+                return await userBehavior.AddNewFile(request);
+            }
+            catch (Exception er)
+            {
+                return new AddNewFileResponse()
+                {
+                    IsSuccess = false,
+                    Message = er.Message
+                };
+            }
+        }
+
+        [HttpGet]
+        [JwtAuthentication(role: "User")]
+        [Route("/user/file/{fileId}")]
+        public async Task<GetFileResponse> GetFile([FromRoute][Required] int fileId)
+        {
+            try
+            {
+                var userBehavior = new UserBehavior(_serviceProvider);
+                return await userBehavior.GetFile(fileId);
+            }
+            catch (Exception er)
+            {
+                return new GetFileResponse()
                 {
                     IsSuccess = false,
                     Message = er.Message

@@ -25,7 +25,7 @@ namespace JL.DAL.Mongo.Repository
         {
             var fmt = "yyyy-MM-dd HH:mm:ss.fffffff";
             var now = DateTime.Now;
-            return now.ToString(fmt) + "." + fileExtension;
+            return now.ToString(fmt) + fileExtension;
         }
 
         public async Task<string> UploadFileAsync(Stream fileStream, string fileName)

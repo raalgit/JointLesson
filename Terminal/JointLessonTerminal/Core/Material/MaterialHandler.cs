@@ -4,6 +4,7 @@ using JointLessonTerminal.MVVM.Model.HttpModels.Request;
 using JointLessonTerminal.MVVM.Model.HttpModels.Response;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace JointLessonTerminal.Core.Material
 {
     public class MaterialHandler
     {
-        public async void SaveAtDataBase(ManualData manual)
+        public async Task SaveAtDataBase(ManualData manual)
         {
             if (manual == null) throw new NullReferenceException(nameof(manual));
 
@@ -52,10 +53,9 @@ namespace JointLessonTerminal.Core.Material
             var sender = new RequestSender<UpdateMaterialRequest, UpdateMaterialResponse>();
             var responsePost = await sender.SendRequest(manualUpdateRequest, "/editor/material");
             var responseString = responsePost.isSuccess ? "Материал обновлен" : "Ошибка!" + responsePost.message;
-            MessageBox.Show(responseString);
         }
 
-        public async Task<List<Manual>> GetMyMaterials()
+        public async Task<ObservableCollection<Manual>> GetMyMaterials()
         {
             var manualGetMyMaterialsRequest = new RequestModel<object>()
             {
@@ -65,7 +65,6 @@ namespace JointLessonTerminal.Core.Material
             var responsePost = await sender.SendRequest(manualGetMyMaterialsRequest, "/editor/my-materials");
 
             var responseString = responsePost.isSuccess ? "Материал получен" : "Ошибка!" + responsePost.message;
-            MessageBox.Show(responseString);
             return responsePost.manuals;
         }
 
@@ -80,7 +79,6 @@ namespace JointLessonTerminal.Core.Material
             var responsePost = await sender.SendRequest(manualGetRequest, "/editor/material");
 
             var responseString = responsePost.isSuccess ? "Материал получен" : "Ошибка!" + responsePost.message;
-            MessageBox.Show(responseString);
             return responsePost.manualData;
         }
     }

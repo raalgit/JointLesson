@@ -1,4 +1,5 @@
-﻿using JL.ApiModels.UserModels.Response;
+﻿using JL.ApiModels.UserModels.Request;
+using JL.ApiModels.UserModels.Response;
 using JL.Settings;
 using Service;
 using System;
@@ -12,5 +13,7 @@ namespace JL.Service.User.Abstraction
     public interface IUserService : IServiceJL
     {
         Task<GetMyCoursesResponse> GetMyCourses(UserSettings userSettings);
+        Task<AddNewFileResponse> AddNewFile(AddNewFileRequest request);
+        Task<GetFileResponse> GetFile(int fileDataId);
     }
 }

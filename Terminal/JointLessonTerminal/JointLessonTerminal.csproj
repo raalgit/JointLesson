@@ -114,6 +114,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Core\File\FileHandler.cs" />
     <Compile Include="Core\HTTPRequests\Enums\RequestMethod.cs" />
     <Compile Include="Core\HTTPRequests\IRequest.cs" />
     <Compile Include="Core\HTTPRequests\IResponse.cs" />
@@ -126,9 +127,11 @@
     <Compile Include="Core\WindowEventType.cs" />
     <Compile Include="MVVM\Model\CourseCollection.cs" />
     <Compile Include="MVVM\Model\CourseModel.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Request\AddNewFileRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\LoginRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\NewMaterialRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\UpdateMaterialRequest.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Response\AddNewFileResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetMaterialResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetMyCoursesResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetMyMaterialsResponse.cs" />

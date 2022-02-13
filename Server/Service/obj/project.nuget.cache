@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "ofvvkrbc7yJEhC1y2TgMqoLW/mEZ3Ulz9pkJf2NJCYxmLxBJt4jTshUI+fAei35F/XaRbmCk/aYyp9z+EQBJPg==",
+  "dgSpecHash": "CPTiQzYDlHF0y2aFEGvcu64woFUby2Lfgcd6paSrPHlM9RfzwXppxw85C2Z17p9VBy7aierkJK1/EnitwOtA2g==",
   "success": true,
   "projectFilePath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Server\\Service\\JL.Service.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ivanp\\.nuget\\packages\\dnsclient\\1.4.0\\dnsclient.1.4.0.nupkg.sha512",
+    "C:\\Users\\ivanp\\.nuget\\packages\\microsoft.aspnetcore.http.features\\5.0.14\\microsoft.aspnetcore.http.features.5.0.14.nupkg.sha512",
     "C:\\Users\\ivanp\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\ivanp\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.2\\microsoft.entityframeworkcore.6.0.2.nupkg.sha512",
     "C:\\Users\\ivanp\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\6.0.2\\microsoft.entityframeworkcore.abstractions.6.0.2.nupkg.sha512",
@@ -30,6 +31,7 @@
     "C:\\Users\\ivanp\\.nuget\\packages\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",
     "C:\\Users\\ivanp\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.0\\system.diagnostics.diagnosticsource.6.0.0.nupkg.sha512",
     "C:\\Users\\ivanp\\.nuget\\packages\\system.identitymodel.tokens.jwt\\6.15.1\\system.identitymodel.tokens.jwt.6.15.1.nupkg.sha512",
+    "C:\\Users\\ivanp\\.nuget\\packages\\system.io.pipelines\\5.0.1\\system.io.pipelines.5.0.1.nupkg.sha512",
     "C:\\Users\\ivanp\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "C:\\Users\\ivanp\\.nuget\\packages\\system.security.cryptography.cng\\4.5.0\\system.security.cryptography.cng.4.5.0.nupkg.sha512"
   ],

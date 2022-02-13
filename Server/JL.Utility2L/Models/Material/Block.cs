@@ -9,7 +9,7 @@ namespace JL.Utility2L.Models.Material
     [Serializable]
     public class Block : IBlock
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public int Access { get; set; }
         public int Parts { get; set; }
         public int Number { get; set; }

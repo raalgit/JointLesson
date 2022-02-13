@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace JointLessonTerminal.Core.Material
 {
     [Serializable]
-    public class Block : IBlock
+    public class Block : ObservableObject, IBlock
     {
-        public int id { get; set; }
+        public string id { get; set; }
         public int access { get; set; }
         public int parts { get; set; }
         public int number { get; set; }

@@ -9,6 +9,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using JL.Service.User.Abstraction;
+using JL.ApiModels.UserModels.Request;
 
 namespace BLL.Behavior
 {
@@ -41,7 +42,30 @@ namespace BLL.Behavior
             {
                 throw er;
             }
+        }
 
+        public async Task<GetFileResponse> GetFile(int fileDataId)
+        {
+            try
+            {
+                return await _userService.GetFile(fileDataId);
+            }
+            catch (Exception er)
+            {
+                throw er;
+            }
+        }
+
+        public async Task<AddNewFileResponse> AddNewFile(AddNewFileRequest request)
+        {
+            try
+            {
+                return await _userService.AddNewFile(request);
+            }
+            catch (Exception er)
+            {
+                throw er;
+            }
         }
     }
 }

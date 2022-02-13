@@ -66,7 +66,7 @@ namespace JL.Service.Editor.Implementation
             Stream stream = new MemoryStream(manualJsonBuffer);
 
             var originalFileData = _fileDataRepository.GetById(request.OriginalFileDataId) ?? throw new NullReferenceException();
-            var updatedFileId = await _fileUtility.UpdateFileAsync(stream, originalFileData.MongoId, request.OriginalName, "jl");
+            var updatedFileId = await _fileUtility.UpdateFileAsync(stream, originalFileData.MongoId, request.OriginalName, ".jl");
             
             var fileData = _manualRepository.Get().Where(x => x.FileDataId == request.OriginalFileDataId).First();
             fileData.FileDataId = updatedFileId;

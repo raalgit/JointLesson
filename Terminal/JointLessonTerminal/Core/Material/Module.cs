@@ -8,7 +8,7 @@ namespace JointLessonTerminal.Core.Material
 {
     public class Module : Block, IBlock
     {
-        public string doc { get; set; }
+        public int fileDataId { get; set; }
         public int type { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using JointLessonTerminal.Model.ServerModels;
 using JointLessonTerminal.MVVM.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,18 +13,16 @@ namespace JointLessonTerminal.MVVM.ViewModel
 {
     public class EditorWindowViewModel : ObservableObject
     {
-        private ManualData manualData;
-        public ManualData ManualData
-        {
-            get { return manualData; }
-            set { 
-                manualData = value;
-                OnPropsChanged("ManualData");
-            }
-        }
+        private MaterialHandler materialHandler;
+        private UserSettings userSettings;
 
-        private List<Manual> myManuals;
-        public List<Manual> MyManuals {
+        #region Manual
+        private ManualData manualData;
+        public ManualData ManualData { get { return manualData; } set {  manualData = value; OnPropsChanged("ManualData"); } }
+        #endregion
+        #region My manuals
+        private ObservableCollection<Manual> myManuals;
+        public ObservableCollection<Manual> MyManuals {
             get
             { 
                 return myManuals;
@@ -33,14 +32,12 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 OnPropsChanged("MyManuals");
             }
         }
-
+        #endregion
+        #region Selected manual
         private Manual selectedManual;
         public Manual SelectedManual 
         {
-            get 
-            { 
-                return selectedManual; 
-            }
+            get { return selectedManual; }
             set
             {
                 selectedManual = value;
@@ -53,10 +50,8 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 }
             }
         }
-
-        private MaterialHandler materialHandler;
-        private UserSettings userSettings;
-
+        #endregion
+        #region mods
         private bool updateMod;
         public bool UpdateMod
         {
@@ -84,9 +79,11 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 OnPropsChanged("CreateMod");
             }
         }
-
+        #endregion
+        #region commands
         public RelayCommand CreateNewManualCommand { get; set; }
         public RelayCommand UpdateManualCommand { get; set; }
+        #endregion
 
         public EditorWindowViewModel()
         {
@@ -103,7 +100,8 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
             Task.Factory.StartNew(() => loadMyMaterials());
 
-            manualData = new ManualData()
+            /// Шаблонная запись метариала
+            ManualData = new ManualData()
             {
                 authors = new List<Author>()
                 {
@@ -124,12 +122,14 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 },
                 number = 0,
                 parts = 0,
-                chapters = new List<Chapter>()
+                id = Guid.NewGuid().ToString(),
+                chapters = new ObservableCollection<Chapter>()
             };
 
-            CreateNewManualCommand = new RelayCommand(x =>
+            CreateNewManualCommand = new RelayCommand(async x =>
             {
-                materialHandler.SaveAtDataBase(manualData);
+                await materialHandler.SaveAtDataBase(manualData);
+                await loadMyMaterials();
             });
             UpdateManualCommand = new RelayCommand(x =>
             {
@@ -147,7 +147,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
             if (manual == null) return;
             CreateMod = false;
             UpdateMod = true;
-            manualData = await materialHandler.LoadById(manual.fileDataId.Value);
+            ManualData = await materialHandler.LoadById(manual.fileDataId.Value);
         }
     }
 }

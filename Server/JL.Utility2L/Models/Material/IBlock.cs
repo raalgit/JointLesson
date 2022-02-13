@@ -8,7 +8,7 @@ namespace JL.Utility2L.Models.Material
 {
     public interface IBlock
     {
-        int Id { get; set; }
+        string Id { get; set; }
         int Access { get; set; }
         int Parts { get; set; }
         int Number { get; set; }

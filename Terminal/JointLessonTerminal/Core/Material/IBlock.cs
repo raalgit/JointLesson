@@ -8,7 +8,7 @@ namespace JointLessonTerminal.Core.Material
 {
     public interface IBlock
     {
-        int id { get; set; }
+        string id { get; set; }
         int access { get; set; }
         int parts { get; set; }
         int number { get; set; }

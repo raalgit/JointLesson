@@ -34,6 +34,7 @@ namespace JL.Utility2L.Implementation
             file.MongoId = mongoId;
 
             file = _fileDataRepository.Insert(file);
+
             _fileDataRepository.SaveChanges();
 
             return file.Id;
