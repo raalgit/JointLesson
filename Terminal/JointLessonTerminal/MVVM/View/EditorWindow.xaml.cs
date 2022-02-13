@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,6 +42,18 @@ namespace JointLessonTerminal.MVVM.View
         {
             var item = (sender as ListView).SelectedItem;
             PagesSelectionPanel.Visibility = item == null ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        private void TextBox_OnPreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            var textBox = sender as TextBox;
+            var fullText = textBox.Text.Insert(textBox.SelectionStart, e.Text);
+
+            double val;
+            e.Handled = !double.TryParse(fullText,
+                                         NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign,
+                                         CultureInfo.InvariantCulture,
+                                         out val);
         }
     }
 }

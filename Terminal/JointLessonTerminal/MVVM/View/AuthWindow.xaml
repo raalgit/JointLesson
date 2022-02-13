@@ -33,13 +33,13 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Grid.Row="0" 
-                            Grid.Column="0"
-                            Text="Авторизация"
-                            Foreground="#000000"
-                            FontSize="28"
-                            VerticalAlignment="Top"
-                            HorizontalAlignment="Center"
-                            Margin="0 50 0 0">
+                           Grid.Column="0"
+                           Text="Авторизация"
+                           Style="{StaticResource BaseTextStyle}"
+                           FontSize="18"
+                           VerticalAlignment="Top"
+                           HorizontalAlignment="Center"
+                           Margin="0 50 0 0">
                 </TextBlock>
 
                 <StackPanel Grid.Row="1"
