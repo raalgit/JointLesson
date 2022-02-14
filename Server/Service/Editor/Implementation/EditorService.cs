@@ -77,7 +77,7 @@ namespace JL.Service.Editor.Implementation
             return response;
         }
 
-        public async Task<GetMaterialResponse> GetMaterial(int fileId, UserSettings userSettings)
+        public async Task<GetMaterialResponse> GetMaterialData(int fileId, UserSettings userSettings)
         {
             var response = new GetMaterialResponse();
             
@@ -86,6 +86,13 @@ namespace JL.Service.Editor.Implementation
             var manual = JsonSerializer.Deserialize<ManualData>(fileBytes) ?? throw new NullReferenceException();
             response.ManualData = manual;
 
+            return response;
+        }
+
+        public async Task<GetCourseManualResponse> GetMaterialById(int id)
+        {
+            var response = new GetCourseManualResponse();
+            response.Manual = _manualRepository.Get().Where(x => x.Id == id).FirstOrDefault() ?? throw new NullReferenceException();
             return response;
         }
 

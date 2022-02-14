@@ -11,6 +11,7 @@ namespace JointLessonTerminal.MVVM.Model
         public int CourseId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public int ManualId { get; set; }
         public string CourseImagePreview { get; set; }
     }
 }

@@ -55,13 +55,25 @@ namespace JL.BLL.Behavior
             }
         }
 
-        public async Task<GetMaterialResponse> GetMaterial(int fileId)
+        public async Task<GetMaterialResponse> GetMaterialData(int fileId)
         {
             try
             {
-                return await _editorService.GetMaterial(fileId, _userSettings);
+                return await _editorService.GetMaterialData(fileId, _userSettings);
             }
             catch (Exception er)
+            {
+                throw er;
+            }
+        }
+
+        public async Task<GetCourseManualResponse> GetMaterialById(int courseId) 
+        {
+            try
+            {
+                return await _editorService.GetMaterialById(courseId);
+            }
+            catch(Exception er)
             {
                 throw er;
             }

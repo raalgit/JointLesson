@@ -61,14 +61,14 @@ namespace jointLessonServer.Controllers
         }
 
         [HttpGet]
-        [JwtAuthentication(role: "Editor")]
+        [JwtAuthentication(role: "User")]
         [Route("/editor/material/{fileId}")]
         public async Task<GetMaterialResponse> GetMaterial([FromRoute][Required] int fileId)
         {
             try
             {
                 var editorBehavior = new EditorBehavior(_serviceProvider);
-                return await editorBehavior.GetMaterial(fileId);
+                return await editorBehavior.GetMaterialData(fileId);
             }
             catch (Exception er)
             {
@@ -79,6 +79,27 @@ namespace jointLessonServer.Controllers
                 };
             }
         }
+
+        [HttpGet]
+        [JwtAuthentication(role: "User")]
+        [Route("/editor/course-material/{id}")]
+        public async Task<GetCourseManualResponse> GetCourseMaterial([FromRoute][Required] int id)
+        {
+            try
+            {
+                var editorBehavior = new EditorBehavior(_serviceProvider);
+                return await editorBehavior.GetMaterialById(id);
+            }
+            catch (Exception er)
+            {
+                return new GetCourseManualResponse()
+                {
+                    IsSuccess = false,
+                    Message = er.Message
+                };
+            }
+        }
+
 
         [HttpGet]
         [JwtAuthentication(role: "Editor")]

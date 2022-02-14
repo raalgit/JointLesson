@@ -13,8 +13,9 @@ namespace JL.Service.Editor.Abstraction
     public interface IEditorService : IServiceJL
     {
         Task<NewMaterialResponse> NewMaterial(NewMaterialRequest request, UserSettings userSettings);
-        Task<GetMaterialResponse> GetMaterial(int fileId, UserSettings userSettings);
+        Task<GetMaterialResponse> GetMaterialData(int fileId, UserSettings userSettings);
         Task<GetMyMaterialsResponse> GetMyMaterials(UserSettings userSettings);
         Task<UpdateMaterialResponse> UpdateMaterial(UpdateMaterialRequest request, UserSettings userSettings);
+        Task<GetCourseManualResponse> GetMaterialById(int courseId);
     }
 }
