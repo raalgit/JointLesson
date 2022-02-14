@@ -13,62 +13,63 @@ namespace JointLessonTerminal.Core.Material
 {
     public class DidacticUnit : Block, IBlock
     {
+        #region Открытые поля для отпрвки на сервер
         /// <summary>
         /// Список страниц
         /// </summary>
-        public ObservableCollection<Page> pages { get { return _pages; } set { _pages = value; OnPropsChanged("pages"); } }
-        private ObservableCollection<Page> _pages;
+        public ObservableCollection<Page> pages { 
+            get { return _pages; } 
+            set { 
+                _pages = value; 
+                OnPropsChanged("pages");
+                foreach (var page in _pages)
+                {
+                    page.OnPageRemove += RemovePage;
+                }
+            } 
+        }
+        #endregion
 
         public DidacticUnit()
         {
             AddCommand = new RelayCommand(x => AddPage(newItemName, newItemAccess, newItemDocId, newItemType));
             UploadCommand = new RelayCommand(async x => await UploadFile());
+            RemoveCommand = new RelayCommand(x => OnUnitRemove?.Invoke(this, null));
             newItemName = "Новая страница";
             newItemAccess = 0;
             newItemType = 1;
             NewItemDocId = -1;
         }
 
-        /// <summary>
-        /// Выбранная страница
-        /// </summary>
+        #region Открытые поля, не входящие в json
         [JsonIgnore]
         public Page SelectedPage { get { return selectedPage; } set { selectedPage = value; OnPropsChanged("SelectedPage"); } }
-        private Page selectedPage;
-
-        /// <summary>
-        /// Название новой страницы
-        /// </summary>
         [JsonIgnore]
         public string NewItemName { get { return newItemName; } set { newItemName = value; OnPropsChanged("NewItemName"); } }
-        private string newItemName;
-
-        /// <summary>
-        /// Уровень доступа новой страницы
-        /// </summary>
         [JsonIgnore]
         public int NewItemAccess { get { return newItemAccess; } set { newItemAccess = value; OnPropsChanged("NewItemAccess"); } }
-        private int newItemAccess;
-
-        /// <summary>
-        /// Номер документа для новой страницы
-        /// </summary>
         [JsonIgnore]
         public int NewItemDocId { get { return newItemDocId; } set { newItemDocId = value; OnPropsChanged("NewItemDocId"); } }
-        private int newItemDocId;
-
-        /// <summary>
-        /// Тип новой страницы
-        /// </summary>
         [JsonIgnore]
         public int NewItemType { get { return newItemType; } set { newItemType = value; OnPropsChanged("NewItemType"); } }
-        private int newItemType;
-
         [JsonIgnore]
         public RelayCommand AddCommand { get; set; }
         [JsonIgnore]
         public RelayCommand UploadCommand { get; set; }
+        [JsonIgnore]
+        public RelayCommand RemoveCommand { get; set; }
+        [JsonIgnore]
+        public EventHandler OnUnitRemove { get; set; }
+        #endregion
 
+
+        private ObservableCollection<Page> _pages;
+        private Page selectedPage;
+        private string newItemName;
+        private int newItemAccess;
+        private int newItemDocId;
+        private int newItemType;
+    
         /// <summary>
         /// Добавление новой страницы
         /// </summary>
@@ -79,10 +80,9 @@ namespace JointLessonTerminal.Core.Material
         public void AddPage(string name, int access, int fileDataId, int type)
         {
             if (pages == null) pages = new ObservableCollection<Page>();
-
             if (newItemDocId == -1) return;
 
-            pages.Add(new Page()
+            var newPage = new Page()
             {
                 name = name,
                 access = access,
@@ -90,12 +90,13 @@ namespace JointLessonTerminal.Core.Material
                 modules = new List<Module>(),
                 parts = 0,
                 fileDataId = fileDataId,
-                type = type, 
+                type = type,
                 id = Guid.NewGuid().ToString()
-            });
-
-            parts++;
+            };
+            pages.Add(newPage);
             OnPropsChanged("pages");
+            parts++;
+            newPage.OnPageRemove += RemovePage;
         }
 
         /// <summary>
@@ -121,6 +122,15 @@ namespace JointLessonTerminal.Core.Material
                 sr.Close();
                 NewItemDocId = await fileHandler.UploadFile(bytes, fileDialog.FileName);
             }
+        }
+
+        public void RemovePage(object sender, EventArgs args)
+        {
+            var page = (Page)sender;
+            if (page == null) return;
+            pages.Remove(page);
+            OnPropsChanged("pages");
+            parts--;
         }
     }
 }

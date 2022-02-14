@@ -13,28 +13,41 @@ namespace JointLessonTerminal.Core.Material
     [Serializable]
     public class ManualData : Block, IBlock
     {
+
+        #region Открытые поля для отправки на сервер
         /// <summary>
         /// Список авторов
         /// </summary>
         public List<Author> authors { get { return _authors; } set { _authors = value; OnPropsChanged("authors"); } }
-        private List<Author> _authors;
-
         /// <summary>
         /// Данные о создании и зменении материала
         /// </summary>
         public MaterialDate materialDate { get; set; }
-
         /// <summary>
         /// Дисциплина материала
         /// </summary>
         public string discipline { get { return _discipline; } set { _discipline = value; OnPropsChanged("discipline"); } }
-        private string _discipline;
-
+        /// <summary>
+        /// Список авторов материала
+        /// </summary>
+        private List<Author> _authors;
         /// <summary>
         /// Список глав материала
         /// </summary>
-        public ObservableCollection<Chapter> chapters { get { return _chapters; } set { _chapters = value; OnPropsChanged("chapters"); } }
-        private ObservableCollection<Chapter> _chapters;
+        public ObservableCollection<Chapter> chapters
+        {
+            get { return _chapters; }
+            set
+            {
+                _chapters = value;
+                OnPropsChanged("chapters");
+                foreach (var chapter in _chapters)
+                {
+                    chapter.OnChapterRemove += RemoveChapter;
+                }
+            }
+        }
+        #endregion
 
         public ManualData()
         {
@@ -43,32 +56,24 @@ namespace JointLessonTerminal.Core.Material
             NewItemAccess = 1;
         }
 
+        #region Открытые поля, не входящие в json
         [JsonIgnore]
-        public RelayCommand AddCommand { get; set; }
-
-        /// <summary>
-        /// Выбранная глава
-        /// </summary>
-        [JsonIgnore]
-        public Chapter SelectedChapter { 
-            get { return selectedChapter; } 
-            set { selectedChapter = value; OnPropsChanged("SelectedChapter"); } 
-        }
-        private Chapter selectedChapter;
-
-        /// <summary>
-        /// Имя новой главы
-        /// </summary>
+        public Chapter SelectedChapter
+        { get { return selectedChapter; } set { selectedChapter = value; OnPropsChanged("SelectedChapter"); } }
         [JsonIgnore]
         public string NewItemName { get { return newItemName; } set { newItemName = value; OnPropsChanged("NewItemName"); } }
-        private string newItemName;
-
-        /// <summary>
-        /// Уровень доступа новой главы
-        /// </summary>
         [JsonIgnore]
         public int NewItemAccess { get { return newItemAccess; } set { newItemAccess = value; OnPropsChanged("NewItemAccess"); } }
+        [JsonIgnore]
+        public RelayCommand AddCommand { get; set; }
+        #endregion
+
+        private string _discipline;
+        private ObservableCollection<Chapter> _chapters;
+        private Chapter selectedChapter;
+        private string newItemName;
         private int newItemAccess;
+
 
         /// <summary>
         /// Добавление новой главы
@@ -89,8 +94,17 @@ namespace JointLessonTerminal.Core.Material
                 id = Guid.NewGuid().ToString()
             };
             chapters.Add(newChapter);
-            
+            newChapter.OnChapterRemove += RemoveChapter;
             parts++;
+        }
+
+        public void RemoveChapter(object sender, EventArgs args)
+        {
+            var chapter = (Chapter)sender;
+            if (chapter == null) return;
+            chapters.Remove(chapter);
+            OnPropsChanged("chapters");
+            parts--;
         }
     }
 }

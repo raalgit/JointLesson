@@ -114,13 +114,14 @@
 
                             <Grid Grid.Column="0">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="2*"/>
                                     <RowDefinition Height="7*"/>
                                     <RowDefinition Height="2*"/>
                                 </Grid.RowDefinitions>
 
                                 <TextBlock Grid.Row="0"
                                            Text="Главы"
+                                           MinHeight="50"
                                            Style="{StaticResource BaseTextStyle}">
                                 </TextBlock>
                                 
@@ -139,8 +140,9 @@
                                                            Text="{Binding name}"/>
                                                 <Button Grid.Column="0"
                                                         Margin="5"
-                                                            Style="{StaticResource DarkButtonStyle}"
-                                                            Content="Удалить">
+                                                        Command="{Binding RemoveCommand}"
+                                                        Style="{StaticResource DarkButtonStyle}"
+                                                        Content="Удалить">
                                                 </Button>
                                             </Grid>
                                         </DataTemplate>
@@ -196,12 +198,13 @@
 
                             <Grid Grid.Column="1">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="2*"/>
                                     <RowDefinition Height="7*"/>
                                     <RowDefinition Height="2*"/>
                                 </Grid.RowDefinitions>
 
                                 <TextBlock Grid.Row="0"
+                                           MinHeight="50"
                                            Text="Темы"
                                            Style="{StaticResource BaseTextStyle}">
 
@@ -222,8 +225,9 @@
                                                            Text="{Binding name}"/>
                                                 <Button Grid.Column="0"
                                                         Margin="5"
-                                                            Style="{StaticResource DarkButtonStyle}"
-                                                            Content="Удалить">
+                                                        Style="{StaticResource DarkButtonStyle}"
+                                                        Command="{Binding RemoveCommand}"
+                                                        Content="Удалить">
                                                 </Button>
                                             </Grid>
                                         </DataTemplate>
@@ -274,12 +278,14 @@
 
                             <Grid Grid.Column="2">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="2*"/>
                                     <RowDefinition Height="7*"/>
                                     <RowDefinition Height="2*"/>
                                 </Grid.RowDefinitions>
 
                                 <TextBlock Grid.Row="0"
+                                           MinHeight="50"
+                                           TextWrapping="Wrap"
                                            Text="Дидактические единицы"
                                            Style="{StaticResource BaseTextStyle}">
 
@@ -300,8 +306,9 @@
                                                            Text="{Binding name}"/>
                                                 <Button Grid.Column="0"
                                                         Margin="5"
-                                                            Style="{StaticResource DarkButtonStyle}"
-                                                            Content="Удалить">
+                                                        Command="{Binding RemoveCommand}"
+                                                        Style="{StaticResource DarkButtonStyle}"
+                                                        Content="Удалить">
                                                 </Button>
                                             </Grid>
                                         </DataTemplate>
@@ -352,12 +359,13 @@
 
                             <Grid Grid.Column="3">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="2*"/>
                                     <RowDefinition Height="7*"/>
                                     <RowDefinition Height="2*"/>
                                 </Grid.RowDefinitions>
 
                                 <TextBlock Grid.Row="0"
+                                           MinHeight="50"
                                            Text="Страницы"
                                            Style="{StaticResource BaseTextStyle}">
 
@@ -377,8 +385,9 @@
                                                          Text="{Binding name}"/>
                                                 <Button Grid.Column="0"
                                                         Margin="5"
-                                                            Style="{StaticResource DarkButtonStyle}"
-                                                            Content="Удалить">
+                                                        Command="{Binding RemoveCommand}"
+                                                        Style="{StaticResource DarkButtonStyle}"
+                                                        Content="Удалить">
                                                 </Button>
                                             </Grid>
                                         </DataTemplate>
