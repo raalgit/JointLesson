@@ -68,6 +68,18 @@ namespace JointLessonTerminal.Core.Material
             return responsePost.manuals;
         }
 
+        public async Task<Manual> LoadManualById(int id)
+        {
+            var getManualRequest = new RequestModel<object>()
+            {
+                Method = Core.HTTPRequests.Enums.RequestMethod.Get,
+                UrlFilter = $"/{id}"
+            };
+            var sender = new RequestSender<object, GetManualByIdResponse>();
+            var responsePost = await sender.SendRequest(getManualRequest, "/editor/course-material");
+            return responsePost.manual;
+        }
+
         public async Task<ManualData> LoadById(int fileId)
         {
             var manualGetRequest = new RequestModel<object>()

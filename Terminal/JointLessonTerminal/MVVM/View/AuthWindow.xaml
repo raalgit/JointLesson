@@ -36,46 +36,64 @@
                            Grid.Column="0"
                            Text="Авторизация"
                            Style="{StaticResource BaseTextStyle}"
-                           FontSize="18"
+                           FontSize="24"
+                           FontWeight="Bold"
                            VerticalAlignment="Top"
                            HorizontalAlignment="Center"
                            Margin="0 50 0 0">
                 </TextBlock>
 
-                <StackPanel Grid.Row="1"
-                            Grid.Column="0"
-                            Orientation="Horizontal"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center">
+                <Grid Grid.Row="1"
+                      Grid.Column="0"
+                      Margin="0 20 0 0"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center">
 
-                        <Label Content="Логин" VerticalAlignment="Bottom" />
-                        <TextBox 
-                                Style="{StaticResource MenuInputBoxTheme}"
-                                Margin="10 0 0 0"
-                                Text="{Binding Login}">
-                        </TextBox>
-                </StackPanel>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="3*"/>
+                    </Grid.RowDefinitions>
 
-                <StackPanel Grid.Row="2"
-                            Grid.Column="0"
-                            Orientation="Horizontal"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center">
-                    <Label Content="Пароль" VerticalAlignment="Bottom" />
-                    <TextBox 
-                            Style="{StaticResource MenuInputBoxTheme}"
-                            Margin="10 0 0 0"
-                            Text="{Binding Password}">
-                    </TextBox>
-                </StackPanel>
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="0"
+                               Text="Логин:" 
+                               FontWeight="Bold"
+                               FontSize="14"
+                               VerticalAlignment="Bottom"
+                               Style="{StaticResource BaseTextStyle}"/>
 
-                <RadioButton Grid.Row="3"
+
+                    <TextBox Grid.Row="1"
                              Grid.Column="0"
-                             Content="Вход"
+                             FontSize="18"
+                            Style="{StaticResource MenuInputBoxTheme}"
+                            Text="{Binding Login}"/>
+
+                    <TextBlock Grid.Row="2"
+                               Grid.Column="0"
+                               Margin="0 20 0 0"
+                               FontSize="14"
+                               Style="{StaticResource BaseTextStyle}"
+                               Text="Пароль:" 
+                               FontWeight="Bold"
+                               VerticalAlignment="Bottom" />
+                    
+                    <TextBox Grid.Row="3"
+                             Grid.Column="0"
+                             FontSize="18"
+                             Style="{StaticResource MenuInputBoxTheme}"
+                             Text="{Binding Password}"/>
+                </Grid>
+
+                <RadioButton Grid.Row="2"
+                             Grid.Column="0"
+                             Content="Войти"
                              Foreground="#EFEFEF"
                              Background="#383838"
-                             Margin="10"
-                             HorizontalAlignment="Right"
+                             Margin="0 20 0 0"
+                             HorizontalAlignment="Center"
                              Command="{Binding SendRequestCommand}"
                              Style="{StaticResource MenuButtonTheme}">
                 </RadioButton>

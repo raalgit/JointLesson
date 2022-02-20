@@ -118,7 +118,8 @@ namespace JointLessonTerminal.MVVM.ViewModel
                         CourseImagePreview = null,
                         Description = x.description,
                         Title = x.name,
-                        CourseId = x.id
+                        CourseId = x.id,
+                        ManualId = x.manualId
                     }).ToList();
                 }
                 else

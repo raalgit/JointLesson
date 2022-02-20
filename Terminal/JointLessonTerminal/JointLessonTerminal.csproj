@@ -128,10 +128,15 @@
     <Compile Include="MVVM\Model\CourseCollection.cs" />
     <Compile Include="MVVM\Model\CourseModel.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\AddNewFileRequest.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Request\CloseLessonRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\LoginRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\NewMaterialRequest.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Request\StartSyncLessonRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\UpdateMaterialRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\AddNewFileResponse.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Response\CloseLessonResponse.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Response\GetCourseDataResponse.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Response\GetManualByIdResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetMaterialResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetMyCoursesResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetMyMaterialsResponse.cs" />
@@ -148,6 +153,7 @@
     <Compile Include="Core\Material\Page.cs" />
     <Compile Include="Core\Material\Topic.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\NewMaterialResponse.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Response\StartSyncLessonResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\UpdateMaterialResponse.cs" />
     <Compile Include="MVVM\Model\ServerModels\AuthData.cs" />
     <Compile Include="MVVM\Model\ServerModels\Course.cs" />
@@ -228,6 +234,8 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Resource Include="Fonts\Cheque.otf" />
+    <Resource Include="Fonts\Golos-UI_Medium.ttf" />
+    <Resource Include="Fonts\Golos-UI_Bold.ttf" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -239,6 +247,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Resource Include="Images\stop-btn.png" />
     <Resource Include="Images\start-btn.png" />
     <Resource Include="Images\enter-btn.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

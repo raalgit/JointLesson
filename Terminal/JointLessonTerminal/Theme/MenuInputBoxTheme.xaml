@@ -5,7 +5,7 @@
         <Style.Setters>
             <Setter Property="FontSize" Value="24px" />
             <Setter Property="Width" Value="auto" />
-            <Setter Property="MinWidth" Value="400" />
+            <Setter Property="MinWidth" Value="300" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type TextBox}">
@@ -24,7 +24,7 @@
                                 <Border Name="Border"
                                     CornerRadius="2"
                                     Padding="2"
-                                    BorderThickness="0 0 0 2">
+                                    BorderThickness="1 1 1 1">
                                     <Border.BorderBrush>
                                         <SolidColorBrush Color="#04202C" />
                                     </Border.BorderBrush>

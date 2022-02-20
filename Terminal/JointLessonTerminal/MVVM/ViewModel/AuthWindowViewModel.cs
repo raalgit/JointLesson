@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace JointLessonTerminal.MVVM.ViewModel
 {
@@ -18,7 +19,6 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
         public string Login { get; set; }
         public string Password { get; set; }
-
 
         public AuthWindowViewModel()
         {

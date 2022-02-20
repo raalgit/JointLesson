@@ -7,120 +7,112 @@
         xmlns:viewModel="clr-namespace:JointLessonTerminal.MVVM.ViewModel"
         mc:Ignorable="d"
         Title="Joint lesson" Height="auto" Width="auto"
-        WindowStyle="None"
+        WindowStyle="SingleBorderWindow"
         ResizeMode="CanResizeWithGrip"
-        MouseDown="Window_MouseDown"
-        Background="Transparent"
-        AllowsTransparency="True">
+        MouseDown="Window_MouseDown">
 
     <Window.DataContext >
         <viewModel:MainWindowViewModel></viewModel:MainWindowViewModel>
     </Window.DataContext>
-    
-    <Border Background="#EFEFEF"
-            CornerRadius="0 0 50 50">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            
-            <Grid.RowDefinitions>
-                <RowDefinition Height="80"/>
-                <RowDefinition />
-                <RowDefinition Height="50" />
-            </Grid.RowDefinitions>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
 
-            <StackPanel
+        <StackPanel
                 Grid.Row="0" 
                 Grid.Column="0"
                 Background="#1A1A1A">
+            <Grid x:Name="top_menu_layout">
 
-                <Grid x:Name="top_menu_layout">
-                    
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
 
-                    <StackPanel HorizontalAlignment="Left"
+                <StackPanel HorizontalAlignment="Left"
                                 Orientation="Horizontal"
                                 Grid.Column="0">
-                        <Button Visibility="{Binding MenuVisibility.ProfileBtnVisibility}"
+                    <Button Visibility="{Binding MenuVisibility.ProfileBtnVisibility}"
                                 Margin="20 0 0 0"
                                 Background="Transparent"
                                 Width="80"
                                 Height="80"
                                 HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
                                 BorderThickness="0">
-                            <StackPanel>
-                                <Image Width="50"
-                                       Height="50"
+                        <StackPanel>
+                            <Image Width="30"
+                                       Height="30"
                                        Source="../../Images/profile-btn.png" />
-                                <TextBlock Text="Профиль"
+                            <TextBlock Text="Профиль"
                                            Foreground="#EFEFEF"
-                                           FontSize="16"/>
-                            </StackPanel>
-                        </Button>
-                        
-                        <Button Visibility="{Binding MenuVisibility.BackBtnVisibility}"
+                                           FontSize="14"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Visibility="{Binding MenuVisibility.BackBtnVisibility}"
                                 Command="{Binding BackCommand}"
                                 Margin="20 0 0 0"
                                 Background="Transparent"
                                 Width="80"
                                 Height="80"
                                 HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
                                 BorderThickness="0">
-                            <StackPanel>
-                                <Image Width="50"
-                                       Height="50"
+                        <StackPanel>
+                            <Image Width="30"
+                                       Height="30"
                                        Source="../../Images/back-btn.png" />
-                                <TextBlock Text="Вернуться"
+                            <TextBlock Text="Вернуться"
                                            Foreground="#EFEFEF"
-                                           FontSize="16"/>
-                            </StackPanel>
-                        </Button>
-                    </StackPanel>
+                                           FontSize="14"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
 
-                    <StackPanel HorizontalAlignment="Right"
+                <StackPanel HorizontalAlignment="Right"
                                 Orientation="Horizontal"
                                 Grid.Column="1">
-                        <Button Visibility="{Binding MenuVisibility.ExitBtnVisibility}"
+                    <Button Visibility="{Binding MenuVisibility.ExitBtnVisibility}"
                                 Command="{Binding ExitFromSystemCommand}"
                                 Margin="0 0 20 0"
                                 Background="Transparent"
                                 Width="80"
                                 Height="80"
                                 HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
                                 BorderThickness="0">
-                            <StackPanel>
-                                <Image Width="50"
-                                       Height="50"
+                        <StackPanel>
+                            <Image Width="30"
+                                       Height="30"
                                        Source="../../Images/sign-out.png" />
-                                <TextBlock Text="Выйти"
+                            <TextBlock Text="Выйти"
                                            Foreground="#EFEFEF"
-                                           FontSize="16"/>
-                            </StackPanel>
-                        </Button>
-                    </StackPanel>
-                
-                </Grid>
-            </StackPanel>
+                                           FontSize="14"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
 
-            <ContentControl Grid.Row="1" 
+            </Grid>
+        </StackPanel>
+
+        <ContentControl Grid.Row="1" 
                             Grid.Column="0"
                             Content="{Binding CurrentView}">
 
-            </ContentControl>
+        </ContentControl>
 
-            <StackPanel Grid.Row="2" Grid.Column="0" Background="#EFEFEF">
-                <TextBlock Text="© Все права защищены JointLesson"
+        <StackPanel Grid.Row="2" Grid.Column="0" Background="#EFEFEF">
+            <TextBlock Text="© Все права защищены JointLesson"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        Margin="0 10 30 0"
                        Foreground="#04202C"
                        FontSize="24"
                        />
-            </StackPanel>
-        </Grid>
-    </Border>
+        </StackPanel>
+    </Grid>
 </Window>

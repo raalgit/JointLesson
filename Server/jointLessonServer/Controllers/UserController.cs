@@ -80,5 +80,25 @@ namespace jointLessonServer.Controllers
                 };
             }
         }
+
+        [HttpGet]
+        [JwtAuthentication(role: "User")]
+        [Route("/user/course-data/{courseId}")]
+        public async Task<GetCourseDataResponse> GetCourseData([FromRoute][Required] int courseId)
+        {
+            try
+            {
+                var userBehavior = new UserBehavior(_serviceProvider);
+                return await userBehavior.GetCourseData(courseId);
+            }
+            catch (Exception er)
+            {
+                return new GetCourseDataResponse()
+                {
+                    IsSuccess = false,
+                    Message = er.Message
+                };
+            }
+        }
     }
 }
