@@ -21,6 +21,7 @@ namespace JL.Service.User.Implementation
         private readonly IGroupAtCourseRepository _groupAtCourseRepository;
         private readonly ICourseRepository _courseRepository;
         private readonly ICourseTeacherRepository _courseTeacherRepository;
+        private readonly ILessonRepository _lessonRepository;
         private readonly IMongoRepository _mongoRepository;
         private readonly IFileDataRepository _fileDataRepository;
         private readonly IFileUtility _fileUtility;
@@ -29,6 +30,7 @@ namespace JL.Service.User.Implementation
                            ICourseRepository courseRepository,
                            ICourseTeacherRepository courseTeacherRepository,
                            IGroupAtCourseRepository groupAtCourseRepository,
+                           ILessonRepository lessonRepository,
                            IMongoRepository mongoRepository,
                            IFileDataRepository fileDataRepository)
         {
@@ -36,6 +38,7 @@ namespace JL.Service.User.Implementation
             _courseRepository = courseRepository;
             _courseTeacherRepository = courseTeacherRepository;
             _groupAtCourseRepository = groupAtCourseRepository;
+            _lessonRepository = lessonRepository;
             _mongoRepository = mongoRepository;
             _fileDataRepository = fileDataRepository;
 
@@ -86,6 +89,53 @@ namespace JL.Service.User.Implementation
             Stream stream = new MemoryStream(request.File);
             int fileDataId = await _fileUtility.CreateNewFileAsync(stream, request.Name, extension);
             response.FileDataId = fileDataId;
+
+            return response;
+        }
+
+        public async Task<GetCourseDataResponse> GetCourseData(int courseId, UserSettings userSettings)
+        {
+            var response = new GetCourseDataResponse();
+
+            // Получение преподавателей текущего курса
+            var courseTeachers = _courseTeacherRepository.Get().Where(x => x.CourseId == courseId).ToList();
+            if (courseTeachers == null || courseTeachers.Count == 0) throw new NullReferenceException(nameof(courseTeachers));
+            response.CourseTeachers = courseTeachers;
+
+            // Проверка пользователя на статус преподавателя
+            response.IsTeacher = courseTeachers.Select(x => x.UserId).Contains(userSettings.User.Id);
+
+            // Получение данных курсовых занятий для всех групп
+            var groupsAtCourse = _groupAtCourseRepository.Get().Where(x => x.CourseId == courseId)
+                ?? throw new ArgumentException(nameof(courseId));
+
+            /// Для каждой группы может вестись отдельное занятие 
+            /// При входе преподавателя необходимо проверять для каких именно групп активно
+            /// занятие, но при текущей реализации это не обязательно. При необходимости
+            /// разбиения занятий по группам, необходимо доработать сервис, добавив 
+            /// информацию об активных занятиях для каждой группы
+            if (response.IsTeacher)
+            {
+                response.LessonIsActive = groupsAtCourse.Any(x => x.IsActive);
+            } 
+            else
+            {
+                var groupAtCourse = groupsAtCourse.FirstOrDefault(x => x.GroupId == userSettings.User.GroupId) 
+                    ?? throw new Exception("Не найдены данные курса для пользователя");
+
+                response.CourseData = groupAtCourse;
+
+                if (groupAtCourse.IsActive)
+                {
+                    var lesson = _lessonRepository.Get().FirstOrDefault(x => x.GroupAtCourseId == groupAtCourse.Id);
+                    response.Lesson = lesson;
+                    response.LessonIsActive = true;
+                }
+                else
+                {
+                    response.LessonIsActive = false;
+                }
+            }
 
             return response;
         }

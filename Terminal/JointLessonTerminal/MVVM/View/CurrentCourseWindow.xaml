@@ -27,7 +27,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
                         
                         <StackPanel>
@@ -65,31 +65,25 @@
                             </TextBlock>
                         </Grid>
 
-                        <Grid Grid.Row="0"
-                              Grid.Column="2">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="1*"/>
-                                <RowDefinition Height="1*"/>
-                                <RowDefinition Height="1*"/>
-                                <RowDefinition Height="1*"/>
-                            </Grid.RowDefinitions>
-
-                            <Grid Grid.Row="0"
-                                  Grid.Column="0"
-                                  Margin="5">
+                        <StackPanel Grid.Row="0"
+                                    Grid.Column="2">
+                            
+                            <Grid Margin="5"
+                                  Visibility="{Binding StartLessonBtnVisibility}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="3*"/>
                                     <ColumnDefinition Width="1*"/>
                                 </Grid.ColumnDefinitions>
-
                                 <TextBlock Grid.Row="0"
                                            Grid.Column="0"
                                            Text="Начать занятие"
-                                           FontSize="18"
+                                           FontSize="14"
                                            FontWeight="Bold"
                                            VerticalAlignment="Center">
                                 </TextBlock>
-                                <Button Grid.Row="0"
+                                <Button 
+                                    Command="{Binding StartLessonCommand}"
+                                    Grid.Row="0"
                                     Grid.Column="1"
                                     HorizontalAlignment="Right"
                                     Background="Transparent"
@@ -97,14 +91,13 @@
                                     <StackPanel Cursor="Hand">
                                         <Image HorizontalAlignment="Left"
                                        Source="../../Images/start-btn.png"
-                                       Width="50"
-                                       Height="50"/>
+                                       Width="35"
+                                       Height="35"/>
                                     </StackPanel>
                                 </Button>
                             </Grid>
-                            <Grid Grid.Row="1"
-                                  Grid.Column="0"
-                                  Margin="5">
+                            <Grid Margin="5"
+                                  Visibility="{Binding EndtLessonBtnVisibility}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="3*"/>
                                     <ColumnDefinition Width="1*"/>
@@ -112,12 +105,43 @@
 
                                 <TextBlock Grid.Row="0"
                                            Grid.Column="0"
-                                           Text="Просмотреть оффлайн"
-                                           FontSize="18"
+                                           Text="Завершить занятие"
+                                           FontSize="14"
                                            FontWeight="Bold"
                                            VerticalAlignment="Center">
                                 </TextBlock>
-                                <Button Grid.Row="0"
+                                <Button 
+                                    Command="{Binding EndLessonCommand}"
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Right"
+                                    Background="Transparent"
+                                    BorderThickness="0">
+                                    <StackPanel Cursor="Hand">
+                                        <Image HorizontalAlignment="Left"
+                                       Source="../../Images/stop-btn.png"
+                                       Width="35"
+                                       Height="35"/>
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+                            <Grid Margin="5"
+                                  Visibility="{Binding JoinLessonBtnVisibility}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Row="0"
+                                           Grid.Column="0"
+                                           Text="Присоединиться"
+                                           FontSize="14"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center">
+                                </TextBlock>
+                                <Button 
+                                    Command="{Binding EnterLessonCommand}"
+                                    Grid.Row="0"
                                     Grid.Column="1"
                                     HorizontalAlignment="Right"
                                     Background="Transparent"
@@ -125,13 +149,12 @@
                                     <StackPanel Cursor="Hand">
                                         <Image HorizontalAlignment="Left"
                                        Source="../../Images/enter-btn.png"
-                                       Width="50"
-                                       Height="50"/>
+                                       Width="35"
+                                       Height="35"/>
                                     </StackPanel>
                                 </Button>
                             </Grid>
-                            
-                        </Grid>
+                        </StackPanel>
 
                     </Grid>
                     
@@ -178,7 +201,9 @@
                                            Style="{StaticResource BaseTextStyle}">
                                 </TextBlock>
 
-                                <ListView Grid.Row="1"
+                                <ScrollViewer Grid.Row="1"
+                                              Height="250">
+                                <ListView 
                                           ItemsSource="{Binding ManualData.chapters}"
                                           SelectedItem="{Binding ManualData.SelectedChapter}">
                                     <ListView.ItemTemplate>
@@ -188,6 +213,7 @@
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
                                 </ListView>
+                                </ScrollViewer>
                             </Grid>
 
                             <Grid Grid.Column="1">
@@ -203,16 +229,19 @@
 
                                 </TextBlock>
 
-                                <ListView Grid.Row="1"
+                                <ScrollViewer Grid.Row="1"
+                                              Height="250">
+                                    <ListView
                                           ItemsSource="{Binding ManualData.SelectedChapter.topics}"
                                           SelectedItem="{Binding ManualData.SelectedChapter.SelectedTopic}">
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding name}"
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding name}"
                                                        Style="{StaticResource BaseTextStyle}"/>
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </ScrollViewer>
                             </Grid>
 
                             <Grid Grid.Column="2">
@@ -229,16 +258,20 @@
 
                                 </TextBlock>
 
-                                <ListView Grid.Row="1"
+                                <ScrollViewer Grid.Row="1"
+                                              Height="250">
+                                    <ListView
                                           ItemsSource="{Binding ManualData.SelectedChapter.SelectedTopic.didacticUnits}"
                                           SelectedItem="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit}">
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding name}"
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding name}"
                                                        Style="{StaticResource BaseTextStyle}"/>
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </ScrollViewer>
+                                
                             </Grid>
 
                             <Grid Grid.Column="3">
@@ -254,30 +287,34 @@
 
                                 </TextBlock>
 
-                                <ListView Grid.Row="1"
+                                <ScrollViewer Grid.Row="1"
+                                              Height="250">
+                                    <ListView
                                           ItemsSource="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit.pages}"
                                           SelectedItem="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit.SelectedPage}">
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate>
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="2*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                </Grid.ColumnDefinitions>
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="2*"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                    </Grid.ColumnDefinitions>
 
-                                                <TextBlock Grid.Column="0" 
+                                                    <TextBlock Grid.Column="0" 
                                                        Text="{Binding name}"
                                                        Style="{StaticResource BaseTextStyle}"/>
 
-                                                <Button Grid.Column="1"
+                                                    <Button Grid.Column="1"
                                                         Style="{StaticResource DarkButtonStyle}"
                                                         Margin="5"
                                                         Content="Просмотр">
-                                                </Button>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
+                                                    </Button>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </ScrollViewer>
+                                
                             </Grid>
                         </Grid>
                     </Grid>

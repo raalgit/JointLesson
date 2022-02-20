@@ -62,6 +62,14 @@ namespace JL.DAL.Repository
         {
             return (TModel)_context.Update(persist).Entity;
         }
+        
+        public void UpdateMany(IEnumerable<TModel> entities)
+        {
+            foreach (var entity in entities)
+            {
+                Update(entity);
+            }
+        }
 
 
         public void SaveChanges()

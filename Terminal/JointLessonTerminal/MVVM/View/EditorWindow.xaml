@@ -18,6 +18,7 @@
         <TextBlock Grid.Row="0"
                    Grid.Column="0"
                    Text="Кабинет редактора"
+                   Style="{StaticResource BaseTextStyle}"
                    Foreground="#000000"
                    FontSize="18"
                    VerticalAlignment="Top"
@@ -121,11 +122,14 @@
 
                                 <TextBlock Grid.Row="0"
                                            Text="Главы"
-                                           MinHeight="50"
+                                           Height="30"
                                            Style="{StaticResource BaseTextStyle}">
                                 </TextBlock>
-                                
-                                <ListView Grid.Row="1"
+
+                                <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                                              Height="350"
+                                              Grid.Row="1">
+                                <ListView 
                                           ItemsSource="{Binding ManualData.chapters}"
                                           SelectedItem="{Binding ManualData.SelectedChapter}"
                                           SelectionChanged="ListView_SelectionChanged_1">
@@ -148,7 +152,7 @@
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
                                 </ListView>
-
+                                </ScrollViewer>
                                 <Grid Grid.Row="2">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="4*"/>
@@ -204,36 +208,39 @@
                                 </Grid.RowDefinitions>
 
                                 <TextBlock Grid.Row="0"
-                                           MinHeight="50"
+                                           Height="30"
                                            Text="Темы"
                                            Style="{StaticResource BaseTextStyle}">
 
                                 </TextBlock>
 
-                                <ListView Grid.Row="1"
+                                <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                                              Height="350"
+                                              Grid.Row="1">
+                                    <ListView
                                           ItemsSource="{Binding ManualData.SelectedChapter.topics}"
                                           SelectedItem="{Binding ManualData.SelectedChapter.SelectedTopic}"
                                           SelectionChanged="ListView_SelectionChanged">
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate>
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="2*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBox Grid.Column="1" 
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="2*"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBox Grid.Column="1" 
                                                            Text="{Binding name}"/>
-                                                <Button Grid.Column="0"
+                                                    <Button Grid.Column="0"
                                                         Margin="5"
                                                         Style="{StaticResource DarkButtonStyle}"
                                                         Command="{Binding RemoveCommand}"
                                                         Content="Удалить">
-                                                </Button>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
-
+                                                    </Button>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </ScrollViewer>
                                 <Grid Grid.Row="2"
                                       Margin="5"
                                       Visibility="Hidden"
@@ -284,37 +291,40 @@
                                 </Grid.RowDefinitions>
 
                                 <TextBlock Grid.Row="0"
-                                           MinHeight="50"
+                                           Height="30"
                                            TextWrapping="Wrap"
                                            Text="Дидактические единицы"
                                            Style="{StaticResource BaseTextStyle}">
 
                                 </TextBlock>
 
-                                <ListView Grid.Row="1"
+                                <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                                              Height="350"
+                                              Grid.Row="1">
+                                    <ListView
                                           ItemsSource="{Binding ManualData.SelectedChapter.SelectedTopic.didacticUnits}"
                                           SelectedItem="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit}"
                                           SelectionChanged="ListView_SelectionChanged_2">
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate>
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="2*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBox Grid.Column="1" 
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="2*"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBox Grid.Column="1" 
                                                            Text="{Binding name}"/>
-                                                <Button Grid.Column="0"
+                                                    <Button Grid.Column="0"
                                                         Margin="5"
                                                         Command="{Binding RemoveCommand}"
                                                         Style="{StaticResource DarkButtonStyle}"
                                                         Content="Удалить">
-                                                </Button>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
-
+                                                    </Button>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </ScrollViewer>
                                 <Grid Grid.Row="2"
                                       Margin="5"
                                       x:Name="UnitSelectionPanel"
@@ -365,35 +375,38 @@
                                 </Grid.RowDefinitions>
 
                                 <TextBlock Grid.Row="0"
-                                           MinHeight="50"
+                                           Height="30"
                                            Text="Страницы"
                                            Style="{StaticResource BaseTextStyle}">
 
                                 </TextBlock>
 
-                                <ListView Grid.Row="1"
+                                <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                                              Height="350"
+                                              Grid.Row="1">
+                                    <ListView
                                           ItemsSource="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit.pages}"
                                           SelectedItem="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit.SelectedPage}">
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate>
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="2*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBox Grid.Column="1" 
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="2*"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBox Grid.Column="1" 
                                                          Text="{Binding name}"/>
-                                                <Button Grid.Column="0"
+                                                    <Button Grid.Column="0"
                                                         Margin="5"
                                                         Command="{Binding RemoveCommand}"
                                                         Style="{StaticResource DarkButtonStyle}"
                                                         Content="Удалить">
-                                                </Button>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
-
+                                                    </Button>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </ScrollViewer>
                                 <Grid Grid.Row="2"
                                       Margin="5"
                                       x:Name="PagesSelectionPanel"
@@ -410,7 +423,7 @@
                                         <ColumnDefinition Width="1*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <TextBlock Grid.Row="0" 
+                                    <TextBlock Grid.Row="0"
                                                 Grid.Column="0" 
                                                 Style="{StaticResource BaseTextStyle}" Text="Название" />
 
@@ -423,10 +436,11 @@
                                                Style="{StaticResource BaseTextStyle}" Text="Доступ (0-3)" />
 
                                     <TextBox Grid.Row="0" 
+                                             Margin="2"
                                                  Grid.Column="3" 
                                                  Text="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit.NewItemAccess}" PreviewTextInput="TextBox_OnPreviewTextInput"/>
 
-                                    <TextBlock Grid.Row="1" 
+                                    <TextBlock Grid.Row="1"
                                                Grid.Column="2" 
                                                Style="{StaticResource BaseTextStyle}" 
                                                Text="Номер документа" />
@@ -438,15 +452,15 @@
                                                Text="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit.NewItemDocId}"/>
 
                                     <Button Grid.Row="2" 
-                                            Grid.Column="0"
                                             Margin="5"
+                                            Grid.Column="0"
                                             Content="Документ"
                                             Style="{StaticResource DarkButtonStyle}"
                                             Command="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit.UploadCommand}" PreviewTextInput="TextBox_OnPreviewTextInput"/>
 
                                     <Button  Grid.Row="2"
-                                             Grid.Column="1"
                                              Margin="5"
+                                             Grid.Column="1"
                                              HorizontalAlignment="Left"
                                              Style="{StaticResource DarkButtonStyle}"
                                              Content="Добавить"

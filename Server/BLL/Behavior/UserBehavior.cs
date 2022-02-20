@@ -67,5 +67,17 @@ namespace BLL.Behavior
                 throw er;
             }
         }
+
+        public async Task<GetCourseDataResponse> GetCourseData(int courseId)
+        {
+            try 
+            {
+                return await _userService.GetCourseData(courseId, _userSettings);
+            }
+            catch(Exception er) 
+            { 
+                throw er; 
+            }
+        }
     }
 }

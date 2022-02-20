@@ -12,11 +12,11 @@ namespace JL.Persist
     public class Lesson : IPersist
     {
         public int Id { get; set; }
-        public int GroupAtCourseId { get; set; }
-        public int LastMaterialPage { get; set; }
+        public int? GroupAtCourseId { get; set; }
+        public string LastMaterialPage { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public int TeacherId { get; set; }
-        public InnerModels.LessonType Type { get; set; }
+        public string Type { get; set; }
     }
 }

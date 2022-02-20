@@ -20,6 +20,7 @@ namespace DAL.Repository
 
         // UPDATE
         TModel Update(TModel persist);
+        void UpdateMany(IEnumerable<TModel> entities);
         
         // DELETE
         void Delete(TModel persist);

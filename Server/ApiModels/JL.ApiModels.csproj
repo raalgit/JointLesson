@@ -10,8 +10,6 @@
   <ItemGroup>
     <Folder Include="StudentModels\Request\" />
     <Folder Include="StudentModels\Response\" />
-    <Folder Include="TeacherModels\Request\" />
-    <Folder Include="TeacherModels\Response\" />
   </ItemGroup>
 
   <ItemGroup>

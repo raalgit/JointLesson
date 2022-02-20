@@ -86,7 +86,7 @@ namespace JointLessonMigrator.Migrations
 
             Create.Table("Lesson").InSchema("JL")
                 .WithColumn("Id").AsInt32().NotNullable().PrimaryKey().Identity()
-                .WithColumn("GroupAtCourseId").AsInt32().ForeignKey("FK_LessonGroupAtCourseId", "JL", "GroupAtCourse", "Id").NotNullable()
+                .WithColumn("GroupAtCourseId").AsInt32().ForeignKey("FK_LessonGroupAtCourseId", "JL", "GroupAtCourse", "Id").Nullable()
                 .WithColumn("LastMaterialPage").AsInt32().NotNullable().WithDefaultValue(0)
                 .WithColumn("StartDate").AsDateTime().NotNullable()
                 .WithColumn("EndDate").AsDateTime().Nullable()
