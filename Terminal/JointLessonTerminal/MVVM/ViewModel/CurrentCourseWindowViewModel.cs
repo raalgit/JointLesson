@@ -3,6 +3,7 @@ using JointLessonTerminal.Core.HTTPRequests;
 using JointLessonTerminal.Core.Material;
 using JointLessonTerminal.Model.ServerModels;
 using JointLessonTerminal.MVVM.Model;
+using JointLessonTerminal.MVVM.Model.EventModels;
 using JointLessonTerminal.MVVM.Model.HttpModels.Request;
 using JointLessonTerminal.MVVM.Model.HttpModels.Response;
 using System;
@@ -17,8 +18,10 @@ namespace JointLessonTerminal.MVVM.ViewModel
     public class CurrentCourseWindowViewModel : ObservableObject
     {
         public CourseModel Course { get; set; }
-        
-        
+
+        public string CurrentPageId { get { return currentPageId; } set { currentPageId = value; OnPropsChanged("CurrentPageId"); } }
+        private string currentPageId;
+
         public Manual Manual { get { return manual; } set { manual = value; OnPropsChanged("Manual"); } }
         private Manual manual;
 
@@ -33,6 +36,8 @@ namespace JointLessonTerminal.MVVM.ViewModel
         private bool isCourseActive;
         public bool IsCourseActive { get { return isCourseActive; } set { isCourseActive = value; OnPropsChanged("IsCourseActive"); } }
 
+        private Visibility selectStartPageBtnVisibility;
+        public Visibility SelectStartPageBtnVisibility { get { return selectStartPageBtnVisibility; } set { selectStartPageBtnVisibility = value; OnPropsChanged("SelectStartPageBtnVisibility"); } }
 
         private Visibility startLessonBtnVisibility;
         public Visibility StartLessonBtnVisibility { get { return startLessonBtnVisibility; } set { startLessonBtnVisibility = value; OnPropsChanged("StartLessonBtnVisibility"); } }
@@ -63,15 +68,16 @@ namespace JointLessonTerminal.MVVM.ViewModel
             StartLessonBtnVisibility = Visibility.Collapsed;
             EndtLessonBtnVisibility = Visibility.Collapsed;
             JoinLessonBtnVisibility = Visibility.Collapsed;
+            SelectStartPageBtnVisibility = Visibility.Collapsed;
 
             StartLessonCommand = new RelayCommand(async x => {
-                await StartLesson("");
+                await StartLesson(CurrentPageId ?? "");
             });
             EndLessonCommand = new RelayCommand(async x => {
                 await EndLesson();
             });
-            EnterLessonCommand = new RelayCommand(x => {
-
+            EnterLessonCommand = new RelayCommand(async x => {
+                await JoinLesson();
             });
 
             Task.Factory.StartNew(async x =>
@@ -79,13 +85,50 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 var resp = await LoadCourseData();
                 IsCourseTeacher = resp.isTeacher;
                 IsCourseActive = resp.lessonIsActive;
+                if (IsCourseTeacher)
+                {
+                    SelectStartPageBtnVisibility = Visibility.Visible;
+                }
                 updateBtnVisibility();
             }, null);
 
             Task.Factory.StartNew(async x => 
             {
                 ManualData = await loadManualData();
+                if (IsCourseTeacher) onSelectPageSubscribe();
             }, null);
+        }
+
+        private void onSelectPageSubscribe()
+        {
+            if (manualData == null) throw new NullReferenceException(nameof(manual));
+
+            foreach (var chapter in manualData.chapters)
+            {
+                if (chapter.topics == null || chapter.topics.Count == 0) continue;
+                foreach (var topic in chapter.topics)
+                {
+                    if (topic.didacticUnits == null || topic.didacticUnits.Count == 0) continue;
+                    foreach (var unit in topic.didacticUnits)
+                    {
+                        if (unit.pages == null || unit.pages.Count == 0) continue;
+                        foreach (var page in unit.pages)
+                        {
+                            page.OnPageSelected += onPageSelect;
+                        }
+                    }
+                }
+            }
+            throw new Exception("Страница не найдена");
+        }
+
+        private void onPageSelect(object sender, EventArgs args)
+        {
+            var page = (Page)sender;
+            if (page != null && !string.IsNullOrEmpty(page.id))
+            {
+                CurrentPageId = page.id;
+            }
         }
 
         private async Task<Manual> loadManual(int manualId)
@@ -155,7 +198,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
         private async Task JoinLesson()
         {
-
+            openLessonPage();
         }
 
         private void updateBtnVisibility()
@@ -168,6 +211,18 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
             if (IsCourseActive) JoinLessonBtnVisibility = Visibility.Visible;
             else JoinLessonBtnVisibility = Visibility.Collapsed;
+        }
+
+        private void openLessonPage()
+        {
+            var signal = new WindowEvent();
+            signal.Type = WindowEventType.NEEDTOOPENLESSONPPAGE;
+            var arg = new OnOpenCourseModel();
+            arg.CourseId = Course.CourseId;
+            arg.Manual = ManualData;
+            arg.Page = CurrentPageId;
+            signal.Argument = arg;
+            SendEventSignal(signal);
         }
     }
 }

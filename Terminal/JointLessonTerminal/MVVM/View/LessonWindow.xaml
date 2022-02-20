@@ -3,19 +3,301 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:JointLessonTerminal.MVVM.View"
+             xmlns:local="clr-namespace:JointLessonTerminal.MVVM.View" xmlns:viewmodel="clr-namespace:JointLessonTerminal.MVVM.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:LessonWindowViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <StackPanel
+    <Grid
         Background="#EFEFEF">
-        <TextBlock Text="Окно занятия"
-                   Foreground="#000000"
-                   FontSize="28"
-                   VerticalAlignment="Top"
-                   HorizontalAlignment="Center"
-                   Margin="0 30 0 0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="9*"/>
+        </Grid.RowDefinitions>
 
+        <TextBlock Grid.Row="0"
+                   Grid.Column="0"
+                   Text="Окно занятия"
+                   Style="{StaticResource BaseTextStyle}"
+                   Foreground="#000000"
+                   FontSize="18"
+                   VerticalAlignment="Top"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center"
+                   Margin="10">
         </TextBlock>
 
-    </StackPanel>
+        <Grid Grid.Row="1"
+              Grid.Column="0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="300"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="12*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{StaticResource BaseTextStyle}" Text="Учащиеся:"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{StaticResource BaseTextStyle}" Text="Преподаватели:"/>
+                    </StackPanel>
+                </StackPanel>
+                <DocumentViewer Grid.Row="1" Document="{Binding ActiveDocument}" />
+                <StackPanel Grid.Row="2" 
+                            HorizontalAlignment="Center"
+                            Orientation="Horizontal">
+                    <Button 
+                        Command="{Binding PrevPageCommand}"
+                        Margin="20 0 0 0"
+                            Background="Transparent"
+                            Width="40"
+                            Height="40"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            BorderThickness="0">
+                        <Image Width="40"
+                               Height="40"
+                               Source="../../Images/left-arrow-btn.png" />
+                    </Button>
+
+                    <Button
+                        Command="{Binding NextPageCommand}"
+                        Margin="20 0 0 0"
+                        Background="Transparent"
+                        Width="40"
+                                Height="40"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                BorderThickness="0">
+                        <Image Width="40"
+                               Height="40"
+                               Source="../../Images/right-arrow-btn.png" />
+                    </Button>
+                </StackPanel>
+            </Grid>
+            <GridSplitter Grid.Column="1" Width="2" ShowsPreview="False" Background="Black" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="12*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource BaseTextStyle}" Text="Оффлайн пособие"/>
+                    <Button 
+                        Margin="20 0 0 0"
+                            Background="Transparent"
+                            Width="30"
+                            Height="30"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            BorderThickness="0">
+                        <Image Width="30"
+                               Height="30"
+                               Source="../../Images/open-book-btn.png" />
+                    </Button>
+                </StackPanel>
+                
+                <DocumentViewer Grid.Row="1">
+                    
+                </DocumentViewer>
+
+                <StackPanel Grid.Row="2" 
+                            HorizontalAlignment="Center"
+                            Orientation="Horizontal">
+                    <Button 
+                        Margin="20 0 0 0"
+                            Background="Transparent"
+                            Width="40"
+                            Height="40"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            BorderThickness="0">
+                        <Image Width="40"
+                               Height="40"
+                               Source="../../Images/left-arrow-btn.png" />
+                    </Button>
+
+                    <Button
+                        Margin="20 0 0 0"
+                        Background="Transparent"
+                        Width="40"
+                                Height="40"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                BorderThickness="0">
+                        <Image Width="40"
+                               Height="40"
+                               Source="../../Images/right-arrow-btn.png" />
+                    </Button>
+                </StackPanel>
+            </Grid>
+            <GridSplitter Grid.Column="3" Width="2" ShowsPreview="False" Background="Black" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+            <Grid Grid.Column="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <StackPanel 
+                    Grid.Row="0"
+                    Orientation="Horizontal">
+                    <StackPanel Orientation="Vertical">
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="0"
+                                           Grid.Column="0"
+                                           Text="Поднять руку"
+                                           FontSize="14"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center">
+                            </TextBlock>
+                            <Button 
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Right"
+                                    Background="Transparent"
+                                    BorderThickness="0">
+                                <StackPanel Cursor="Hand">
+                                    <Image HorizontalAlignment="Left"
+                                       Source="../../Images/hand-btn.png"
+                                       Width="35"
+                                       Height="35"/>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="0"
+                                   Grid.Column="0"
+                                   Text="Выход"
+                                   FontSize="14"
+                                   FontWeight="Bold"
+                                   VerticalAlignment="Center">
+                            </TextBlock>
+                            <Button Command="{Binding ExitCommand}"
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Right"
+                                    Background="Transparent"
+                                    BorderThickness="0">
+                                <StackPanel Cursor="Hand">
+                                    <Image HorizontalAlignment="Left"
+                                       Source="../../Images/exit-btn.png"
+                                       Width="35"
+                                       Height="35"/>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="0"
+                                   Grid.Column="0"
+                                   Text="Передать управление"
+                                   FontSize="14"
+                                   FontWeight="Bold"
+                                   VerticalAlignment="Center">
+                            </TextBlock>
+                            <Button 
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Right"
+                                    Background="Transparent"
+                                    BorderThickness="0">
+                                <StackPanel Cursor="Hand">
+                                    <Image HorizontalAlignment="Left"
+                                       Source="../../Images/win-controll-btn.png"
+                                       Width="35"
+                                       Height="35"/>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="0"
+                                   Grid.Column="0"
+                                   Text="Показ экрана"
+                                   FontSize="14"
+                                   FontWeight="Bold"
+                                   VerticalAlignment="Center">
+                            </TextBlock>
+                            <Button 
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Right"
+                                    Background="Transparent"
+                                    BorderThickness="0">
+                                <StackPanel Cursor="Hand">
+                                    <Image HorizontalAlignment="Left"
+                                       Source="../../Images/demo-btn.png"
+                                       Width="35"
+                                       Height="35"/>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Grid.Row="1"
+                            Orientation="Vertical"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Left"
+                            MaxWidth="200">
+                    <StackPanel Margin="5"
+                                Orientation="Horizontal">
+                        <RichTextBox FontSize="12" MinWidth="100" MinHeight="100"/>
+                        <Button 
+                            VerticalAlignment="Bottom"
+                            HorizontalAlignment="Right"
+                            Background="Transparent"
+                            BorderThickness="0">
+                            <StackPanel Cursor="Hand">
+                                <Image HorizontalAlignment="Left"
+                                       Source="../../Images/chat-btn.png"
+                                       Width="35"
+                                       Height="35"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <StackPanel Margin="5"
+                                Orientation="Horizontal">
+                        <RichTextBox FontSize="12" MinWidth="100" MinHeight="100"/>
+                        <Button 
+                            VerticalAlignment="Bottom"
+                            HorizontalAlignment="Right"
+                            Background="Transparent"
+                            BorderThickness="0">
+                            <StackPanel Cursor="Hand">
+                                <Image HorizontalAlignment="Left"
+                                       Source="../../Images/node-btn.png"
+                                       Width="35"
+                                       Height="35"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+    </Grid>
 </UserControl>

@@ -40,6 +40,11 @@
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.6.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Word.15.0.4797.1003\lib\net20\Microsoft.Office.Interop.Word.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ReachFramework" />
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
@@ -127,8 +132,10 @@
     <Compile Include="Core\WindowEventType.cs" />
     <Compile Include="MVVM\Model\CourseCollection.cs" />
     <Compile Include="MVVM\Model\CourseModel.cs" />
+    <Compile Include="MVVM\Model\EventModels\OnOpenCourseModel.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\AddNewFileRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\CloseLessonRequest.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Request\GetManualFilesRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\LoginRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\NewMaterialRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\StartSyncLessonRequest.cs" />
@@ -136,7 +143,9 @@
     <Compile Include="MVVM\Model\HttpModels\Response\AddNewFileResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\CloseLessonResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetCourseDataResponse.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Response\GetFileResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetManualByIdResponse.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Response\GetManualFilesResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetMaterialResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetMyCoursesResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetMyMaterialsResponse.cs" />
@@ -159,6 +168,7 @@
     <Compile Include="MVVM\Model\ServerModels\Course.cs" />
     <Compile Include="MVVM\Model\ServerModels\CourseTeacher.cs" />
     <Compile Include="MVVM\Model\ServerModels\Discipline.cs" />
+    <Compile Include="MVVM\Model\ServerModels\FileData.cs" />
     <Compile Include="MVVM\Model\ServerModels\Group.cs" />
     <Compile Include="MVVM\Model\ServerModels\GroupAtCourse.cs" />
     <Compile Include="MVVM\Model\ServerModels\InnerModels\LessonType.cs" />
@@ -247,11 +257,19 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Resource Include="Images\open-book-btn.png" />
+    <Resource Include="Images\left-arrow-btn.png" />
+    <Resource Include="Images\right-arrow-btn.png" />
+    <Resource Include="Images\node-btn.png" />
+    <Resource Include="Images\win-controll-btn.png" />
+    <Resource Include="Images\hand-btn.png" />
     <Resource Include="Images\stop-btn.png" />
     <Resource Include="Images\start-btn.png" />
     <Resource Include="Images\enter-btn.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\demo-btn.png" />
+    <Resource Include="Images\chat-btn.png" />
     <Content Include="Images\exit-btn.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

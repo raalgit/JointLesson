@@ -13,9 +13,7 @@
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="9*"/>
             </Grid.RowDefinitions>
-        </Grid>
-
-        <TextBlock Grid.Row="0"
+            <TextBlock Grid.Row="0"
                    Grid.Column="0"
                    Text="Кабинет редактора"
                    Style="{StaticResource BaseTextStyle}"
@@ -25,9 +23,8 @@
                    FontWeight="Bold"
                    HorizontalAlignment="Center"
                    Margin="10">
-        </TextBlock>
-
-        <Grid Grid.Row="1"
+            </TextBlock>
+            <Grid Grid.Row="1"
               Grid.Column="0"
               Height="auto">
             
@@ -514,6 +511,7 @@
                 </Grid>
             </Grid>
         </Grid>
-
+        </Grid>
+        <Canvas Height="100"/>
     </StackPanel>
 </UserControl>

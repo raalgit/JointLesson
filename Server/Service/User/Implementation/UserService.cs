@@ -78,7 +78,20 @@ namespace JL.Service.User.Implementation
 
         public async Task<GetFileResponse> GetFile(int fileDataId)
         {
-            return null;
+            var response = new GetFileResponse();
+
+            var fileData = _fileDataRepository.GetById(fileDataId);
+            response.File = await _fileUtility.GetFileAsBytesById(fileData.MongoId);
+            return response;
+        }
+
+        public async Task<GetManualFilesResponse> GetManualFiles(GetManualFilesRequest request)
+        {
+            var response = new GetManualFilesResponse();
+
+            var fileDatas = _fileDataRepository.Get().Where(x => request.FileDataIds.Distinct().Contains(x.Id)).ToList();
+            response.FileDatas = fileDatas;
+            return response;
         }
 
         public async Task<AddNewFileResponse> AddNewFile(AddNewFileRequest request)

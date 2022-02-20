@@ -16,5 +16,6 @@ namespace JL.Service.User.Abstraction
         Task<AddNewFileResponse> AddNewFile(AddNewFileRequest request);
         Task<GetFileResponse> GetFile(int fileDataId);
         Task<GetCourseDataResponse> GetCourseData(int courseId, UserSettings userSettings);
+        Task<GetManualFilesResponse> GetManualFiles(GetManualFilesRequest request);
     }
 }
