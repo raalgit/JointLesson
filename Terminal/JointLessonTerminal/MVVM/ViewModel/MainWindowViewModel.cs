@@ -1,6 +1,7 @@
 ﻿using JointLessonTerminal.Core;
 using JointLessonTerminal.Core.HTTPRequests;
 using JointLessonTerminal.MVVM.Model;
+using JointLessonTerminal.MVVM.Model.EventModels;
 using JointLessonTerminal.MVVM.Model.HttpModels.Request;
 using JointLessonTerminal.MVVM.Model.HttpModels.Response;
 using System;
@@ -89,6 +90,33 @@ namespace JointLessonTerminal.MVVM.ViewModel
         {
             AuthVM.WindowStateChanged += onAuthCompleted;
             CourseVM.WindowStateChanged += onCourseCompleted;
+            CurrentCourseVM.WindowStateChanged += onCurrentCourseCompleted;
+            LessonVM.WindowStateChanged += onLessonCompleted;
+        }
+
+        private void onLessonCompleted(object sender, WindowEvent e)
+        {
+            switch (e.Type)
+            {
+                case WindowEventType.EXITFROMLESSON:
+                    MenuVisibility.ExitBtnVisibility = Visibility.Visible;
+                    MenuVisibility.BackBtnVisibility = Visibility.Hidden;
+                    MenuVisibility.ProfileBtnVisibility = Visibility.Visible;
+                    CurrentView = CourseVM;
+                    break;
+            }
+        }
+
+        private void onCurrentCourseCompleted(object sender, WindowEvent e)
+        {
+            switch (e.Type)
+            {
+                case WindowEventType.NEEDTOOPENLESSONPPAGE:
+                    LessonVM.InitData(e.Argument as OnOpenCourseModel);
+                    MenuVisibility.BackBtnVisibility = Visibility.Hidden;
+                    CurrentView = LessonVM;
+                    break;
+            }
         }
 
         private void onCourseCompleted(object sender, WindowEvent e)

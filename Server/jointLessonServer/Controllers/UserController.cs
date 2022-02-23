@@ -61,6 +61,27 @@ namespace jointLessonServer.Controllers
             }
         }
 
+        [HttpPost]
+        [JwtAuthentication(role: "User")]
+        [Route("/user/get-manual-files")]
+        public async Task<GetManualFilesResponse> GetManualFiles(GetManualFilesRequest request)
+        {
+            try
+            {
+                var userBehavior = new UserBehavior(_serviceProvider);
+                var files = await userBehavior.GetManualFiles(request);
+                return files;
+            }
+            catch (Exception er)
+            {
+                return new GetManualFilesResponse()
+                {
+                    IsSuccess = false,
+                    Message = er.Message
+                };
+            }
+        }
+
         [HttpGet]
         [JwtAuthentication(role: "User")]
         [Route("/user/file/{fileId}")]

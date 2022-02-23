@@ -44,6 +44,18 @@ namespace BLL.Behavior
             }
         }
 
+        public async Task<GetManualFilesResponse> GetManualFiles(GetManualFilesRequest request)
+        {
+            try
+            {
+                return await _userService.GetManualFiles(request);
+            }
+            catch (Exception er)
+            {
+                throw er;
+            }
+        }
+
         public async Task<GetFileResponse> GetFile(int fileDataId)
         {
             try

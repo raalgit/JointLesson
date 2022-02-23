@@ -18,13 +18,18 @@ namespace JointLessonTerminal.Core.Material
         public Page()
         {
             RemoveCommand = new RelayCommand(x => OnPageRemove?.Invoke(this, null));
+            SelectCommand = new RelayCommand(x => OnPageSelected?.Invoke(this, null));
         }
 
         #region Открытые поля, не входящие в json
         [JsonIgnore]
         public RelayCommand RemoveCommand { get; set; }
         [JsonIgnore]
+        public RelayCommand SelectCommand { get; set; }
+        [JsonIgnore]
         public EventHandler OnPageRemove { get; set; }
+        [JsonIgnore]
+        public EventHandler OnPageSelected { get; set; }
         #endregion
 
         private int _type;

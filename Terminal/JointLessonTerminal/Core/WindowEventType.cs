@@ -10,6 +10,8 @@ namespace JointLessonTerminal.Core
     {
         AUTHORIZED,
         COURSESELECTED,
-        NEEDTOOPENEDITORPAGE
+        NEEDTOOPENEDITORPAGE,
+        NEEDTOOPENLESSONPPAGE,
+        EXITFROMLESSON
     }
 }

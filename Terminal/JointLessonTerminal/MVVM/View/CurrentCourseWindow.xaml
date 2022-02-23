@@ -40,8 +40,9 @@
                         <Grid Grid.Row="0"
                               Grid.Column="1">
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="3*"/>
+                                <RowDefinition Height="6*"/>
                                 <RowDefinition Height="1*"/>
-                                <RowDefinition Height="2*"/>
                             </Grid.RowDefinitions>
 
                             <TextBlock Grid.Row="0"
@@ -57,12 +58,20 @@
                             <TextBlock Grid.Row="1"
                                        Grid.Column="0"
                                        Text="{Binding Course.Description}"
+                                       Style="{StaticResource BaseTextStyle}"
                                        Foreground="Black"
                                        FontSize="18"
                                        Margin="5"
                                        TextWrapping="Wrap">
                                 
                             </TextBlock>
+                            <StackPanel Grid.Row="2"
+                                        Grid.Column="0"
+                                        Orientation="Horizontal">
+                                <TextBlock Text="Текущая страница: " Style="{StaticResource BaseTextStyle}" />
+                                <TextBlock Text="{Binding CurrentPageId}" Style="{StaticResource BaseTextStyle}"/>
+                            </StackPanel>
+                            
                         </Grid>
 
                         <StackPanel Grid.Row="0"
@@ -304,10 +313,13 @@
                                                        Text="{Binding name}"
                                                        Style="{StaticResource BaseTextStyle}"/>
 
-                                                    <Button Grid.Column="1"
+                                                    <Button 
+                                                        Visibility="{Binding SelectStartPageBtnVisibility}"
+                                                        Command="{Binding SelectCommand}"
+                                                        Grid.Column="1"
                                                         Style="{StaticResource DarkButtonStyle}"
                                                         Margin="5"
-                                                        Content="Просмотр">
+                                                        Content="Выбрать">
                                                     </Button>
                                                 </Grid>
                                             </DataTemplate>
