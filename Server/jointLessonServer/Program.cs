@@ -4,7 +4,9 @@ using JL.DAL.Mongo;
 using JL.Settings;
 using JL.Utility2L.Abstraction;
 using JL.Utility2L.Implementation;
+using JL.Utility2L.Models.SignalR;
 using jointLessonServer.Middleware;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +22,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAuthentication(o => o.DefaultScheme = SchemesNamesConst.TokenAuthenticationDefaultScheme);
+builder.Services.AddSignalR();
+builder.Services.AddSingleton<IUserIdProvider, SignalRUserProvider>();
 
 // Добавление и настройка swagger ui
 builder.Services.AddSwaggerGen(c =>
@@ -77,6 +81,7 @@ builder.Services.AddSingleton<IMongoDbSettings>(sp => sp.GetRequiredService<IOpt
 
 var app = builder.Build();
 
+app.UseMiddleware<JWTMiddleware>();
 app.UseCors(x => x
         .AllowAnyOrigin()
         .AllowAnyMethod()
@@ -88,15 +93,23 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseRouting();
 app.UseHttpsRedirection();
-app.UseAuthorization();
 app.UseCors("AnyOrigin");
+
 app.UseDefaultFiles();
 app.UseStaticFiles();
-app.MapControllers();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapHub<SignalHub>("/signalHub", x =>
+    {
+    });
+});
 
 // Добавление middleware авторизации на основе Jwt
-app.UseMiddleware<JWTMiddleware>();
+//app.UseMiddleware<JWTMiddleware>();
 
 app.Run();
 

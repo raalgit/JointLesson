@@ -17,5 +17,6 @@ namespace JL.Service.User.Abstraction
         Task<GetFileResponse> GetFile(int fileDataId);
         Task<GetCourseDataResponse> GetCourseData(int courseId, UserSettings userSettings);
         Task<GetManualFilesResponse> GetManualFiles(GetManualFilesRequest request);
+        Task<RegisterSignalConnectionResponse> RegisterSignalConnection(string connectionId, UserSettings userSettings);
     }
 }

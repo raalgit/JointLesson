@@ -4,6 +4,7 @@ using JointLessonTerminal.MVVM.Model;
 using JointLessonTerminal.MVVM.Model.EventModels;
 using JointLessonTerminal.MVVM.Model.HttpModels.Request;
 using JointLessonTerminal.MVVM.Model.HttpModels.Response;
+using JointLessonTerminal.MVVM.Model.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,8 +31,6 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
         public TopMenuVisibility MenuVisibility { get; set; }
         #endregion
-
-
 
         private object _currentView;
         public object CurrentView { 

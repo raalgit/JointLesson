@@ -26,7 +26,7 @@ namespace JointLessonTerminal.MVVM.Model
         public User CurrentUser { get; set; }
         public Role[] Roles { get; set; }
         public string JWT { get; set; }
-
+        public string SignalrConnectionId { get; set; }
         
     }
 }

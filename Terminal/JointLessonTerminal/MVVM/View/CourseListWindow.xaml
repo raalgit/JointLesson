@@ -11,6 +11,7 @@
             <RowDefinition Height="1*"/>
             <RowDefinition Height="8*"/>
             <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0"
@@ -117,6 +118,23 @@
                        MaxWidth="50"
                        Source="../../Images/enter-btn.png" />
                 <TextBlock Text="Панель контруктора"
+                           Style="{StaticResource BaseTextStyle}"
+                           FontSize="16"/>
+            </StackPanel>
+        </Button>
+        <Button Grid.Column="0"
+                Grid.Row="3"
+                Command="{Binding CONNECTCOM}"
+                Margin="5"
+                Background="Transparent"
+                HorizontalAlignment="Left"
+                BorderThickness="0">
+            <StackPanel Height="auto"
+                        Orientation="Horizontal">
+                <Image MaxHeight="50"
+                       MaxWidth="50"
+                       Source="../../Images/enter-btn.png" />
+                <TextBlock Text="SignalR"
                            Style="{StaticResource BaseTextStyle}"
                            FontSize="16"/>
             </StackPanel>
