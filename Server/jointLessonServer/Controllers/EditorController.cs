@@ -1,7 +1,7 @@
 ﻿using JL.ApiModels.EditorModels.Request;
 using JL.ApiModels.EditorModels.Response;
 using JL.BLL.Behavior;
-using jointLessonServer.Attributes;
+using JL.Utility2L.Attributes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;

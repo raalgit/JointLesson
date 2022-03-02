@@ -91,5 +91,17 @@ namespace BLL.Behavior
                 throw er; 
             }
         }
+
+        public async Task<RegisterSignalConnectionResponse> RegisterSignalConnection(string connectionId)
+        {
+            try
+            {
+                return await _userService.RegisterSignalConnection(connectionId, _userSettings);
+            }
+            catch (Exception er)
+            {
+                throw er;
+            }
+        }
     }
 }

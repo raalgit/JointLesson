@@ -1,13 +1,10 @@
-﻿using JL.Settings;
-using jointLessonServer.Helpers;
+﻿using JL.Utility2L.Helpers;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Web.Http.Filters;
 
-namespace jointLessonServer.Attributes
+namespace JL.Utility2L.Attributes
 {
     public class JwtAuthenticationAttribute : AuthorizeAttribute, IAuthenticationFilter
     {

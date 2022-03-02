@@ -1,6 +1,5 @@
 ﻿using BLL.Behavior;
 using JL.Settings;
-using jointLessonServer.Attributes;
 using jointLessonServer.ModelsAPI.AuthModels.Request;
 using jointLessonServer.ModelsAPI.AuthModels.Response;
 using Microsoft.AspNetCore.Authorization;

@@ -3,6 +3,7 @@ using JL.ApiModels.UserModels.Response;
 using JL.DAL.Mongo.Repository;
 using JL.DAL.Repository.Abstraction;
 using JL.Persist;
+using JL.PersistModels;
 using JL.Service.User.Abstraction;
 using JL.Settings;
 using JL.Utility2L.Abstraction;
@@ -24,6 +25,7 @@ namespace JL.Service.User.Implementation
         private readonly ILessonRepository _lessonRepository;
         private readonly IMongoRepository _mongoRepository;
         private readonly IFileDataRepository _fileDataRepository;
+        private readonly ISignalUserConnectionRepository _signalUserConnectionRepository;
         private readonly IFileUtility _fileUtility;
 
         public UserService(IServiceProvider serviceProvider,
@@ -31,6 +33,7 @@ namespace JL.Service.User.Implementation
                            ICourseTeacherRepository courseTeacherRepository,
                            IGroupAtCourseRepository groupAtCourseRepository,
                            ILessonRepository lessonRepository,
+                           ISignalUserConnectionRepository signalUserConnectionRepository,
                            IMongoRepository mongoRepository,
                            IFileDataRepository fileDataRepository)
         {
@@ -38,6 +41,7 @@ namespace JL.Service.User.Implementation
             _courseRepository = courseRepository;
             _courseTeacherRepository = courseTeacherRepository;
             _groupAtCourseRepository = groupAtCourseRepository;
+            _signalUserConnectionRepository = signalUserConnectionRepository;
             _lessonRepository = lessonRepository;
             _mongoRepository = mongoRepository;
             _fileDataRepository = fileDataRepository;
@@ -103,6 +107,20 @@ namespace JL.Service.User.Implementation
             int fileDataId = await _fileUtility.CreateNewFileAsync(stream, request.Name, extension);
             response.FileDataId = fileDataId;
 
+            return response;
+        }
+
+        public async Task<RegisterSignalConnectionResponse> RegisterSignalConnection(string connectionId, UserSettings userSettings)
+        {
+            var response = new RegisterSignalConnectionResponse();
+            var domain = new SignalUserConnection()
+            {
+                UserId = userSettings.User.Id,
+                ConnectionId = connectionId
+            };
+
+            _signalUserConnectionRepository.Insert(domain);
+            _signalUserConnectionRepository.SaveChanges();
             return response;
         }
 

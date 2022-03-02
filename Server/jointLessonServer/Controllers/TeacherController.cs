@@ -1,7 +1,7 @@
 ﻿using BLL.Behavior;
 using JL.ApiModels.TeacherModels.Request;
 using JL.ApiModels.TeacherModels.Response;
-using jointLessonServer.Attributes;
+using JL.Utility2L.Attributes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

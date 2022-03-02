@@ -31,5 +31,6 @@ namespace JL.DAL
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<WorkBook> WorkBooks { get; set; }
         public DbSet<FileData> FileDatas { get; set; }
+        public DbSet<SignalUserConnection> SignalUserConnections { get; set; }
     }
 }

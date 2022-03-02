@@ -1,7 +1,6 @@
 ﻿using JL.Service.Auth.Abstraction;
 using JL.Service.User.Abstraction;
 using JL.Settings;
-using jointLessonServer.Helpers;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
