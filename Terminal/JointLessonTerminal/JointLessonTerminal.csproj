@@ -305,7 +305,9 @@
     <Compile Include="MVVM\Model\CourseCollection.cs" />
     <Compile Include="MVVM\Model\CourseModel.cs" />
     <Compile Include="MVVM\Model\EventModels\OnOpenCourseModel.cs" />
+    <Compile Include="MVVM\Model\EventModels\OnPageChangeEventArg.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\AddNewFileRequest.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Request\ChangeLessonManualPageRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\CloseLessonRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\GetManualFilesRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\LoginRequest.cs" />
@@ -314,6 +316,7 @@
     <Compile Include="MVVM\Model\HttpModels\Request\StartSyncLessonRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\UpdateMaterialRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\AddNewFileResponse.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Response\ChangeLessonManualPageResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\CloseLessonResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetCourseDataResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetFileResponse.cs" />

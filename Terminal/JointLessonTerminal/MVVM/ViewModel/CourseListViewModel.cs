@@ -17,7 +17,6 @@ namespace JointLessonTerminal.MVVM.ViewModel
     {
         #region открытые поля
         public RelayCommand OpenEditorPageCommand { get; set; }
-        public RelayCommand CONNECTCOM { get; set; }
         public bool IsTeacher { get; set; } = false;
         public bool IsEditor { get; set; } = false;
         public bool IsStudent { get; set; } = false;
@@ -49,7 +48,6 @@ namespace JointLessonTerminal.MVVM.ViewModel
         }
         #endregion
         #region закрытые поля
-        private SignalHub _signalHub;
         private UserSettings userSettings;
         private CourseModel selectedCourse;
         private Visibility enterBtnVisibility;
@@ -77,10 +75,6 @@ namespace JointLessonTerminal.MVVM.ViewModel
             if (IsEditor) EnterBtnVisibility = Visibility.Visible;
 
             OpenEditorPageCommand = new RelayCommand(x => OpenEditorPage());
-            CONNECTCOM = new RelayCommand(x =>
-            {
-                _signalHub = new SignalHub();
-            });
         }
 
         public void OpenCourse(object course)

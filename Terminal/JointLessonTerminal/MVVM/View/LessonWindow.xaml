@@ -55,6 +55,7 @@
                             HorizontalAlignment="Center"
                             Orientation="Horizontal">
                     <Button 
+                        Visibility="{Binding PrevPageBtnVisibility}"
                         Command="{Binding PrevPageCommand}"
                         Margin="20 0 0 0"
                             Background="Transparent"
@@ -69,6 +70,7 @@
                     </Button>
 
                     <Button
+                        Visibility="{Binding NextPageBtnVisibility}"
                         Command="{Binding NextPageCommand}"
                         Margin="20 0 0 0"
                         Background="Transparent"

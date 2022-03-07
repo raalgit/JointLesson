@@ -140,6 +140,8 @@ namespace JL.Service.User.Implementation
             var groupsAtCourse = _groupAtCourseRepository.Get().Where(x => x.CourseId == courseId)
                 ?? throw new ArgumentException(nameof(courseId));
 
+            response.LastPage = groupsAtCourse.FirstOrDefault()?.LastMaterialPage;
+
             /// Для каждой группы может вестись отдельное занятие 
             /// При входе преподавателя необходимо проверять для каких именно групп активно
             /// занятие, но при текущей реализации это не обязательно. При необходимости

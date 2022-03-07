@@ -17,6 +17,8 @@ using JointLessonTerminal.MVVM.Model.EventModels;
 using System.Windows;
 using Task = System.Threading.Tasks.Task;
 using JointLessonTerminal.MVVM.Model.HttpModels.Request;
+using JointLessonTerminal.MVVM.Model.SignalR;
+using JointLessonTerminal.MVVM.Model;
 
 namespace JointLessonTerminal.MVVM.ViewModel
 {
@@ -24,6 +26,11 @@ namespace JointLessonTerminal.MVVM.ViewModel
     {
         private ManualData manual;
         public ManualData Manual { get; set; }
+
+        public Visibility NextPageBtnVisibility { get { return nextPageBtnVisibility; } set { nextPageBtnVisibility = value; OnPropsChanged("NextPageBtnVisibility"); } }
+        private Visibility nextPageBtnVisibility;
+        public Visibility PrevPageBtnVisibility { get { return prevPageBtnVisibility; } set { prevPageBtnVisibility = value; OnPropsChanged("PrevPageBtnVisibility"); } }
+        private Visibility prevPageBtnVisibility;
 
         private int courseId;
         private string currentPageId;
@@ -40,6 +47,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
         private readonly string wordDirPath;
         private string documentXpsPath;
         private string documentWordPath;
+        private SignalHub hub;
         private FixedDocumentSequence sequence;
 
         private FileData fileData;
@@ -98,8 +106,8 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 Directory.CreateDirectory(wordDirPath);
             }
 
-            NextPageCommand = new RelayCommand(x => nextPage(true));
-            PrevPageCommand = new RelayCommand(x => nextPage(false));
+            NextPageCommand = new RelayCommand(async x => await nextPage(true));
+            PrevPageCommand = new RelayCommand(async x => await nextPage(false));
             ExitCommand = new RelayCommand(x => exit());
         }
 
@@ -110,13 +118,42 @@ namespace JointLessonTerminal.MVVM.ViewModel
             courseId = data.CourseId;
             currentPageId = data.Page;
 
+            var user = UserSettings.GetInstance();
+            if (user.Roles.Select(x => x.systemName).Contains("Teacher"))
+            {
+                NextPageBtnVisibility = Visibility.Visible;
+                PrevPageBtnVisibility = Visibility.Visible;
+            }
+            else
+            {
+                NextPageBtnVisibility = Visibility.Collapsed;
+                PrevPageBtnVisibility = Visibility.Collapsed;
+            }
+
+            hub = SignalHub.GetInstance();
+            hub.OnPageSync += onSyncPageEvent;
+
             try
             {
-                Task.Factory.StartNew(async x => await loadManualFiles(), null).GetAwaiter().OnCompleted(showWordPage);
+                Task.Factory.StartNew(async x => await loadManualFiles(), null); //.GetAwaiter().OnCompleted(showWordPage);
             }
             catch (Exception er)
             {
                 MessageBox.Show(er.Message);
+            }
+        }
+
+        private void onSyncPageEvent(object o, EventArgs e)
+        {
+            var arg = e as OnPageChangeEventArg;
+            if (arg != null)
+            {
+                if (currentPageId != arg.NewPageId)
+                {
+                    currentPageId = arg.NewPageId;
+                    currentPage = getPageById(currentPageId);
+                    showWordPage();
+                }
             }
         }
 
@@ -139,6 +176,11 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
                 if (string.IsNullOrEmpty(currentPageId)) currentPage = getFirstPage();
                 else currentPage = getPageById(currentPageId);
+
+                System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                {
+                    showWordPage();
+                });
             }
         }
 
@@ -150,7 +192,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
             SendEventSignal(signal);
         }
 
-        private bool nextPage(bool forward)
+        private async Task <bool> nextPage(bool forward)
         {
             var currentPageIndex = manualPages.FindIndex(x => x.id == currentPageId);
             var nextPageIndex = currentPageIndex;
@@ -167,8 +209,31 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
             currentPage = manualPages.ElementAt(nextPageIndex);
             currentPageId = currentPage.id;
+
+            var response = await SyncPage();
             showWordPage();
             return true;
+        }
+
+        private async Task<ChangeLessonManualPageResponse> SyncPage()
+        {
+            var changePageRequest = new RequestModel<ChangeLessonManualPageRequest>()
+            {
+                Method = Core.HTTPRequests.Enums.RequestMethod.Post,
+                Body = new ChangeLessonManualPageRequest()
+                {
+                    CourseId = courseId,
+                    NextPage = currentPage.id
+                }
+            };
+            var sender = new RequestSender<ChangeLessonManualPageRequest, ChangeLessonManualPageResponse>();
+            var responsePost = await sender.SendRequest(changePageRequest, "/teacher/change-page");
+            if (!responsePost.isSuccess)
+            {
+                MessageBox.Show(responsePost.message);
+                throw new Exception(responsePost.message);
+            }
+            return responsePost;
         }
 
         private void showWordPage()

@@ -2,8 +2,10 @@
 using JL.ApiModels.TeacherModels.Request;
 using JL.ApiModels.TeacherModels.Response;
 using JL.Utility2L.Attributes;
+using JL.Utility2L.Models.SignalR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace jointLessonServer.Controllers
 {
@@ -53,6 +55,26 @@ namespace jointLessonServer.Controllers
             catch (Exception er)
             {
                 return new CloseLessonResponse()
+                {
+                    IsSuccess = false,
+                    Message = er.Message
+                };
+            }
+        }
+
+        [HttpPost]
+        [JwtAuthentication(role: "Teacher")]
+        [Route("/teacher/change-page")]
+        public async Task<ChangeLessonManualPageResponse> ChangeActivePage([FromBody] ChangeLessonManualPageRequest request)
+        {
+            try
+            {
+                var teacherBehavior = new TeacherBehavior(_serviceProvider);
+                return await teacherBehavior.ChangeActivePage(request);
+            }
+            catch (Exception er)
+            {
+                return new ChangeLessonManualPageResponse()
                 {
                     IsSuccess = false,
                     Message = er.Message

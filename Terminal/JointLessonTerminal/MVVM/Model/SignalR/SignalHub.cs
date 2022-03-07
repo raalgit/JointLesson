@@ -1,4 +1,5 @@
 ﻿using JointLessonTerminal.Core.HTTPRequests;
+using JointLessonTerminal.MVVM.Model.EventModels;
 using JointLessonTerminal.MVVM.Model.HttpModels.Request;
 using JointLessonTerminal.MVVM.Model.HttpModels.Response;
 using Microsoft.AspNetCore.SignalR.Client;
@@ -13,6 +14,17 @@ namespace JointLessonTerminal.MVVM.Model.SignalR
 {
     public class SignalHub
     {
+        private static SignalHub instanse;
+
+        public static SignalHub GetInstance()
+        {
+            if (instanse == null) instanse = new SignalHub();
+            return instanse;
+        }
+
+        public EventHandler OnConnected { get; set; }
+        public EventHandler OnPageSync { get; set; }
+
         private HubConnection _hubConnection;
         private string connectiodId;
 
@@ -40,13 +52,19 @@ namespace JointLessonTerminal.MVVM.Model.SignalR
                 var user = UserSettings.GetInstance();
                 user.SignalrConnectionId = connectiodId;
                 var response = await registerConnection(user.SignalrConnectionId);
+                if (response.isSuccess)
+                {
+                    OnConnected?.Invoke(this, null);
+                }
             });
 
-            _hubConnection.On<string>("Posted", (val) =>
+            _hubConnection.On<string>("PageSync", (val) =>
             {
                 System.Windows.Application.Current.Dispatcher.Invoke(() =>
                 {
-                    Console.WriteLine(val);
+                    var arg = new OnPageChangeEventArg();
+                    arg.NewPageId = val;
+                    OnPageSync?.Invoke(this, arg);
                 });
             });
 

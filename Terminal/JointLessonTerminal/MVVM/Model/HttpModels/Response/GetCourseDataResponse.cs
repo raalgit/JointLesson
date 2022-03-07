@@ -14,6 +14,8 @@ namespace JointLessonTerminal.MVVM.Model.HttpModels.Response
         public bool isSuccess { get; set; }
         public string message { get; set; }
 
+        public string lastPage { get; set; }
+
         public List<CourseTeacher> courseTeachers { get; set; }
 
         public bool isTeacher { get; set; }

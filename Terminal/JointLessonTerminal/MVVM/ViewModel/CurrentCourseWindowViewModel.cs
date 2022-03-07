@@ -83,6 +83,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
             Task.Factory.StartNew(async x =>
             {
                 var resp = await LoadCourseData();
+                CurrentPageId = resp.lastPage;
                 IsCourseTeacher = resp.isTeacher;
                 IsCourseActive = resp.lessonIsActive;
                 if (IsCourseTeacher)
