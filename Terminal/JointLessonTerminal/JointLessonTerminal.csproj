@@ -305,16 +305,24 @@
     <Compile Include="MVVM\Model\CourseCollection.cs" />
     <Compile Include="MVVM\Model\CourseModel.cs" />
     <Compile Include="MVVM\Model\EventModels\OnOpenCourseModel.cs" />
+    <Compile Include="MVVM\Model\EventModels\OnPageChangeEventArg.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\AddNewFileRequest.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Request\ChangeLessonManualPageRequest.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Request\ChangeSRSLessonManualPageRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\CloseLessonRequest.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Request\CloseSRSLessonRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\GetManualFilesRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\LoginRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\NewMaterialRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\RegisterSignalConnectionRequest.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Request\StartSRSLessonRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\StartSyncLessonRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\UpdateMaterialRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\AddNewFileResponse.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Response\ChangeLessonManualPageResponse.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Response\ChangeSRSLessonManualPageResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\CloseLessonResponse.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Response\CloseSRSLessonResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetCourseDataResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetFileResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetManualByIdResponse.cs" />
@@ -336,6 +344,7 @@
     <Compile Include="Core\Material\Topic.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\NewMaterialResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\RegisterSignalConnectionResponse.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Response\StartSRSLessonResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\StartSyncLessonResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\UpdateMaterialResponse.cs" />
     <Compile Include="MVVM\Model\ServerModels\AuthData.cs" />
@@ -364,6 +373,7 @@
     <Compile Include="MVVM\ViewModel\EditorWindowViewModel.cs" />
     <Compile Include="MVVM\ViewModel\LessonWindowViewModel.cs" />
     <Compile Include="MVVM\ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="MVVM\ViewModel\SrsLessonWindowViewModel.cs" />
     <Compile Include="MVVM\View\AuthWindow.xaml.cs">
       <DependentUpon>AuthWindow.xaml</DependentUpon>
     </Compile>
@@ -383,6 +393,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MVVM\View\SrsLessonWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Theme\ButtonThemes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -401,6 +415,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MVVM\View\SrsLessonWindow.xaml.cs">
+      <DependentUpon>SrsLessonWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -42,6 +42,18 @@ namespace BLL.Behavior
             }
         }
 
+        public async Task<ChangeLessonManualPageResponse> ChangeActivePage(ChangeLessonManualPageRequest request)
+        {
+            try
+            {
+                return await _teacherService.ChangeActivePage(request);
+            }
+            catch (Exception er)
+            {
+                throw er;
+            }
+        }
+
         public async Task<CloseLessonResponse> CloseLesson(CloseLessonRequest request)
         {
             try

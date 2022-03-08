@@ -140,6 +140,8 @@ namespace JL.Service.User.Implementation
             var groupsAtCourse = _groupAtCourseRepository.Get().Where(x => x.CourseId == courseId)
                 ?? throw new ArgumentException(nameof(courseId));
 
+            response.LastPage = groupsAtCourse.FirstOrDefault()?.LastMaterialPage;
+
             /// Для каждой группы может вестись отдельное занятие 
             /// При входе преподавателя необходимо проверять для каких именно групп активно
             /// занятие, но при текущей реализации это не обязательно. При необходимости
@@ -167,6 +169,92 @@ namespace JL.Service.User.Implementation
                     response.LessonIsActive = false;
                 }
             }
+
+            return response;
+        }
+
+        public async Task<StartSRSLessonResponse> StartSRSLesson(StartSRSLessonRequest request, UserSettings userSettings)
+        {
+            var response = new StartSRSLessonResponse();
+
+            var userId = userSettings.User.Id;
+            var srsUserLessons = _lessonRepository
+                .Get()
+                .Where(x => 
+                    x.TeacherId == userId && 
+                    x.Type == "SRS" && 
+                    x.CourseId == request.CourseId)
+                .ToList();
+
+            var activeLesson = srsUserLessons.FirstOrDefault(x => !x.EndDate.HasValue);
+            
+            if (activeLesson == null)
+            {
+                var lastLesson = srsUserLessons.OrderByDescending(x => x.Id).FirstOrDefault();
+                var newLesson = new Lesson()
+                {
+                    CourseId = request.CourseId,
+                    StartDate = DateTime.Now,
+                    GroupAtCourseId = null,
+                    LastMaterialPage = lastLesson != null ? lastLesson.LastMaterialPage : null,
+                    EndDate = (DateTime?)null,
+                    TeacherId = userId,
+                    Type = "SRS"
+                };
+                _lessonRepository.Insert(newLesson);
+            }
+            else
+            {
+                response.Page = activeLesson.LastMaterialPage;
+            }
+
+            _lessonRepository.SaveChanges();
+
+            return response;
+        }
+
+        public async Task<ChangeSRSLessonManualPageResponse> ChangeActivePage(ChangeSRSLessonManualPageRequest request, UserSettings userSettings)
+        {
+            var response = new ChangeSRSLessonManualPageResponse();
+
+            var userId = userSettings.User.Id;
+            var activeLesson = _lessonRepository
+                .Get()
+                .FirstOrDefault(x =>
+                    x.TeacherId == userId &&
+                    x.Type == "SRS" &&
+                    x.CourseId == request.CourseId &&
+                    !x.EndDate.HasValue);
+
+            if (activeLesson != null)
+            {
+                activeLesson.LastMaterialPage = request.NextPage;
+                _lessonRepository.SaveChanges();
+            }
+
+            return response;
+        }
+
+        public async Task<CloseSRSLessonResponse> CloseLesson(CloseSRSLessonRequest request, UserSettings userSettings)
+        {
+            var response = new CloseSRSLessonResponse();
+
+            var userId = userSettings.User.Id;
+            var activeLesson = _lessonRepository
+                .Get()
+                .FirstOrDefault(x =>
+                    x.TeacherId == userId &&
+                    x.Type == "SRS" &&
+                    x.CourseId == request.CourseId &&
+                    !x.EndDate.HasValue);
+
+            if (activeLesson != null)
+            {
+                activeLesson.EndDate = DateTime.Now;
+                _lessonRepository.Update(activeLesson);
+            }
+
+            _lessonRepository.SaveChanges();
 
             return response;
         }

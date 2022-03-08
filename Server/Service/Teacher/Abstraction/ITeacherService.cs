@@ -14,5 +14,6 @@ namespace JL.Service.Teacher.Abstraction
     {
         Task<StartSyncLessonResponse> StartSyncLesson(StartSyncLessonRequest request, UserSettings userSettings);
         Task<CloseLessonResponse> CloseLesson(CloseLessonRequest request, UserSettings userSettings);
+        Task<ChangeLessonManualPageResponse> ChangeActivePage(ChangeLessonManualPageRequest request);
     }
 }

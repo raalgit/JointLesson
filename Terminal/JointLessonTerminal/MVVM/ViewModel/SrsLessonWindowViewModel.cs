@@ -1,28 +1,24 @@
 ﻿using JointLessonTerminal.Core;
+using JointLessonTerminal.Core.HTTPRequests;
+using JointLessonTerminal.Core.Material;
+using JointLessonTerminal.MVVM.Model.EventModels;
+using JointLessonTerminal.MVVM.Model.HttpModels.Request;
+using JointLessonTerminal.MVVM.Model.HttpModels.Response;
 using JointLessonTerminal.MVVM.Model.ServerModels;
 using Microsoft.Office.Interop.Word;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.IO;
 using System.Threading.Tasks;
-using JointLessonTerminal.Core.HTTPRequests;
-using JointLessonTerminal.MVVM.Model.HttpModels.Response;
-using System.Windows.Xps.Packaging;
-using System.Windows.Documents;
-using JointLessonTerminal.Model.ServerModels;
-using JointLessonTerminal.Core.Material;
-using JointLessonTerminal.MVVM.Model.EventModels;
 using System.Windows;
-using Task = System.Threading.Tasks.Task;
-using JointLessonTerminal.MVVM.Model.HttpModels.Request;
-using JointLessonTerminal.MVVM.Model.SignalR;
-using JointLessonTerminal.MVVM.Model;
+using System.Windows.Documents;
+using System.Windows.Xps.Packaging;
 
 namespace JointLessonTerminal.MVVM.ViewModel
 {
-    public class LessonWindowViewModel : ObservableObject
+    public class SrsLessonWindowViewModel : ObservableObject
     {
         private ManualData manual;
         public ManualData Manual { get; set; }
@@ -33,38 +29,29 @@ namespace JointLessonTerminal.MVVM.ViewModel
         private Visibility prevPageBtnVisibility;
 
         private int courseId;
-
         private string currentPageId;
         private Core.Material.Page currentPage;
-
-        private string currentOfflinePageId;
-        private Core.Material.Page currentOfflinePage;
 
         private List<FileData> manualFiles;
         private List<Core.Material.Page> manualPages;
 
-
         private FixedDocumentSequence activeDocument;
         public FixedDocumentSequence ActiveDocument { get { return activeDocument; } set { activeDocument = value; OnPropsChanged("ActiveDocument"); } }
 
-        private FixedDocumentSequence activeOfflineDocument;
-        public FixedDocumentSequence ActiveOfflineDocument { get { return activeOfflineDocument; } set { activeOfflineDocument = value; OnPropsChanged("ActiveOfflineDocument"); } }
-
-        private readonly string wordDirPath;
-        
+        private string wordDirPath;
         private string documentXpsPath;
         private string documentWordPath;
 
-        private SignalHub hub;
         private FixedDocumentSequence sequence;
-        private FixedDocumentSequence offlineSequence;
-
         private FileData fileData;
-        public FileData FileData { 
-            get { 
-                return fileData; 
-            } 
-            set { 
+        public FileData FileData
+        {
+            get
+            {
+                return fileData;
+            }
+            set
+            {
                 fileData = value;
 
                 if (fileData.mongoName.Contains(".doc"))
@@ -79,7 +66,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
                     if (!File.Exists(wordPath))
                     {
-                        Task.Factory.StartNew(async x => 
+                        System.Threading.Tasks.Task.Factory.StartNew(async x =>
                         {
                             var resp = await downloadWord(fileData.id, wordPath, xpsPath);
                             if (resp.isSuccess)
@@ -100,64 +87,15 @@ namespace JointLessonTerminal.MVVM.ViewModel
                         ActiveDocument = sequence;
                     }
                 }
-            } 
-        }
-
-        private FileData fileDataOffline;
-        public FileData FileDataOffline
-        {
-            get
-            {
-                return fileDataOffline;
-            }
-            set
-            {
-                fileDataOffline = value;
-
-                if (fileDataOffline.mongoName.Contains(".doc"))
-                {
-                    var wordPath = Path.Combine(wordDirPath, fileDataOffline.mongoName.Replace(":", "-"));
-                    wordPath = wordPath.Replace("\\", "/").Replace(" ", "_");
-
-                    var xpsPath = wordPath + ".xps";
-
-                    documentXpsPath = wordPath;
-                    documentXpsPath = xpsPath;
-
-                    if (!File.Exists(wordPath))
-                    {
-                        Task.Factory.StartNew(async x =>
-                        {
-                            var resp = await downloadWord(fileData.id, wordPath, xpsPath);
-                            if (resp.isSuccess)
-                            {
-                                File.WriteAllBytes(wordPath, resp.file);
-                                saveXPSDoc(wordPath, xpsPath);
-                                System.Windows.Application.Current.Dispatcher.Invoke(() =>
-                                {
-                                    offlineSequence = getFixedDoc(documentXpsPath).GetFixedDocumentSequence();
-                                    ActiveOfflineDocument = offlineSequence;
-                                });
-                            }
-                        }, new System.Threading.CancellationToken());
-                    }
-                    else
-                    {
-                        offlineSequence = getFixedDoc(xpsPath).GetFixedDocumentSequence();
-                        ActiveOfflineDocument = offlineSequence;
-                    }
-                }
             }
         }
-
-        public RelayCommand NextOfflinePageCommand { get; set; }
-        public RelayCommand PrevOfflinePageCommand { get; set; }
 
         public RelayCommand NextPageCommand { get; set; }
         public RelayCommand PrevPageCommand { get; set; }
         public RelayCommand ExitCommand { get; set; }
 
-        public LessonWindowViewModel()
+
+        public void InitData(OnOpenCourseModel model)
         {
             wordDirPath = AppDomain.CurrentDomain.BaseDirectory + "WORD";
             if (!Directory.Exists(wordDirPath))
@@ -165,68 +103,59 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 Directory.CreateDirectory(wordDirPath);
             }
 
-            NextPageCommand = new RelayCommand(async x => await nextPage(true, true));
-            PrevPageCommand = new RelayCommand(async x => await nextPage(false, true));
+            NextPageCommand = new RelayCommand(async x => await nextPage(true));
+            PrevPageCommand = new RelayCommand(async x => await nextPage(false));
+            ExitCommand = new RelayCommand(async x => await exit());
 
-            NextOfflinePageCommand = new RelayCommand(async x => await nextPage(true, false));
-            PrevOfflinePageCommand = new RelayCommand(async x => await nextPage(false, false));
-
-            ExitCommand = new RelayCommand(x => exit());
-        }
-
-        public void InitData(OnOpenCourseModel data)
-        {
             manualPages = new List<Core.Material.Page>();
-            manual = data.Manual;
-            courseId = data.CourseId;
-            currentPageId = data.Page;
-            currentOfflinePageId = data.Page;
+            manual = model.Manual;
+            courseId = model.CourseId;
 
-            var user = UserSettings.GetInstance();
-            if (user.Roles.Select(x => x.systemName).Contains("Teacher"))
-            {
-                NextPageBtnVisibility = Visibility.Visible;
-                PrevPageBtnVisibility = Visibility.Visible;
-            }
-            else
-            {
-                NextPageBtnVisibility = Visibility.Collapsed;
-                PrevPageBtnVisibility = Visibility.Collapsed;
-            }
-
-            hub = SignalHub.GetInstance();
-            hub.OnPageSync += onSyncPageEvent;
+            System.Threading.Tasks.Task.Factory.StartNew(async x => await openSrsLesson(), null);
+        }
+        private async System.Threading.Tasks.Task<bool> openSrsLesson()
+        {
+            var startSrsResponse =  await startSrsLesson();
+            if (!string.IsNullOrEmpty(startSrsResponse.page)) 
+                currentPageId = startSrsResponse.page;
 
             try
             {
-                Task.Factory.StartNew(async x => await loadManualFiles(), null);
+                await loadManualFiles();
+                return true;
             }
             catch (Exception er)
             {
                 MessageBox.Show(er.Message);
+                return false;
             }
         }
-        private void onSyncPageEvent(object o, EventArgs e)
+        private async Task<StartSRSLessonResponse> startSrsLesson()
         {
-            var arg = e as OnPageChangeEventArg;
-            if (arg != null)
+            var startSrsLessonRequest = new RequestModel<StartSRSLessonRequest>()
             {
-                if (currentPageId != arg.NewPageId)
+                Method = Core.HTTPRequests.Enums.RequestMethod.Post,
+                Body = new StartSRSLessonRequest()
                 {
-                    currentPageId = arg.NewPageId;
-                    currentPage = getPageById(currentPageId);
-                    showWordPage(true);
+                    CourseId = courseId
                 }
+            };
+            var sender = new RequestSender<StartSRSLessonRequest, StartSRSLessonResponse>();
+            var responsePost = await sender.SendRequest(startSrsLessonRequest, "/user/start-srs-lesson");
+            if (responsePost.isSuccess)
+            {
+                return responsePost;
             }
+            throw new Exception("Не удалось начать занятие");
         }
-        private async Task loadManualFiles()
+        private async System.Threading.Tasks.Task loadManualFiles()
         {
             var loadManualFilesRequest = new RequestModel<GetManualFilesRequest>()
             {
                 Method = Core.HTTPRequests.Enums.RequestMethod.Post,
                 Body = new GetManualFilesRequest()
                 {
-                     FileDataIds = initManualPagesDataIds()
+                    FileDataIds = initManualPagesDataIds()
                 }
             };
             var sender = new RequestSender<GetManualFilesRequest, GetManualFilesResponse>();
@@ -238,29 +167,40 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
                 if (string.IsNullOrEmpty(currentPageId)) currentPage = getFirstPage();
                 else currentPage = getPageById(currentPageId);
-                
-                currentOfflinePage = currentPage;
+
                 System.Windows.Application.Current.Dispatcher.Invoke(() =>
                 {
-                    showWordPage(true);
-                    showWordPage(false);
+                    showWordPage();
                 });
             }
         }
-        private void exit()
+        private async System.Threading.Tasks.Task<bool> exit()
         {
-            var signal = new WindowEvent();
-            signal.Type = WindowEventType.EXITFROMLESSON;
-            signal.Argument = courseId;
-            SendEventSignal(signal);
+            var closeSrsLessonRequest = new RequestModel<CloseSRSLessonRequest>()
+            {
+                Method = Core.HTTPRequests.Enums.RequestMethod.Post,
+                Body = new CloseSRSLessonRequest()
+                {
+                    CourseId = courseId
+                }
+            };
+            var sender = new RequestSender<CloseSRSLessonRequest, CloseSRSLessonResponse>();
+            var responsePost = await sender.SendRequest(closeSrsLessonRequest, "/user/close-srs-lesson");
+
+            if (responsePost.isSuccess)
+            {
+                var signal = new WindowEvent();
+                signal.Type = WindowEventType.EXITFROMSRSLESSON;
+                signal.Argument = courseId;
+                SendEventSignal(signal);
+                return true;
+            }
+
+            return false;
         }
-        private async Task <bool> nextPage(bool forward, bool online)
+        private async Task<bool> nextPage(bool forward)
         {
-            var currentPageIndex = -1;
-
-            if (online) currentPageIndex = manualPages.FindIndex(x => x.id == currentPageId);
-            else currentPageIndex = manualPages.FindIndex(x => x.id == currentOfflinePageId);
-
+            var currentPageIndex = manualPages.FindIndex(x => x.id == currentPageId);
             var nextPageIndex = currentPageIndex;
             if (forward)
             {
@@ -273,55 +213,34 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 if (nextPageIndex < 0) return false;
             }
 
-            if (online)
-            {
-                currentPage = manualPages.ElementAt(nextPageIndex);
-                currentPageId = currentPage.id;
-                var response = await SyncPage();
-            }
-            else
-            {
-                currentOfflinePage = manualPages.ElementAt(nextPageIndex);
-                currentOfflinePageId = currentOfflinePage.id;
-            }
+            currentPage = manualPages.ElementAt(nextPageIndex);
+            currentPageId = currentPage.id;
 
-            showWordPage(online);
+            await changeSrsPage();
+
+            showWordPage();
             return true;
         }
-        private async Task<ChangeLessonManualPageResponse> SyncPage()
+        private async Task<ChangeSRSLessonManualPageResponse> changeSrsPage()
         {
-            var changePageRequest = new RequestModel<ChangeLessonManualPageRequest>()
+            var changePageSrsLessonRequest = new RequestModel<ChangeSRSLessonManualPageRequest>()
             {
                 Method = Core.HTTPRequests.Enums.RequestMethod.Post,
-                Body = new ChangeLessonManualPageRequest()
+                Body = new ChangeSRSLessonManualPageRequest()
                 {
                     CourseId = courseId,
-                    NextPage = currentPage.id
+                    NextPage = currentPageId
                 }
             };
-            var sender = new RequestSender<ChangeLessonManualPageRequest, ChangeLessonManualPageResponse>();
-            var responsePost = await sender.SendRequest(changePageRequest, "/teacher/change-page");
-            if (!responsePost.isSuccess)
-            {
-                MessageBox.Show(responsePost.message);
-                throw new Exception(responsePost.message);
-            }
+            var sender = new RequestSender<ChangeSRSLessonManualPageRequest, ChangeSRSLessonManualPageResponse>();
+            var responsePost = await sender.SendRequest(changePageSrsLessonRequest, "/user/change-page-srs-lesson");
             return responsePost;
         }
-        private void showWordPage(bool online)
+        private void showWordPage()
         {
-            if (online)
-            {
-                var currentFileData = manualFiles.Where(x => x.id == currentPage.fileDataId).FirstOrDefault()
-                    ?? throw new Exception("Данные для страницы не найдены");
-                FileData = currentFileData;
-            }
-            else
-            {
-                var currentFileData = manualFiles.Where(x => x.id == currentOfflinePage.fileDataId).FirstOrDefault()
-                    ?? throw new Exception("Данные для страницы не найдены");
-                FileDataOffline = currentFileData;
-            }
+            var currentFileData = manualFiles.Where(x => x.id == currentPage.fileDataId).FirstOrDefault()
+                ?? throw new Exception("Данные для страницы не найдены");
+            FileData = currentFileData;
         }
         private Core.Material.Page getPageById(string id)
         {

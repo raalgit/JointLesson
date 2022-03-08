@@ -55,6 +55,7 @@
                             HorizontalAlignment="Center"
                             Orientation="Horizontal">
                     <Button 
+                        Visibility="{Binding PrevPageBtnVisibility}"
                         Command="{Binding PrevPageCommand}"
                         Margin="20 0 0 0"
                             Background="Transparent"
@@ -69,6 +70,7 @@
                     </Button>
 
                     <Button
+                        Visibility="{Binding NextPageBtnVisibility}"
                         Command="{Binding NextPageCommand}"
                         Margin="20 0 0 0"
                         Background="Transparent"
@@ -105,8 +107,8 @@
                                Source="../../Images/open-book-btn.png" />
                     </Button>
                 </StackPanel>
-                
-                <DocumentViewer Grid.Row="1">
+
+                <DocumentViewer Grid.Row="1" Document="{Binding ActiveOfflineDocument}">
                     
                 </DocumentViewer>
 
@@ -115,6 +117,7 @@
                             Orientation="Horizontal">
                     <Button 
                         Margin="20 0 0 0"
+                        Command="{Binding PrevOfflinePageCommand}"
                             Background="Transparent"
                             Width="40"
                             Height="40"
@@ -128,6 +131,7 @@
 
                     <Button
                         Margin="20 0 0 0"
+                        Command="{Binding NextOfflinePageCommand}"
                         Background="Transparent"
                         Width="40"
                                 Height="40"
