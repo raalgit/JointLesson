@@ -33,8 +33,12 @@ namespace JointLessonTerminal.MVVM.ViewModel
         private Visibility prevPageBtnVisibility;
 
         private int courseId;
+
         private string currentPageId;
         private Core.Material.Page currentPage;
+
+        private string currentOfflinePageId;
+        private Core.Material.Page currentOfflinePage;
 
         private List<FileData> manualFiles;
         private List<Core.Material.Page> manualPages;
@@ -43,12 +47,17 @@ namespace JointLessonTerminal.MVVM.ViewModel
         private FixedDocumentSequence activeDocument;
         public FixedDocumentSequence ActiveDocument { get { return activeDocument; } set { activeDocument = value; OnPropsChanged("ActiveDocument"); } }
 
+        private FixedDocumentSequence activeOfflineDocument;
+        public FixedDocumentSequence ActiveOfflineDocument { get { return activeOfflineDocument; } set { activeOfflineDocument = value; OnPropsChanged("ActiveOfflineDocument"); } }
 
         private readonly string wordDirPath;
+        
         private string documentXpsPath;
         private string documentWordPath;
+
         private SignalHub hub;
         private FixedDocumentSequence sequence;
+        private FixedDocumentSequence offlineSequence;
 
         private FileData fileData;
         public FileData FileData { 
@@ -94,6 +103,56 @@ namespace JointLessonTerminal.MVVM.ViewModel
             } 
         }
 
+        private FileData fileDataOffline;
+        public FileData FileDataOffline
+        {
+            get
+            {
+                return fileDataOffline;
+            }
+            set
+            {
+                fileDataOffline = value;
+
+                if (fileDataOffline.mongoName.Contains(".doc"))
+                {
+                    var wordPath = Path.Combine(wordDirPath, fileDataOffline.mongoName.Replace(":", "-"));
+                    wordPath = wordPath.Replace("\\", "/").Replace(" ", "_");
+
+                    var xpsPath = wordPath + ".xps";
+
+                    documentXpsPath = wordPath;
+                    documentXpsPath = xpsPath;
+
+                    if (!File.Exists(wordPath))
+                    {
+                        Task.Factory.StartNew(async x =>
+                        {
+                            var resp = await downloadWord(fileData.id, wordPath, xpsPath);
+                            if (resp.isSuccess)
+                            {
+                                File.WriteAllBytes(wordPath, resp.file);
+                                saveXPSDoc(wordPath, xpsPath);
+                                System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                                {
+                                    offlineSequence = getFixedDoc(documentXpsPath).GetFixedDocumentSequence();
+                                    ActiveOfflineDocument = offlineSequence;
+                                });
+                            }
+                        }, new System.Threading.CancellationToken());
+                    }
+                    else
+                    {
+                        offlineSequence = getFixedDoc(xpsPath).GetFixedDocumentSequence();
+                        ActiveOfflineDocument = offlineSequence;
+                    }
+                }
+            }
+        }
+
+        public RelayCommand NextOfflinePageCommand { get; set; }
+        public RelayCommand PrevOfflinePageCommand { get; set; }
+
         public RelayCommand NextPageCommand { get; set; }
         public RelayCommand PrevPageCommand { get; set; }
         public RelayCommand ExitCommand { get; set; }
@@ -106,8 +165,12 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 Directory.CreateDirectory(wordDirPath);
             }
 
-            NextPageCommand = new RelayCommand(async x => await nextPage(true));
-            PrevPageCommand = new RelayCommand(async x => await nextPage(false));
+            NextPageCommand = new RelayCommand(async x => await nextPage(true, true));
+            PrevPageCommand = new RelayCommand(async x => await nextPage(false, true));
+
+            NextOfflinePageCommand = new RelayCommand(async x => await nextPage(true, false));
+            PrevOfflinePageCommand = new RelayCommand(async x => await nextPage(false, false));
+
             ExitCommand = new RelayCommand(x => exit());
         }
 
@@ -117,6 +180,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
             manual = data.Manual;
             courseId = data.CourseId;
             currentPageId = data.Page;
+            currentOfflinePageId = data.Page;
 
             var user = UserSettings.GetInstance();
             if (user.Roles.Select(x => x.systemName).Contains("Teacher"))
@@ -135,14 +199,13 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
             try
             {
-                Task.Factory.StartNew(async x => await loadManualFiles(), null); //.GetAwaiter().OnCompleted(showWordPage);
+                Task.Factory.StartNew(async x => await loadManualFiles(), null);
             }
             catch (Exception er)
             {
                 MessageBox.Show(er.Message);
             }
         }
-
         private void onSyncPageEvent(object o, EventArgs e)
         {
             var arg = e as OnPageChangeEventArg;
@@ -152,11 +215,10 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 {
                     currentPageId = arg.NewPageId;
                     currentPage = getPageById(currentPageId);
-                    showWordPage();
+                    showWordPage(true);
                 }
             }
         }
-
         private async Task loadManualFiles()
         {
             var loadManualFilesRequest = new RequestModel<GetManualFilesRequest>()
@@ -176,14 +238,15 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
                 if (string.IsNullOrEmpty(currentPageId)) currentPage = getFirstPage();
                 else currentPage = getPageById(currentPageId);
-
+                
+                currentOfflinePage = currentPage;
                 System.Windows.Application.Current.Dispatcher.Invoke(() =>
                 {
-                    showWordPage();
+                    showWordPage(true);
+                    showWordPage(false);
                 });
             }
         }
-
         private void exit()
         {
             var signal = new WindowEvent();
@@ -191,10 +254,13 @@ namespace JointLessonTerminal.MVVM.ViewModel
             signal.Argument = courseId;
             SendEventSignal(signal);
         }
-
-        private async Task <bool> nextPage(bool forward)
+        private async Task <bool> nextPage(bool forward, bool online)
         {
-            var currentPageIndex = manualPages.FindIndex(x => x.id == currentPageId);
+            var currentPageIndex = -1;
+
+            if (online) currentPageIndex = manualPages.FindIndex(x => x.id == currentPageId);
+            else currentPageIndex = manualPages.FindIndex(x => x.id == currentOfflinePageId);
+
             var nextPageIndex = currentPageIndex;
             if (forward)
             {
@@ -207,14 +273,21 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 if (nextPageIndex < 0) return false;
             }
 
-            currentPage = manualPages.ElementAt(nextPageIndex);
-            currentPageId = currentPage.id;
+            if (online)
+            {
+                currentPage = manualPages.ElementAt(nextPageIndex);
+                currentPageId = currentPage.id;
+                var response = await SyncPage();
+            }
+            else
+            {
+                currentOfflinePage = manualPages.ElementAt(nextPageIndex);
+                currentOfflinePageId = currentOfflinePage.id;
+            }
 
-            var response = await SyncPage();
-            showWordPage();
+            showWordPage(online);
             return true;
         }
-
         private async Task<ChangeLessonManualPageResponse> SyncPage()
         {
             var changePageRequest = new RequestModel<ChangeLessonManualPageRequest>()
@@ -235,14 +308,21 @@ namespace JointLessonTerminal.MVVM.ViewModel
             }
             return responsePost;
         }
-
-        private void showWordPage()
+        private void showWordPage(bool online)
         {
-            var currentFileData = manualFiles.Where(x => x.id == currentPage.fileDataId).FirstOrDefault()
-                ?? throw new Exception("Данные для страницы не найдены");
-            FileData = currentFileData;
+            if (online)
+            {
+                var currentFileData = manualFiles.Where(x => x.id == currentPage.fileDataId).FirstOrDefault()
+                    ?? throw new Exception("Данные для страницы не найдены");
+                FileData = currentFileData;
+            }
+            else
+            {
+                var currentFileData = manualFiles.Where(x => x.id == currentOfflinePage.fileDataId).FirstOrDefault()
+                    ?? throw new Exception("Данные для страницы не найдены");
+                FileDataOffline = currentFileData;
+            }
         }
-
         private Core.Material.Page getPageById(string id)
         {
             if (manual == null) throw new NullReferenceException(nameof(manual));
@@ -264,7 +344,6 @@ namespace JointLessonTerminal.MVVM.ViewModel
             }
             throw new Exception("Страница не найдена");
         }
-
         private List<int> initManualPagesDataIds()
         {
             if (manual == null) throw new NullReferenceException(nameof(manual));
@@ -286,7 +365,6 @@ namespace JointLessonTerminal.MVVM.ViewModel
             }
             return Ids;
         }
-
         private Core.Material.Page getFirstPage()
         {
             if (manual == null) throw new NullReferenceException(nameof(manual));
@@ -308,7 +386,6 @@ namespace JointLessonTerminal.MVVM.ViewModel
             }
             throw new Exception("Страниц в материале нет");
         }
-
         private async Task<GetFileResponse> downloadWord(int fileDataId, string wordPath, string xpsPath)
         {
             var fileGetRequest = new RequestModel<object>()
@@ -319,7 +396,6 @@ namespace JointLessonTerminal.MVVM.ViewModel
             var sender = new RequestSender<object, GetFileResponse>();
             return await sender.SendRequest(fileGetRequest, "/user/file");
         }
-
         private string saveXPSDoc(string wordDocName, string xpsDocName)
         {
             Microsoft.Office.Interop.Word.Application wordApplication = new Microsoft.Office.Interop.Word.Application();
