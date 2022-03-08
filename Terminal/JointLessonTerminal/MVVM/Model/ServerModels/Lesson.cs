@@ -15,5 +15,6 @@ namespace JointLessonTerminal.Model.ServerModels
         public DateTime? endDate { get; set; }
         public int teacherId { get; set; }
         public string type { get; set; }
+        public int courseId { get; set; }
     }
 }

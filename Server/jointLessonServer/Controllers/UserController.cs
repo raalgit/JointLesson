@@ -145,5 +145,65 @@ namespace jointLessonServer.Controllers
                 };
             }
         }
+
+        [HttpPost]
+        [JwtAuthentication(role: "User")]
+        [Route("/user/start-srs-lesson")]
+        public async Task<StartSRSLessonResponse> StartSRSLesson([FromBody] StartSRSLessonRequest request)
+        {
+            try
+            {
+                var userBehavior = new UserBehavior(_serviceProvider);
+                return await userBehavior.StartSRSLesson(request);
+            }
+            catch (Exception er)
+            {
+                return new StartSRSLessonResponse()
+                {
+                    IsSuccess = false,
+                    Message = er.Message
+                };
+            }
+        }
+
+        [HttpPost]
+        [JwtAuthentication(role: "User")]
+        [Route("/user/change-page-srs-lesson")]
+        public async Task<ChangeSRSLessonManualPageResponse> ChangeActivePage([FromBody] ChangeSRSLessonManualPageRequest request)
+        {
+            try
+            {
+                var userBehavior = new UserBehavior(_serviceProvider);
+                return await userBehavior.ChangeActivePage(request);
+            }
+            catch (Exception er)
+            {
+                return new ChangeSRSLessonManualPageResponse()
+                {
+                    IsSuccess = false,
+                    Message = er.Message
+                };
+            }
+        }
+
+        [HttpPost]
+        [JwtAuthentication(role: "User")]
+        [Route("/user/close-srs-lesson")]
+        public async Task<CloseSRSLessonResponse> CloseLesson(CloseSRSLessonRequest request)
+        {
+            try
+            {
+                var userBehavior = new UserBehavior(_serviceProvider);
+                return await userBehavior.CloseLesson(request);
+            }
+            catch (Exception er)
+            {
+                return new CloseSRSLessonResponse()
+                {
+                    IsSuccess = false,
+                    Message = er.Message
+                };
+            }
+        }
     }
 }

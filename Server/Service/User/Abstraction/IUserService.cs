@@ -18,5 +18,9 @@ namespace JL.Service.User.Abstraction
         Task<GetCourseDataResponse> GetCourseData(int courseId, UserSettings userSettings);
         Task<GetManualFilesResponse> GetManualFiles(GetManualFilesRequest request);
         Task<RegisterSignalConnectionResponse> RegisterSignalConnection(string connectionId, UserSettings userSettings);
+
+        Task<StartSRSLessonResponse> StartSRSLesson(StartSRSLessonRequest request, UserSettings userSettings);
+        Task<ChangeSRSLessonManualPageResponse> ChangeActivePage(ChangeSRSLessonManualPageRequest request, UserSettings userSettings);
+        Task<CloseSRSLessonResponse> CloseLesson(CloseSRSLessonRequest request, UserSettings userSettings);
     }
 }

@@ -34,6 +34,10 @@
             <DataTemplate DataType="{x:Type viewModel:LessonWindowViewModel}">
                 <view:LessonWindow />
             </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:SrsLessonWindowViewModel}">
+                <view:SrsLessonWindow />
+            </DataTemplate>
             
         </ResourceDictionary>
     </Application.Resources>

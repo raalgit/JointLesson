@@ -23,6 +23,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
         public EditorWindowViewModel EditorVM { get; set; }
         public CurrentCourseWindowViewModel CurrentCourseVM { get; set; }
         public LessonWindowViewModel LessonVM { get; set; }
+        public SrsLessonWindowViewModel SrsLessonVM { get; set; }
         #endregion
 
         #region Отображение кнопок в верхнем меню
@@ -59,6 +60,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
             EditorVM = new EditorWindowViewModel();
             CurrentCourseVM = new CurrentCourseWindowViewModel();
             LessonVM = new LessonWindowViewModel();
+            SrsLessonVM = new SrsLessonWindowViewModel();
 
             CurrentView = AuthVM;
 
@@ -91,6 +93,20 @@ namespace JointLessonTerminal.MVVM.ViewModel
             CourseVM.WindowStateChanged += onCourseCompleted;
             CurrentCourseVM.WindowStateChanged += onCurrentCourseCompleted;
             LessonVM.WindowStateChanged += onLessonCompleted;
+            SrsLessonVM.WindowStateChanged += onSrsLessonCompleted;
+        }
+
+        private void onSrsLessonCompleted(object sender, WindowEvent e)
+        {
+            switch (e.Type)
+            {
+                case WindowEventType.EXITFROMSRSLESSON:
+                    MenuVisibility.ExitBtnVisibility = Visibility.Visible;
+                    MenuVisibility.BackBtnVisibility = Visibility.Hidden;
+                    MenuVisibility.ProfileBtnVisibility = Visibility.Visible;
+                    CurrentView = CourseVM;
+                    break;
+            }
         }
 
         private void onLessonCompleted(object sender, WindowEvent e)
@@ -114,6 +130,11 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     LessonVM.InitData(e.Argument as OnOpenCourseModel);
                     MenuVisibility.BackBtnVisibility = Visibility.Hidden;
                     CurrentView = LessonVM;
+                    break;
+                case WindowEventType.NEEDTOOPENSRSLESSON:
+                    SrsLessonVM.InitData(e.Argument as OnOpenCourseModel);
+                    MenuVisibility.BackBtnVisibility = Visibility.Visible;
+                    CurrentView = SrsLessonVM;
                     break;
             }
         }

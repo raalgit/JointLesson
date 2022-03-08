@@ -52,6 +52,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
         public RelayCommand StartLessonCommand { get; set; }
         public RelayCommand EndLessonCommand { get; set; }
         public RelayCommand EnterLessonCommand { get; set; }
+        public RelayCommand OpenSrsLessonCommand { get; set; }
 
         public CurrentCourseWindowViewModel()
         {
@@ -78,6 +79,10 @@ namespace JointLessonTerminal.MVVM.ViewModel
             });
             EnterLessonCommand = new RelayCommand(async x => {
                 await JoinLesson();
+            });
+            OpenSrsLessonCommand = new RelayCommand(x =>
+            {
+                openSrsLesson();
             });
 
             Task.Factory.StartNew(async x =>
@@ -176,6 +181,18 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 IsCourseActive = responsePost.canConnectToSyncLesson;
                 updateBtnVisibility();
             }
+        }
+
+        private void openSrsLesson()
+        {
+            var signal = new WindowEvent();
+            signal.Type = WindowEventType.NEEDTOOPENSRSLESSON;
+            var arg = new OnOpenCourseModel();
+            arg.CourseId = Course.CourseId;
+            arg.Manual = ManualData;
+            arg.Page = CurrentPageId;
+            signal.Argument = arg;
+            SendEventSignal(signal);
         }
 
         private async Task EndLesson()

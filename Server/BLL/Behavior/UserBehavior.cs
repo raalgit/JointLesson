@@ -103,5 +103,41 @@ namespace BLL.Behavior
                 throw er;
             }
         }
+
+        public async Task<StartSRSLessonResponse> StartSRSLesson(StartSRSLessonRequest request)
+        {
+            try
+            {
+                return await _userService.StartSRSLesson(request, _userSettings);
+            }
+            catch (Exception er)
+            {
+                throw er;
+            }
+        }
+
+        public async Task<ChangeSRSLessonManualPageResponse> ChangeActivePage(ChangeSRSLessonManualPageRequest request)
+        {
+            try
+            {
+                return await _userService.ChangeActivePage(request, _userSettings);
+            }
+            catch (Exception er)
+            {
+                throw er;
+            }
+        }
+
+        public async Task<CloseSRSLessonResponse> CloseLesson(CloseSRSLessonRequest request)
+        {
+            try
+            {
+                return await _userService.CloseLesson(request, _userSettings);
+            }
+            catch (Exception er)
+            {
+                throw er;
+            }
+        }
     }
 }
