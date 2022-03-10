@@ -13,8 +13,10 @@ namespace JointLessonTerminal.Core.File
 {
     public class FileHandler
     {
-        public async Task<int> UploadFile(byte[] file, string name)
+        public async Task<UploadFileStatus> UploadFile(byte[] file, string name)
         {
+            UploadFileStatus response = null;
+
             var fileSaveRequest = new RequestModel<AddNewFileRequest>()
             {
                 Method = Core.HTTPRequests.Enums.RequestMethod.Post,
@@ -27,9 +29,8 @@ namespace JointLessonTerminal.Core.File
 
             var sender = new RequestSender<AddNewFileRequest, AddNewFileResponse>();
             var responsePost = await sender.SendRequest(fileSaveRequest, "/user/file");
-            var responseString = responsePost.isSuccess ? "Материал добавлен" : "Ошибка!" + responsePost.message;
-            MessageBox.Show(responseString);
-            return responsePost.fileDataId;
+            response = new UploadFileStatus(responsePost.fileDataId, responsePost.isSuccess);
+            return response;
         }
     }
 }

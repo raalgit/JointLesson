@@ -28,7 +28,9 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 // Если пароль и/или логин не ввели
                 if (string.IsNullOrEmpty(Login) || string.IsNullOrEmpty(Password))
                 {
-                    MessageBox.Show("Введите логин и пароль");
+                    var signal = new WindowEvent();
+                    signal.Type = WindowEventType.AUTH_EMPTYLOGIN;
+                    SendEventSignal(signal);
                     return;
                 }
 
@@ -59,8 +61,6 @@ namespace JointLessonTerminal.MVVM.ViewModel
                         settings.CurrentUser = responsePost.user;
                         settings.Roles = responsePost.roles.ToArray();
 
-                        MessageBox.Show("Вы вошли в систему");
-
                         // Отправка сигнала главному окну о завершении авторизации
                         var signal = new WindowEvent();
                         signal.Type = WindowEventType.AUTHORIZED;
@@ -68,12 +68,18 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     }
                     else
                     {
-                        MessageBox.Show("Ошибка авторизации");
+                        var signal = new WindowEvent();
+                        signal.Type = WindowEventType.AUTH_ERROR;
+                        signal.Argument = "Во время авторизации возникла ошибка!";
+                        SendEventSignal(signal);
                     }
                 }
                 catch (Exception er)
                 {
-                    MessageBox.Show(er.Message);
+                    var signal = new WindowEvent();
+                    signal.Type = WindowEventType.AUTH_ERROR;
+                    signal.Argument = er.Message;
+                    SendEventSignal(signal);
                 }
             });
         }

@@ -223,6 +223,7 @@
                             <Button 
                                     Grid.Row="0"
                                     Grid.Column="1"
+                                Command="{Binding OpenRemoteTerminalCommand}"
                                     HorizontalAlignment="Right"
                                     Background="Transparent"
                                     BorderThickness="0">

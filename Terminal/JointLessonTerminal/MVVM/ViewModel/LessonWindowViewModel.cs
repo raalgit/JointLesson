@@ -19,6 +19,7 @@ using Task = System.Threading.Tasks.Task;
 using JointLessonTerminal.MVVM.Model.HttpModels.Request;
 using JointLessonTerminal.MVVM.Model.SignalR;
 using JointLessonTerminal.MVVM.Model;
+using JointLessonTerminal.MVVM.View;
 
 namespace JointLessonTerminal.MVVM.ViewModel
 {
@@ -156,6 +157,9 @@ namespace JointLessonTerminal.MVVM.ViewModel
         public RelayCommand NextPageCommand { get; set; }
         public RelayCommand PrevPageCommand { get; set; }
         public RelayCommand ExitCommand { get; set; }
+        public RelayCommand OpenRemoteTerminalCommand { get; set; }
+
+        public RemoteTerminalViewModel RemoteTerminalVM { get; set; }
 
         public LessonWindowViewModel()
         {
@@ -172,6 +176,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
             PrevOfflinePageCommand = new RelayCommand(async x => await nextPage(false, false));
 
             ExitCommand = new RelayCommand(x => exit());
+            OpenRemoteTerminalCommand = new RelayCommand(x => openRemoteTerminal());
         }
 
         public void InitData(OnOpenCourseModel data)
@@ -203,7 +208,10 @@ namespace JointLessonTerminal.MVVM.ViewModel
             }
             catch (Exception er)
             {
-                MessageBox.Show(er.Message);
+                var signal = new WindowEvent();
+                signal.Type = WindowEventType.LESSON_LOADMANUALERROR;
+                signal.Argument = er.Message;
+                SendEventSignal(signal);
             }
         }
         private void onSyncPageEvent(object o, EventArgs e)
@@ -247,6 +255,12 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 });
             }
         }
+        private void openRemoteTerminal()
+        {
+            var terminal = new RemoteTerminalWindow();
+            terminal.Show();
+        }
+
         private void exit()
         {
             var signal = new WindowEvent();
@@ -303,8 +317,10 @@ namespace JointLessonTerminal.MVVM.ViewModel
             var responsePost = await sender.SendRequest(changePageRequest, "/teacher/change-page");
             if (!responsePost.isSuccess)
             {
-                MessageBox.Show(responsePost.message);
-                throw new Exception(responsePost.message);
+                var signal = new WindowEvent();
+                signal.Type = WindowEventType.LESSON_SYNCERROR;
+                signal.Argument = "Возникла ошибка при синхронизации страницы!";
+                SendEventSignal(signal);
             }
             return responsePost;
         }

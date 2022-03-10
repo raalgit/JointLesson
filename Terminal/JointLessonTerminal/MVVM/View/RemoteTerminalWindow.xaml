@@ -1,0 +1,83 @@
+﻿<Window x:Class="JointLessonTerminal.MVVM.View.RemoteTerminalWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModel="clr-namespace:JointLessonTerminal.MVVM.ViewModel"
+        xmlns:axRdpcomapiLib="clr-namespace:AxRDPCOMAPILib"
+        mc:Ignorable="d" d:DataContext="{d:DesignInstance viewModel:RemoteTerminalViewModel}"
+        Title="RemoteTerminalWindow" Height="450" Width="800">
+    <Grid>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button Content="START" Margin="5"/>
+            <Label Content="What's my role?" Margin="5"/>
+            <ToggleButton Content="Server" Margin="5" x:Name="ServerButton" IsChecked="False"/>
+            <ToggleButton Content="Client" Margin="5" x:Name="ClientButton" IsChecked="False"/>
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding ElementName=ClientButton, Path=IsChecked}" Value="False" />
+                                <Condition Binding="{Binding ElementName=ServerButton, Path=IsChecked}" Value="False" />
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.Setters>
+                                <Setter Property="Visibility" Value="Visible" />
+                            </MultiDataTrigger.Setters>
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+        </StackPanel>
+        <Grid>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=ClientButton, Path=IsChecked}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <WindowsFormsHost x:Name="FormHost">
+                <axRdpcomapiLib:AxRDPViewer x:Name="RdpViewer" />
+            </WindowsFormsHost>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Button Content="Connect" Command="{Binding ConnectCommand}"  Margin="5"/>
+                <TextBox Grid.Column="1" Text="{Binding ConnectionText}" Margin="5"/>
+            </Grid>
+        </Grid>
+        <Grid>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=ServerButton, Path=IsChecked}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+                <TextBox Text="{Binding ServerConnectionText}" Margin="5" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Height="200"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="Start" Command="{Binding ServerStartCommand}" Margin="5" Width="150"/>
+                    <Button Content="Start (Only this)" Command="{Binding SingleStartCommand}" Margin="5" Width="150"/>
+                    <Button Content="Copy" Command="{Binding CopyCommand}" Margin="5" Width="150"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

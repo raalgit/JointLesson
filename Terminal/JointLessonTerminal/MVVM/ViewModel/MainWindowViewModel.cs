@@ -11,6 +11,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using ToastNotifications;
+using ToastNotifications.Lifetime;
+using ToastNotifications.Messages;
+using ToastNotifications.Core;
+using ToastNotifications.Lifetime.Clear;
+using ToastNotifications.Position;
 
 namespace JointLessonTerminal.MVVM.ViewModel
 {
@@ -45,7 +51,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
             }
         }
 
-
+        private readonly Notifier _notifier;
         public MainWindowViewModel()
         {
             MenuVisibility = new TopMenuVisibility()
@@ -84,6 +90,25 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 MenuVisibility.BackBtnVisibility = Visibility.Hidden;
                 CurrentView = CourseVM;
             });
+
+            _notifier = new Notifier(cfg =>
+            {
+                cfg.PositionProvider = new WindowPositionProvider(
+                    parentWindow: Application.Current.MainWindow,
+                    corner: Corner.BottomRight,
+                    offsetX: 25,
+                    offsetY: 100);
+
+                cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+                    notificationLifetime: TimeSpan.FromSeconds(4),
+                    maximumNotificationCount: MaximumNotificationCount.FromCount(4));
+
+                cfg.Dispatcher = Application.Current.Dispatcher;
+
+                cfg.DisplayOptions.TopMost = false;
+                cfg.DisplayOptions.Width = 250;
+            });
+            _notifier.ClearMessages(new ClearAll());
         }
 
         #region Сигналы от дочерних окон
@@ -93,7 +118,39 @@ namespace JointLessonTerminal.MVVM.ViewModel
             CourseVM.WindowStateChanged += onCourseCompleted;
             CurrentCourseVM.WindowStateChanged += onCurrentCourseCompleted;
             LessonVM.WindowStateChanged += onLessonCompleted;
+            EditorVM.WindowStateChanged += onEditorCompleted;
             SrsLessonVM.WindowStateChanged += onSrsLessonCompleted;
+        }
+
+        private void onEditorCompleted(object sender, WindowEvent e)
+        {
+            switch (e.Type)
+            {
+                case WindowEventType.EDITOR_MYMANUALSLOADED:
+                    _notifier.ShowInformation(e.Argument.ToString());
+                    break;
+                case WindowEventType.EDITOR_MANUALDATALOADED:
+                    _notifier.ShowInformation(e.Argument.ToString());
+                    break;
+                case WindowEventType.EDITOR_MANUALCREATED:
+                    _notifier.ShowSuccess(e.Argument.ToString());
+                    break;
+                case WindowEventType.EDITOR_MANUALUPDATED:
+                    _notifier.ShowSuccess(e.Argument.ToString());
+                    break;
+                case WindowEventType.EDITOR_MANUALUPDATEDERROR:
+                    _notifier.ShowError(e.Argument.ToString());
+                    break;
+                case WindowEventType.EDITOR_MANUALCREATEDERROR:
+                    _notifier.ShowError(e.Argument.ToString());
+                    break;
+                case WindowEventType.EDITOR_ONFILEUPLOAD:
+                    _notifier.ShowSuccess(e.Argument.ToString());
+                    break;
+                case WindowEventType.EDITOR_ONFILEUPLOADERROR:
+                    _notifier.ShowError(e.Argument.ToString());
+                    break;
+            }
         }
 
         private void onSrsLessonCompleted(object sender, WindowEvent e)
@@ -118,6 +175,12 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     MenuVisibility.BackBtnVisibility = Visibility.Hidden;
                     MenuVisibility.ProfileBtnVisibility = Visibility.Visible;
                     CurrentView = CourseVM;
+                    break;
+                case WindowEventType.LESSON_LOADMANUALERROR:
+                    _notifier.ShowError(e.Argument.ToString());
+                    break;
+                case WindowEventType.LESSON_SYNCERROR:
+                    _notifier.ShowError(e.Argument.ToString());
                     break;
             }
         }
@@ -153,6 +216,9 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     MenuVisibility.BackBtnVisibility = Visibility.Visible;
                     CurrentView = EditorVM;
                     break;
+                case WindowEventType.COURSELIST_GETERROR:
+                    _notifier.ShowError(e.Argument.ToString());
+                    break;
             }
         }
 
@@ -161,11 +227,18 @@ namespace JointLessonTerminal.MVVM.ViewModel
             switch (e.Type)
             {
                 case WindowEventType.AUTHORIZED:
+                    _notifier.ShowSuccess("Вы успешно вошли в систему!");
                     MenuVisibility.ExitBtnVisibility = Visibility.Visible;
                     MenuVisibility.BackBtnVisibility = Visibility.Hidden;
                     MenuVisibility.ProfileBtnVisibility = Visibility.Visible;
                     CourseVM.InitCourseData();
                     CurrentView = CourseVM;
+                    break;
+                case WindowEventType.AUTH_EMPTYLOGIN:
+                    _notifier.ShowError("Пожалуйста, введите Ваш логин и пароль!");
+                    break;
+                case WindowEventType.AUTH_ERROR:
+                    _notifier.ShowError(e.Argument.ToString());
                     break;
             }
         } 

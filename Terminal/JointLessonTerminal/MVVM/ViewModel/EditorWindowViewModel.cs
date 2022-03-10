@@ -2,6 +2,7 @@
 using JointLessonTerminal.Core.Material;
 using JointLessonTerminal.Model.ServerModels;
 using JointLessonTerminal.MVVM.Model;
+using JointLessonTerminal.MVVM.Model.EventModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -98,7 +99,9 @@ namespace JointLessonTerminal.MVVM.ViewModel
             UpdateMod = false;
             CreateMod = true;
 
-            Task.Factory.StartNew(() => loadMyMaterials());
+            Task.Factory.StartNew(async () => { 
+                await loadMyMaterials(); 
+            });
 
             /// Шаблонная запись метариала
             ManualData = new ManualData()
@@ -126,20 +129,44 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 chapters = new ObservableCollection<Chapter>()
             };
 
+            ManualData.OnFileUpload += fileUploadEvent;
+
             CreateNewManualCommand = new RelayCommand(async x =>
             {
-                await materialHandler.SaveAtDataBase(manualData);
-                await loadMyMaterials();
+                bool resp = await materialHandler.SaveAtDataBase(manualData);
+                var signal = new WindowEvent();
+                signal.Type = resp ? WindowEventType.EDITOR_MANUALCREATED : WindowEventType.EDITOR_MANUALCREATEDERROR;
+                signal.Argument = resp ? $"Материал был успешно создан" : "При создании материала возникла ошибка!";
+                SendEventSignal(signal);
+
+                if (resp) await loadMyMaterials();
             });
-            UpdateManualCommand = new RelayCommand(x =>
+            UpdateManualCommand = new RelayCommand(async x =>
             {
-                materialHandler.UpdateAtDataBase(manualData, selectedManual.fileDataId.Value);
+                bool resp = await materialHandler.UpdateAtDataBase(manualData, selectedManual.fileDataId.Value);
+                var signal = new WindowEvent();
+                signal.Type = resp ? WindowEventType.EDITOR_MANUALUPDATED : WindowEventType.EDITOR_MANUALUPDATEDERROR;
+                signal.Argument = resp ? $"Материал был успешно обновлен" : "При обновлении материала возникла ошибка!";
+                SendEventSignal(signal);
             });
+        }
+
+        private void fileUploadEvent(object sender, EventArgs args)
+        {
+            var signal = new WindowEvent();
+            signal.Type = (args as AlertArg).Success ? WindowEventType.EDITOR_ONFILEUPLOAD : WindowEventType.EDITOR_ONFILEUPLOADERROR;
+            signal.Argument = (args as AlertArg).Title;
+            SendEventSignal(signal);
         }
 
         private async Task loadMyMaterials()
         {
             MyManuals = await materialHandler.GetMyMaterials();
+            
+            var signal = new WindowEvent();
+            signal.Type = WindowEventType.EDITOR_MYMANUALSLOADED;
+            signal.Argument = $"Получено {MyManuals.Count} моих учебных материалов";
+            SendEventSignal(signal);
         }
 
         private async Task loadMaterialData(Manual manual)
@@ -148,6 +175,12 @@ namespace JointLessonTerminal.MVVM.ViewModel
             CreateMod = false;
             UpdateMod = true;
             ManualData = await materialHandler.LoadById(manual.fileDataId.Value);
+            ManualData.OnFileUpload += fileUploadEvent;
+
+            var signal = new WindowEvent();
+            signal.Type = WindowEventType.EDITOR_MANUALDATALOADED;
+            signal.Argument = $"Материал {ManualData.name} загружен";
+            SendEventSignal(signal);
         }
     }
 }
