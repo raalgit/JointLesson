@@ -35,7 +35,7 @@
                 <StackPanel HorizontalAlignment="Left"
                                 Orientation="Horizontal"
                                 Grid.Column="0">
-                    <Button Visibility="{Binding MenuVisibility.ProfileBtnVisibility}"
+                    <Button Visibility="Collapsed"
                                 Margin="20 0 0 0"
                                 Background="Transparent"
                                 Width="80"
@@ -80,7 +80,7 @@
                                 Command="{Binding ExitFromSystemCommand}"
                                 Margin="0 0 20 0"
                                 Background="Transparent"
-                                Width="80"
+                                Width="180"
                                 Height="80"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
@@ -89,7 +89,8 @@
                             <Image Width="30"
                                        Height="30"
                                        Source="../../Images/sign-out.png" />
-                            <TextBlock Text="Выйти"
+                            <TextBlock Text="{Binding FIO}"
+                                       Style="{StaticResource BaseTextStyle}"
                                            Foreground="#EFEFEF"
                                            FontSize="14"/>
                         </StackPanel>
@@ -100,8 +101,8 @@
         </StackPanel>
 
         <ContentControl Grid.Row="1" 
-                            Grid.Column="0"
-                            Content="{Binding CurrentView}">
+                        Grid.Column="0"
+                        Content="{Binding CurrentView}">
 
         </ContentControl>
 

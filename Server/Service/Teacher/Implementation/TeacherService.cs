@@ -77,7 +77,8 @@ namespace JL.Service.Teacher.Implementation
                     LastMaterialPage = string.IsNullOrEmpty(request.StartPage) ? group.LastMaterialPage : request.StartPage,
                     TeacherId = userSettings.User.Id,
                     Type = "ONLINE",
-                    GroupAtCourseId = group.Id
+                    GroupAtCourseId = group.Id, 
+                    CourseId = request.CourseId,
                 };
 
                 _lessonRepository.Insert(newLesson);

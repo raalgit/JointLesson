@@ -205,5 +205,65 @@ namespace jointLessonServer.Controllers
                 };
             }
         }
+
+        [HttpPost]
+        [JwtAuthentication(role: "User")]
+        [Route("/user/get-remote-access-data")]
+        public async Task<GetRemoteAccessDataResponse> GetRemoteAccessData(GetRemoteAccessDataRequest request)
+        {
+            try
+            {
+                var userBehavior = new UserBehavior(_serviceProvider);
+                return await userBehavior.GetRemoteAccessData(request);
+            }
+            catch (Exception er)
+            {
+                return new GetRemoteAccessDataResponse()
+                {
+                    IsSuccess = false,
+                    Message = er.Message
+                };
+            }
+        }
+
+        [HttpPost]
+        [JwtAuthentication(role: "User")]
+        [Route("/user/create-remote-access")]
+        public async Task<CreateRemoteAccessResponse> CreateRemoteAccess(CreateRemoteAccessRequest request)
+        {
+            try
+            {
+                var userBehavior = new UserBehavior(_serviceProvider);
+                return await userBehavior.CreateRemoteAccess(request);
+            }
+            catch (Exception er)
+            {
+                return new CreateRemoteAccessResponse()
+                {
+                    IsSuccess = false,
+                    Message = er.Message
+                };
+            }
+        }
+
+        [HttpGet]
+        [JwtAuthentication(role: "User")]
+        [Route("/user/remote-connection-list/{courseId}")]
+        public async Task<GetRemoteAccessListResponse> GetRemoteAccessList([FromRoute][Required] int courseId)
+        {
+            try
+            {
+                var userBehavior = new UserBehavior(_serviceProvider);
+                return await userBehavior.GetRemoteAccessList(courseId);
+            }
+            catch (Exception ex)
+            {
+                return new GetRemoteAccessListResponse()
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
     }
 }

@@ -13,6 +13,7 @@
                 <ResourceDictionary Source="Theme/MenuInputBoxTheme.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="Theme/ButtonThemes.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="Theme/TextThemes.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="pack://application:,,,/ToastNotifications.Messages;component/Themes/Default.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate DataType="{x:Type viewModel:AuthWindowViewModel}">
@@ -38,7 +39,7 @@
             <DataTemplate DataType="{x:Type viewModel:SrsLessonWindowViewModel}">
                 <view:SrsLessonWindow />
             </DataTemplate>
-            
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

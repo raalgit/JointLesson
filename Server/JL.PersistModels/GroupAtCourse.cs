@@ -14,7 +14,7 @@ namespace JL.Persist
         public int Id { get; set; }
         public int CourseId { get; set; }
         public int GroupId { get; set; }
-        public string LastMaterialPage { get; set; }
+        public string? LastMaterialPage { get; set; }
         public bool IsActive { get; set; }
     }
 }

@@ -36,6 +36,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.AspNetCore.Authentication.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.Authentication.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.Abstractions.dll</HintPath>
@@ -246,6 +249,7 @@
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -254,9 +258,16 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="ToastNotifications, Version=2.5.1.0, Culture=neutral, PublicKeyToken=e89d9d7314a7c797, processorArchitecture=MSIL">
+      <HintPath>..\packages\ToastNotifications.2.5.1\lib\net40\ToastNotifications.dll</HintPath>
+    </Reference>
+    <Reference Include="ToastNotifications.Messages, Version=2.5.1.0, Culture=neutral, PublicKeyToken=e89d9d7314a7c797, processorArchitecture=MSIL">
+      <HintPath>..\packages\ToastNotifications.Messages.2.5.1\lib\net40\ToastNotifications.Messages.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -292,6 +303,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\File\FileHandler.cs" />
+    <Compile Include="Core\File\UploadFileStatus.cs" />
     <Compile Include="Core\HTTPRequests\Enums\RequestMethod.cs" />
     <Compile Include="Core\HTTPRequests\IRequest.cs" />
     <Compile Include="Core\HTTPRequests\IResponse.cs" />
@@ -300,10 +312,127 @@
     <Compile Include="Core\RelayCommand.cs" />
     <Compile Include="Core\HTTPRequests\RequestModel.cs" />
     <Compile Include="Core\HTTPRequests\RequestSender.cs" />
+    <Compile Include="Core\RemoteTerminalClient\Data\IRemoteTerminal.cs" />
+    <Compile Include="Core\RemoteTerminalClient\Data\RemoteTeminalBehavior.cs" />
+    <Compile Include="Core\RemoteTerminalClient\Data\RemoteTeminalManager.cs" />
+    <Compile Include="Core\RemoteTerminalClient\Models\RdpManager.cs" />
+    <Compile Include="Core\RemoteTerminalClient\Models\RdpManagerEvents.cs" />
+    <Compile Include="Core\RemoteTerminalServer\RdpSessionServer.cs" />
+    <Compile Include="Core\WinApi\AxInterop.RDPCOMAPILib\AxRDPViewer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Core\WinApi\AxInterop.RDPCOMAPILib\AxRDPViewerEventMulticaster.cs" />
+    <Compile Include="Core\WinApi\AxInterop.RDPCOMAPILib\_IRDPSessionEvents_OnApplicationCloseEvent.cs" />
+    <Compile Include="Core\WinApi\AxInterop.RDPCOMAPILib\_IRDPSessionEvents_OnApplicationOpenEvent.cs" />
+    <Compile Include="Core\WinApi\AxInterop.RDPCOMAPILib\_IRDPSessionEvents_OnApplicationUpdateEvent.cs" />
+    <Compile Include="Core\WinApi\AxInterop.RDPCOMAPILib\_IRDPSessionEvents_OnAttendeeConnectedEvent.cs" />
+    <Compile Include="Core\WinApi\AxInterop.RDPCOMAPILib\_IRDPSessionEvents_OnAttendeeDisconnectedEvent.cs" />
+    <Compile Include="Core\WinApi\AxInterop.RDPCOMAPILib\_IRDPSessionEvents_OnAttendeeUpdateEvent.cs" />
+    <Compile Include="Core\WinApi\AxInterop.RDPCOMAPILib\_IRDPSessionEvents_OnChannelDataReceivedEvent.cs" />
+    <Compile Include="Core\WinApi\AxInterop.RDPCOMAPILib\_IRDPSessionEvents_OnChannelDataSentEvent.cs" />
+    <Compile Include="Core\WinApi\AxInterop.RDPCOMAPILib\_IRDPSessionEvents_OnConnectionTerminatedEvent.cs" />
+    <Compile Include="Core\WinApi\AxInterop.RDPCOMAPILib\_IRDPSessionEvents_OnControlLevelChangeRequestEvent.cs" />
+    <Compile Include="Core\WinApi\AxInterop.RDPCOMAPILib\_IRDPSessionEvents_OnErrorEvent.cs" />
+    <Compile Include="Core\WinApi\AxInterop.RDPCOMAPILib\_IRDPSessionEvents_OnFocusReleasedEvent.cs" />
+    <Compile Include="Core\WinApi\AxInterop.RDPCOMAPILib\_IRDPSessionEvents_OnSharedDesktopSettingsChangedEvent.cs" />
+    <Compile Include="Core\WinApi\AxInterop.RDPCOMAPILib\_IRDPSessionEvents_OnSharedRectChangedEvent.cs" />
+    <Compile Include="Core\WinApi\AxInterop.RDPCOMAPILib\_IRDPSessionEvents_OnWindowCloseEvent.cs" />
+    <Compile Include="Core\WinApi\AxInterop.RDPCOMAPILib\_IRDPSessionEvents_OnWindowOpenEvent.cs" />
+    <Compile Include="Core\WinApi\AxInterop.RDPCOMAPILib\_IRDPSessionEvents_OnWindowUpdateEvent.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\ATTENDEE_DISCONNECT_REASON.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\CHANNEL_ACCESS_ENUM.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\CHANNEL_FLAGS.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\CHANNEL_PRIORITY.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\CTRL_LEVEL.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\IRDPSRAPIApplication.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\IRDPSRAPIApplicationFilter.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\IRDPSRAPIApplicationList.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\IRDPSRAPIAttendee.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\IRDPSRAPIAttendeeDisconnectInfo.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\IRDPSRAPIAttendeeManager.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\IRDPSRAPIInvitation.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\IRDPSRAPIInvitationManager.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\IRDPSRAPISessionProperties.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\IRDPSRAPISharingSession.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\IRDPSRAPITcpConnectionInfo.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\IRDPSRAPIViewer.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\IRDPSRAPIVirtualChannel.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\IRDPSRAPIVirtualChannelManager.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\IRDPSRAPIWindow.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\IRDPSRAPIWindowList.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPENCOMAPI_ATTENDEE_FLAGS.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPENCOMAPI_CONSTANTS.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPSession.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPSessionClass.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPSRAPIApplication.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPSRAPIApplicationClass.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPSRAPIApplicationFilter.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPSRAPIApplicationFilterClass.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPSRAPIApplicationList.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPSRAPIApplicationListClass.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPSRAPIAttendee.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPSRAPIAttendeeClass.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPSRAPIAttendeeDisconnectInfo.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPSRAPIAttendeeDisconnectInfoClass.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPSRAPIAttendeeManager.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPSRAPIAttendeeManagerClass.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPSRAPIInvitation.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPSRAPIInvitationClass.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPSRAPIInvitationManager.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPSRAPIInvitationManagerClass.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPSRAPISessionProperties.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPSRAPISessionPropertiesClass.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPSRAPITcpConnectionInfo.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPSRAPITcpConnectionInfoClass.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPSRAPIWindow.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPSRAPIWindowClass.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPSRAPIWindowList.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPSRAPIWindowListClass.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPSRAPI_APP_FLAGS.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPSRAPI_WND_FLAGS.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPViewer.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\RDPViewerClass.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\_IRDPSessionEvents.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\_IRDPSessionEvents_Event.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\_IRDPSessionEvents_EventProvider.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\_IRDPSessionEvents_SinkHelper.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\__MIDL___MIDL_itf_rdpencomapi_0000_0001_0001.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\__MIDL___MIDL_itf_rdpencomapi_0000_0001_0002.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\__MIDL___MIDL_itf_rdpencomapi_0000_0001_0003.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\__MIDL___MIDL_itf_rdpencomapi_0000_0001_0004.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\__MIDL___MIDL_itf_rdpencomapi_0000_0001_0005.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\__MIDL___MIDL_itf_rdpencomapi_0000_0001_0006.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\__MIDL___MIDL_itf_rdpencomapi_0000_0001_0007.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\__MIDL___MIDL_itf_rdpencomapi_0000_0001_0008.cs" />
+    <Compile Include="Core\WinApi\RDPCOMAPILib\__MIDL___MIDL_itf_rdpencomapi_0000_0001_0009.cs" />
+    <Compile Include="Core\WinApi\RDPSessionEvents\_IRDPSessionEvents_OnApplicationCloseEventHandler.cs" />
+    <Compile Include="Core\WinApi\RDPSessionEvents\_IRDPSessionEvents_OnApplicationOpenEventHandler.cs" />
+    <Compile Include="Core\WinApi\RDPSessionEvents\_IRDPSessionEvents_OnApplicationUpdateEventHandler.cs" />
+    <Compile Include="Core\WinApi\RDPSessionEvents\_IRDPSessionEvents_OnAttendeeConnectedEventHandler.cs" />
+    <Compile Include="Core\WinApi\RDPSessionEvents\_IRDPSessionEvents_OnAttendeeDisconnectedEventHand.cs" />
+    <Compile Include="Core\WinApi\RDPSessionEvents\_IRDPSessionEvents_OnAttendeeUpdateEventHandler.cs" />
+    <Compile Include="Core\WinApi\RDPSessionEvents\_IRDPSessionEvents_OnChannelDataReceivedEventHandl.cs" />
+    <Compile Include="Core\WinApi\RDPSessionEvents\_IRDPSessionEvents_OnChannelDataSentEventHandler.cs" />
+    <Compile Include="Core\WinApi\RDPSessionEvents\_IRDPSessionEvents_OnConnectionAuthenticatedEventH.cs" />
+    <Compile Include="Core\WinApi\RDPSessionEvents\_IRDPSessionEvents_OnConnectionEstablishedEventHan.cs" />
+    <Compile Include="Core\WinApi\RDPSessionEvents\_IRDPSessionEvents_OnConnectionFailedEventHandler.cs" />
+    <Compile Include="Core\WinApi\RDPSessionEvents\_IRDPSessionEvents_OnConnectionTerminatedEventHand.cs" />
+    <Compile Include="Core\WinApi\RDPSessionEvents\_IRDPSessionEvents_OnControlLevelChangeRequestEven.cs" />
+    <Compile Include="Core\WinApi\RDPSessionEvents\_IRDPSessionEvents_OnErrorEventHandler.cs" />
+    <Compile Include="Core\WinApi\RDPSessionEvents\_IRDPSessionEvents_OnFocusReleasedEventHandler.cs" />
+    <Compile Include="Core\WinApi\RDPSessionEvents\_IRDPSessionEvents_OnGraphicsStreamPausedEventHand.cs" />
+    <Compile Include="Core\WinApi\RDPSessionEvents\_IRDPSessionEvents_OnGraphicsStreamResumedEventHan.cs" />
+    <Compile Include="Core\WinApi\RDPSessionEvents\_IRDPSessionEvents_OnSharedDesktopSettingsChangedE.cs" />
+    <Compile Include="Core\WinApi\RDPSessionEvents\_IRDPSessionEvents_OnSharedRectChangedEventHandler.cs" />
+    <Compile Include="Core\WinApi\RDPSessionEvents\_IRDPSessionEvents_OnWindowCloseEventHandler.cs" />
+    <Compile Include="Core\WinApi\RDPSessionEvents\_IRDPSessionEvents_OnWindowOpenEventHandler.cs" />
+    <Compile Include="Core\WinApi\RDPSessionEvents\_IRDPSessionEvents_OnWindowUpdateEventHandler.cs" />
+    <Compile Include="Core\WinApi\SupportUtils.cs" />
     <Compile Include="Core\WindowEvent.cs" />
     <Compile Include="Core\WindowEventType.cs" />
     <Compile Include="MVVM\Model\CourseCollection.cs" />
     <Compile Include="MVVM\Model\CourseModel.cs" />
+    <Compile Include="MVVM\Model\EventModels\AlertArg.cs" />
     <Compile Include="MVVM\Model\EventModels\OnOpenCourseModel.cs" />
     <Compile Include="MVVM\Model\EventModels\OnPageChangeEventArg.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\AddNewFileRequest.cs" />
@@ -311,7 +440,9 @@
     <Compile Include="MVVM\Model\HttpModels\Request\ChangeSRSLessonManualPageRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\CloseLessonRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\CloseSRSLessonRequest.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Request\CreateRemoteAccessRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\GetManualFilesRequest.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Request\GetRemoteAccessDataRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\LoginRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\NewMaterialRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\RegisterSignalConnectionRequest.cs" />
@@ -323,6 +454,7 @@
     <Compile Include="MVVM\Model\HttpModels\Response\ChangeSRSLessonManualPageResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\CloseLessonResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\CloseSRSLessonResponse.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Response\CreateRemoteAccessResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetCourseDataResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetFileResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetManualByIdResponse.cs" />
@@ -330,6 +462,8 @@
     <Compile Include="MVVM\Model\HttpModels\Response\GetMaterialResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetMyCoursesResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetMyMaterialsResponse.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Response\GetRemoteAccessDataResponse.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Response\GetRemoteAccessListResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\LoginResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\LogoutResponse.cs" />
     <Compile Include="Core\Material\Author.cs" />
@@ -362,6 +496,7 @@
     <Compile Include="MVVM\Model\ServerModels\Statistic.cs" />
     <Compile Include="MVVM\Model\ServerModels\Test.cs" />
     <Compile Include="MVVM\Model\ServerModels\User.cs" />
+    <Compile Include="MVVM\Model\ServerModels\UserRemoteAccess.cs" />
     <Compile Include="MVVM\Model\ServerModels\UserRole.cs" />
     <Compile Include="MVVM\Model\ServerModels\WorkBook.cs" />
     <Compile Include="MVVM\Model\SignalR\SignalHub.cs" />
@@ -373,6 +508,7 @@
     <Compile Include="MVVM\ViewModel\EditorWindowViewModel.cs" />
     <Compile Include="MVVM\ViewModel\LessonWindowViewModel.cs" />
     <Compile Include="MVVM\ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="MVVM\ViewModel\RemoteTerminalViewModel.cs" />
     <Compile Include="MVVM\ViewModel\SrsLessonWindowViewModel.cs" />
     <Compile Include="MVVM\View\AuthWindow.xaml.cs">
       <DependentUpon>AuthWindow.xaml</DependentUpon>
@@ -393,6 +529,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MVVM\View\RemoteTerminalWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MVVM\View\SrsLessonWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -415,6 +555,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MVVM\View\RemoteTerminalWindow.xaml.cs">
+      <DependentUpon>RemoteTerminalWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MVVM\View\SrsLessonWindow.xaml.cs">
       <DependentUpon>SrsLessonWindow.xaml</DependentUpon>
     </Compile>
@@ -438,6 +581,7 @@
     <Resource Include="Fonts\Cheque.otf" />
     <Resource Include="Fonts\Golos-UI_Medium.ttf" />
     <Resource Include="Fonts\Golos-UI_Bold.ttf" />
+    <None Include="app.manifest" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

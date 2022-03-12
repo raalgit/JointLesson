@@ -41,8 +41,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
             }
             set
             {
-                selectedCourse = value;
-                OpenCourse(selectedCourse);
+                OpenCourse(value);
                 OnPropsChanged("SelectedCourse");
             }
         }
@@ -125,12 +124,18 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 }
                 else
                 {
-                    MessageBox.Show("Не удалось получить данные курсов");
+                    var signal = new WindowEvent();
+                    signal.Type = WindowEventType.COURSELIST_GETERROR;
+                    signal.Argument = "Не удалось получить данные курсов!";
+                    SendEventSignal(signal);
                 }
             }
             catch (Exception er)
             {
-
+                var signal = new WindowEvent();
+                signal.Type = WindowEventType.COURSELIST_GETERROR;
+                signal.Argument = er.Message;
+                SendEventSignal(signal);
             }
         }
         #endregion

@@ -1,4 +1,5 @@
 ﻿using JointLessonTerminal.Core.File;
+using JointLessonTerminal.MVVM.Model.EventModels;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -60,6 +61,8 @@ namespace JointLessonTerminal.Core.Material
         public RelayCommand RemoveCommand { get; set; }
         [JsonIgnore]
         public EventHandler OnUnitRemove { get; set; }
+        [JsonIgnore]
+        public EventHandler OnFileUpload { get; set; }
         #endregion
 
 
@@ -120,7 +123,12 @@ namespace JointLessonTerminal.Core.Material
                     bytes = memstream.ToArray();
                 }
                 sr.Close();
-                NewItemDocId = await fileHandler.UploadFile(bytes, fileDialog.FileName);
+                var uploadStatus = await fileHandler.UploadFile(bytes, fileDialog.FileName);
+                NewItemDocId = uploadStatus.FileId;
+                string message = uploadStatus.IsSuccess ?
+                    $"Файл {NewItemDocId} успешно загружен и готов к прикреплению к странице!" : "Во время загрузки файла возникла ошибка!";
+
+                OnFileUpload?.Invoke(this, new AlertArg(message, uploadStatus.IsSuccess));
             }
         }
 
