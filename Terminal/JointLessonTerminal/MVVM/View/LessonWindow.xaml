@@ -215,7 +215,7 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Row="0"
                                    Grid.Column="0"
-                                   Text="Передать управление"
+                                   Text="Терминал удаленного доступа"
                                    FontSize="14"
                                    FontWeight="Bold"
                                    VerticalAlignment="Center">
@@ -230,32 +230,6 @@
                                 <StackPanel Cursor="Hand">
                                     <Image HorizontalAlignment="Left"
                                        Source="../../Images/win-controll-btn.png"
-                                       Width="35"
-                                       Height="35"/>
-                                </StackPanel>
-                            </Button>
-                        </Grid>
-                        <Grid Margin="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="3*"/>
-                                <ColumnDefinition Width="1*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Row="0"
-                                   Grid.Column="0"
-                                   Text="Показ экрана"
-                                   FontSize="14"
-                                   FontWeight="Bold"
-                                   VerticalAlignment="Center">
-                            </TextBlock>
-                            <Button 
-                                    Grid.Row="0"
-                                    Grid.Column="1"
-                                    HorizontalAlignment="Right"
-                                    Background="Transparent"
-                                    BorderThickness="0">
-                                <StackPanel Cursor="Hand">
-                                    <Image HorizontalAlignment="Left"
-                                       Source="../../Images/demo-btn.png"
                                        Width="35"
                                        Height="35"/>
                                 </StackPanel>

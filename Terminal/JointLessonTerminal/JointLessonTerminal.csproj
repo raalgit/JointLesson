@@ -440,7 +440,9 @@
     <Compile Include="MVVM\Model\HttpModels\Request\ChangeSRSLessonManualPageRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\CloseLessonRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\CloseSRSLessonRequest.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Request\CreateRemoteAccessRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\GetManualFilesRequest.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Request\GetRemoteAccessDataRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\LoginRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\NewMaterialRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\RegisterSignalConnectionRequest.cs" />
@@ -452,6 +454,7 @@
     <Compile Include="MVVM\Model\HttpModels\Response\ChangeSRSLessonManualPageResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\CloseLessonResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\CloseSRSLessonResponse.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Response\CreateRemoteAccessResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetCourseDataResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetFileResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetManualByIdResponse.cs" />
@@ -459,6 +462,8 @@
     <Compile Include="MVVM\Model\HttpModels\Response\GetMaterialResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetMyCoursesResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetMyMaterialsResponse.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Response\GetRemoteAccessDataResponse.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Response\GetRemoteAccessListResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\LoginResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\LogoutResponse.cs" />
     <Compile Include="Core\Material\Author.cs" />
@@ -491,6 +496,7 @@
     <Compile Include="MVVM\Model\ServerModels\Statistic.cs" />
     <Compile Include="MVVM\Model\ServerModels\Test.cs" />
     <Compile Include="MVVM\Model\ServerModels\User.cs" />
+    <Compile Include="MVVM\Model\ServerModels\UserRemoteAccess.cs" />
     <Compile Include="MVVM\Model\ServerModels\UserRole.cs" />
     <Compile Include="MVVM\Model\ServerModels\WorkBook.cs" />
     <Compile Include="MVVM\Model\SignalR\SignalHub.cs" />

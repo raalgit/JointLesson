@@ -257,7 +257,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
         }
         private void openRemoteTerminal()
         {
-            var terminal = new RemoteTerminalWindow();
+            var terminal = new RemoteTerminalWindow(courseId);
             terminal.Show();
         }
 

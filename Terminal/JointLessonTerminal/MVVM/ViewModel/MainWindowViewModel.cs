@@ -51,6 +51,9 @@ namespace JointLessonTerminal.MVVM.ViewModel
             }
         }
 
+        public string FIO { get { return fio; } set { fio = value; OnPropsChanged("FIO"); } }
+        private string fio;
+
         private readonly Notifier _notifier;
         public MainWindowViewModel()
         {
@@ -228,6 +231,8 @@ namespace JointLessonTerminal.MVVM.ViewModel
             {
                 case WindowEventType.AUTHORIZED:
                     _notifier.ShowSuccess("Вы успешно вошли в систему!");
+                    var userData = UserSettings.GetInstance().CurrentUser;
+                    FIO = userData.firstName + " " + userData.thirdName;
                     MenuVisibility.ExitBtnVisibility = Visibility.Visible;
                     MenuVisibility.BackBtnVisibility = Visibility.Hidden;
                     MenuVisibility.ProfileBtnVisibility = Visibility.Visible;

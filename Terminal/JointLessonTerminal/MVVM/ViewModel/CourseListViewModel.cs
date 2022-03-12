@@ -41,8 +41,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
             }
             set
             {
-                selectedCourse = value;
-                OpenCourse(selectedCourse);
+                OpenCourse(value);
                 OnPropsChanged("SelectedCourse");
             }
         }

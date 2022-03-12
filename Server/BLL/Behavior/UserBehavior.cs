@@ -32,6 +32,30 @@ namespace BLL.Behavior
                 throw new NullReferenceException(nameof(_userService));
         }
 
+        public async Task<GetRemoteAccessDataResponse> GetRemoteAccessData(GetRemoteAccessDataRequest request)
+        {
+            try
+            {
+                return await _userService.GetRemoteAccessData(request);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<CreateRemoteAccessResponse> CreateRemoteAccess(CreateRemoteAccessRequest request)
+        {
+            try
+            {
+                return await _userService.CreateRemoteAccess(request, _userSettings);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public async Task<GetMyCoursesResponse> GetMyCourses()
         {
             try
@@ -133,6 +157,18 @@ namespace BLL.Behavior
             try
             {
                 return await _userService.CloseLesson(request, _userSettings);
+            }
+            catch (Exception er)
+            {
+                throw er;
+            }
+        }
+
+        public async Task<GetRemoteAccessListResponse> GetRemoteAccessList(int courseId)
+        {
+            try
+            {
+                return await _userService.GetRemoteAccessList(courseId);
             }
             catch (Exception er)
             {

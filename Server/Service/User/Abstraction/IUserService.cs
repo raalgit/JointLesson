@@ -12,6 +12,9 @@ namespace JL.Service.User.Abstraction
 {
     public interface IUserService : IServiceJL
     {
+        Task<GetRemoteAccessListResponse> GetRemoteAccessList(int courseId);
+        Task<CreateRemoteAccessResponse> CreateRemoteAccess(CreateRemoteAccessRequest request, UserSettings userSettings);
+        Task<GetRemoteAccessDataResponse> GetRemoteAccessData(GetRemoteAccessDataRequest request);
         Task<GetMyCoursesResponse> GetMyCourses(UserSettings userSettings);
         Task<AddNewFileResponse> AddNewFile(AddNewFileRequest request);
         Task<GetFileResponse> GetFile(int fileDataId);

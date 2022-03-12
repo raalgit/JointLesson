@@ -8,6 +8,8 @@ using JL.Service.User.Abstraction;
 using JL.Settings;
 using JL.Utility2L.Abstraction;
 using JL.Utility2L.Implementation;
+using JL.Utility2L.Models.SignalR;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,8 +27,13 @@ namespace JL.Service.User.Implementation
         private readonly ILessonRepository _lessonRepository;
         private readonly IMongoRepository _mongoRepository;
         private readonly IFileDataRepository _fileDataRepository;
+        private readonly IGroupRepository _groupRepository;
+        private readonly IUserRepository _userRepository; 
         private readonly ISignalUserConnectionRepository _signalUserConnectionRepository;
+        private readonly IUserRemoteAccessRepository _userRemoteAccessRepository;
         private readonly IFileUtility _fileUtility;
+
+        private readonly IHubContext<SignalHub> _hubContext;
 
         public UserService(IServiceProvider serviceProvider,
                            ICourseRepository courseRepository,
@@ -35,17 +42,25 @@ namespace JL.Service.User.Implementation
                            ILessonRepository lessonRepository,
                            ISignalUserConnectionRepository signalUserConnectionRepository,
                            IMongoRepository mongoRepository,
-                           IFileDataRepository fileDataRepository)
+                           IGroupRepository groupRepository,
+                           IUserRepository userRepository,
+                           IUserRemoteAccessRepository userRemoteAccessRepository,
+                           IFileDataRepository fileDataRepository,
+                           IHubContext<SignalHub> hubContext)
         {
             _serviceProvider = serviceProvider;
             _courseRepository = courseRepository;
+            _groupRepository = groupRepository;
+            _userRemoteAccessRepository = userRemoteAccessRepository;
             _courseTeacherRepository = courseTeacherRepository;
             _groupAtCourseRepository = groupAtCourseRepository;
+            _userRepository = userRepository;
             _signalUserConnectionRepository = signalUserConnectionRepository;
             _lessonRepository = lessonRepository;
             _mongoRepository = mongoRepository;
             _fileDataRepository = fileDataRepository;
 
+            _hubContext = hubContext;
             _fileUtility = new FileUtility(_mongoRepository, _fileDataRepository);
         }
 
@@ -140,7 +155,7 @@ namespace JL.Service.User.Implementation
             var groupsAtCourse = _groupAtCourseRepository.Get().Where(x => x.CourseId == courseId)
                 ?? throw new ArgumentException(nameof(courseId));
 
-            response.LastPage = groupsAtCourse.FirstOrDefault()?.LastMaterialPage;
+            response.LastPage = groupsAtCourse.FirstOrDefault()?.LastMaterialPage ?? string.Empty;
 
             /// Для каждой группы может вестись отдельное занятие 
             /// При входе преподавателя необходимо проверять для каких именно групп активно
@@ -256,6 +271,57 @@ namespace JL.Service.User.Implementation
 
             _lessonRepository.SaveChanges();
 
+            return response;
+        }
+
+        public async Task<GetRemoteAccessDataResponse> GetRemoteAccessData(GetRemoteAccessDataRequest request)
+        {
+            var response = new GetRemoteAccessDataResponse();
+
+            var data = _userRemoteAccessRepository.Get().FirstOrDefault(x =>
+                            x.CourseId == request.CourseId &&
+                            x.UserId == request.UserId &&
+                            (DateTime.Now - x.StartDate).TotalHours < 1
+                       );
+
+            response.ConnectionData = data != null ? data.ConnectionData : String.Empty;
+            return response;
+        }
+
+        public async Task<CreateRemoteAccessResponse> CreateRemoteAccess(CreateRemoteAccessRequest request, UserSettings userSettings)
+        {
+            var response = new CreateRemoteAccessResponse();
+
+            var oldData = _userRemoteAccessRepository.Get().FirstOrDefault(x => x.UserId == userSettings.User.Id);
+            if (oldData != null)
+            {
+                _userRemoteAccessRepository.Delete(oldData);
+            }
+
+            _userRemoteAccessRepository.Insert(new UserRemoteAccess()
+            {
+                ConnectionData = request.ConnectionData,
+                StartDate = DateTime.Now,
+                UserId = userSettings.User.Id,
+                CourseId = request.CourseId
+            });
+            _userRemoteAccessRepository.SaveChanges();
+
+            return response;
+        }
+
+        public async Task<GetRemoteAccessListResponse> GetRemoteAccessList(int courseId)
+        {
+            var response = new GetRemoteAccessListResponse();
+
+            var list = _userRemoteAccessRepository
+                .Get()
+                .Where(x => x.CourseId == courseId)
+                .ToList();
+
+            list = list.Where(x => (DateTime.Now - x.StartDate).Hours < 1).ToList();
+
+            response.UserRemoteAccesses = list;
             return response;
         }
     }

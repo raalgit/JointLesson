@@ -6,13 +6,65 @@
         xmlns:viewModel="clr-namespace:JointLessonTerminal.MVVM.ViewModel"
         xmlns:axRdpcomapiLib="clr-namespace:AxRDPCOMAPILib"
         mc:Ignorable="d" d:DataContext="{d:DesignInstance viewModel:RemoteTerminalViewModel}"
-        Title="RemoteTerminalWindow" Height="450" Width="800">
+        Title="JointLesson терминал удаленного просмотра" Height="450" Width="800">
     <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Content="START" Margin="5"/>
-            <Label Content="What's my role?" Margin="5"/>
-            <ToggleButton Content="Server" Margin="5" x:Name="ServerButton" IsChecked="False"/>
-            <ToggleButton Content="Client" Margin="5" x:Name="ClientButton" IsChecked="False"/>
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0"
+                           Grid.Column="0"
+                           Text="Начать демонстрацию экрана"
+                           FontSize="14"
+                           FontWeight="Bold"
+                           VerticalAlignment="Center">
+                </TextBlock>
+                <ToggleButton 
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    x:Name="ServerButton" 
+                    IsChecked="False"
+                    HorizontalAlignment="Right"
+                    Background="Transparent"
+                    BorderThickness="0">
+                    <StackPanel Cursor="Hand">
+                        <Image HorizontalAlignment="Left"
+                               Source="../../Images/demo-btn.png"
+                               Width="35"
+                               Height="35"/>
+                    </StackPanel>
+                </ToggleButton>
+            </Grid>
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0"
+                           Grid.Column="0"
+                           Text="Присоединиться к просмотру"
+                           FontSize="14"
+                           FontWeight="Bold"
+                           VerticalAlignment="Center">
+                </TextBlock>
+                <ToggleButton 
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    x:Name="ClientButton" 
+                    IsChecked="False"
+                    HorizontalAlignment="Right"
+                    Background="Transparent"
+                    BorderThickness="0">
+                    <StackPanel Cursor="Hand">
+                        <Image HorizontalAlignment="Left"
+                               Source="../../Images/win-controll-btn.png"
+                               Width="35"
+                               Height="35"/>
+                    </StackPanel>
+                </ToggleButton>
+            </Grid>
             <StackPanel.Style>
                 <Style TargetType="StackPanel">
                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -42,22 +94,104 @@
                 </Style>
             </Grid.Style>
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="8*" />
             </Grid.RowDefinitions>
 
-            <WindowsFormsHost x:Name="FormHost">
+            <StackPanel Grid.Row="0"
+                        Orientation="Horizontal">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0"
+                           Grid.Column="0"
+                           Text="Получить список подключений"
+                           FontSize="14"
+                           FontWeight="Bold"
+                           VerticalAlignment="Center">
+                    </TextBlock>
+                    <Button Grid.Row="0"
+                        Grid.Column="1"
+                        Command="{Binding GetConnectionListCommand}"
+                        HorizontalAlignment="Right"
+                        Background="Transparent"
+                        BorderThickness="0">
+                        <StackPanel Cursor="Hand">
+                            <Image HorizontalAlignment="Left"
+                               Source="../../Images/win-controll-btn.png"
+                               Width="35"
+                               Height="35"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0"
+                           Grid.Column="0"
+                           Text="Отключиться"
+                           FontSize="14"
+                           FontWeight="Bold"
+                           VerticalAlignment="Center">
+                    </TextBlock>
+                    <Button Grid.Row="0"
+                        Grid.Column="1"
+                        Command="{Binding DisconnectCommand}"
+                        HorizontalAlignment="Right"
+                        Background="Transparent"
+                        BorderThickness="0">
+                        <StackPanel Cursor="Hand">
+                            <Image HorizontalAlignment="Left"
+                               Source="../../Images/stop-btn.png"
+                               Width="35"
+                               Height="35"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </StackPanel>
+            
+            <ListView Grid.Row="1"
+                      ItemsSource="{Binding ConnectionList}"
+                      SelectedItem="{Binding SelectedConnection}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0"
+                                       Height="auto"
+                                       HorizontalAlignment="Left"
+                                       Style="{StaticResource BaseTextStyle}"
+                                       Text="{Binding startDate}">
+                            </TextBlock>
+                            <TextBlock Grid.Column="1"
+                                       Width="auto"
+                                       Height="25"
+                                       Style="{StaticResource BaseTextStyle}"
+                                       Text="{Binding userId}">
+                            </TextBlock>
+                            <Image Grid.Column="2"
+                                   HorizontalAlignment="Left"
+                                   Source="../../Images/enter-btn.png"
+                                   Width="25"
+                                   Height="25">
+                            </Image>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <WindowsFormsHost Grid.Row="2" 
+                              x:Name="FormHost">
                 <axRdpcomapiLib:AxRDPViewer x:Name="RdpViewer" />
             </WindowsFormsHost>
-
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Button Content="Connect" Command="{Binding ConnectCommand}"  Margin="5"/>
-                <TextBox Grid.Column="1" Text="{Binding ConnectionText}" Margin="5"/>
-            </Grid>
         </Grid>
         <Grid>
             <Grid.Style>
@@ -71,11 +205,34 @@
                 </Style>
             </Grid.Style>
             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
-                <TextBox Text="{Binding ServerConnectionText}" Margin="5" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Height="200"/>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Content="Start" Command="{Binding ServerStartCommand}" Margin="5" Width="150"/>
-                    <Button Content="Start (Only this)" Command="{Binding SingleStartCommand}" Margin="5" Width="150"/>
-                    <Button Content="Copy" Command="{Binding CopyCommand}" Margin="5" Width="150"/>
+                <StackPanel Background="{Binding CanvasColor}" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0"
+                                   Grid.Column="0"
+                                   Text="Доступ ко всему окну"
+                                   FontSize="14"
+                                   FontWeight="Bold"
+                                   VerticalAlignment="Center">
+                        </TextBlock>
+                        <Button 
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                Command="{Binding ServerStartCommand}"
+                                    HorizontalAlignment="Right"
+                                    Background="Transparent"
+                                    BorderThickness="0">
+                            <StackPanel Cursor="Hand">
+                                <Image HorizontalAlignment="Left"
+                                       Source="../../Images/win-controll-btn.png"
+                                       Width="35"
+                                       Height="35"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
                 </StackPanel>
             </StackPanel>
         </Grid>

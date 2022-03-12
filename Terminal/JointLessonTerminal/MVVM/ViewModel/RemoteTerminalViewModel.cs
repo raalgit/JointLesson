@@ -1,21 +1,52 @@
 ﻿using JointLessonTerminal.Core;
+using JointLessonTerminal.Core.HTTPRequests;
 using JointLessonTerminal.Core.RemoteTerminalClient.Models;
 using JointLessonTerminal.Core.RemoteTerminalServer;
 using JointLessonTerminal.Core.WinApi;
+using JointLessonTerminal.MVVM.Model.HttpModels.Request;
+using JointLessonTerminal.MVVM.Model.HttpModels.Response;
+using JointLessonTerminal.MVVM.Model.ServerModels;
 using RDPCOMAPILib;
 using System;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 
 namespace JointLessonTerminal.MVVM.ViewModel
 {
     public class RemoteTerminalViewModel : ObservableObject
     {
+        private readonly int _courseId;
         private string _serverConnectionText;
         private string _teminalEventText;
         private bool _actionChoosen = false;
 
-        public RemoteTerminalViewModel()
+        private ObservableCollection<UserRemoteAccess> connectionList;
+        public ObservableCollection<UserRemoteAccess> ConnectionList
         {
+            get { return connectionList; } 
+            set { connectionList = value; OnPropsChanged("ConnectionList"); }
+        }
+
+        private UserRemoteAccess selectedConnection;
+        public UserRemoteAccess SelectedConnection 
+        {
+            get
+            {
+                return selectedConnection;
+            }
+            set
+            {
+                selectedConnection = value;
+                ConnectToHost(selectedConnection);
+                OnPropsChanged("SelectedConnection");
+            }
+        }
+
+        public RemoteTerminalViewModel(int courseId)
+        {
+            _courseId = courseId;
             RdpManagerInst = new RdpManager() { SmartSizing = true };
 
             RdpManagerInst.OnConnectionTerminated += (reason, info) => SessionTerminated();
@@ -24,8 +55,15 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
             SingleStartCommand = new RelayCommand(x => SingleStart(), o => !_actionChoosen);
             ConnectCommand = new RelayCommand(x => Connect());
+            DisconnectCommand = new RelayCommand(x => Disconnect());
             ServerStartCommand = new RelayCommand(x => ServerStart(), o => !_actionChoosen);
             CopyCommand = new RelayCommand(x => Copy());
+
+            GetConnectionListCommand = new RelayCommand(async x => 
+            { 
+                var resp = await GetConnectionList();
+                ConnectionList = resp.userRemoteAccesses;
+            });
         }
 
         public string ConnectionText { get; set; }
@@ -40,6 +78,11 @@ namespace JointLessonTerminal.MVVM.ViewModel
         public RelayCommand CopyCommand { get; set; }
         public RelayCommand SingleStartCommand { get; set; }
         public RelayCommand ConnectCommand { get; set; }
+        public RelayCommand DisconnectCommand { get; set; }
+        public RelayCommand GetConnectionListCommand { get; set; }
+
+        private SolidColorBrush canvasColor;
+        public SolidColorBrush CanvasColor { get { return canvasColor; } set { canvasColor = value; OnPropsChanged("CanvasColor"); } }
 
         public string TeminalEventText
         {
@@ -117,6 +160,62 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
             ServerConnectionText = server.CreateInvitation(GroupName, Password);
             ServerStarted();
+            CanvasColor = new SolidColorBrush(Color.FromRgb(233, 150, 122));
+            Task.Factory.StartNew(async x => { await sendConnectionData(ServerConnectionText); }, null);
+        }
+
+        private void ConnectToHost(UserRemoteAccess selectedConnection)
+        {
+            if (selectedConnection == null) return;
+            ConnectionText = selectedConnection.connectionData;
+            Connect();
+        }
+
+        private async Task<GetRemoteAccessListResponse> GetConnectionList()
+        {
+            var getListRequest = new RequestModel<object>()
+            {
+                Method = Core.HTTPRequests.Enums.RequestMethod.Get,
+                UrlFilter = $"/{_courseId}"
+            };
+
+            var sender = new RequestSender<object, GetRemoteAccessListResponse>();
+            var responsePost = await sender.SendRequest(getListRequest, "/user/remote-connection-list");
+            if (responsePost.isSuccess)
+            {
+                // notification
+            }
+            else
+            {
+                // notification
+            }
+
+            return responsePost;
+        }
+
+        private async Task<CreateRemoteAccessResponse> sendConnectionData(string conData)
+        {
+            var sendDataRequest = new RequestModel<CreateRemoteAccessRequest>()
+            {
+                Method = Core.HTTPRequests.Enums.RequestMethod.Post,
+                Body = new CreateRemoteAccessRequest()
+                {
+                    ConnectionData = conData,
+                    CourseId = _courseId
+                }
+            };
+            var sender = new RequestSender<CreateRemoteAccessRequest, CreateRemoteAccessResponse>();
+            var responsePost = await sender.SendRequest(sendDataRequest, "/user/create-remote-access");
+            if (responsePost.isSuccess)
+            {
+                // notification
+            }
+            else
+            {
+                // notification
+            }
+
+            return responsePost;
         }
 
         private void ServerStarted()
@@ -126,8 +225,12 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
         private void Connect()
         {
-            RdpManagerInst.GetType();
             RdpManagerInst.Connect(ConnectionText, GroupName, Password);
+        }
+
+        private void Disconnect()
+        {
+            RdpManagerInst.Disconnect();
         }
     }
 }

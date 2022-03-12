@@ -33,10 +33,11 @@ namespace JointLessonTerminal.MVVM.View
         {
             RemoteTeminalBehavior.InitializeDependencyProperties();
         }
-        public RemoteTerminalWindow()
+
+        public RemoteTerminalWindow(int courseId)
         {
             InitializeComponent();
-            DataContext = new RemoteTerminalViewModel();
+            DataContext = new RemoteTerminalViewModel(courseId);
             Manager = new RemoteTeminalManager(RdpViewer);
             var res = (DataContext as RemoteTerminalViewModel).RdpManagerInst;
             res.Attach(Manager);
