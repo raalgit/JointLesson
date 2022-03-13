@@ -15,6 +15,6 @@ namespace JL.Persist
         public int UserId { get; set; }
         public int LessonId { get; set; }
         public DateTime EnterDate { get; set; }
-        public DateTime LeaveDate { get; set; }
+        public DateTime? LeaveDate { get; set; }
     }
 }

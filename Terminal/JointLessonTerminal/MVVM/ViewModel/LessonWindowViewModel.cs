@@ -23,6 +23,7 @@ using JointLessonTerminal.MVVM.View;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using Microsoft.Win32;
+using JointLessonTerminal.MVVM.Model.EventModels.Inner;
 
 namespace JointLessonTerminal.MVVM.ViewModel
 {
@@ -30,6 +31,9 @@ namespace JointLessonTerminal.MVVM.ViewModel
     {
         private ManualData manual;
         public ManualData Manual { get; set; }
+
+        private List<UserAtLesson> usersAtLesson;
+        public List<UserAtLesson> UsersAtLesson { get { return usersAtLesson; } set { usersAtLesson = value; OnPropsChanged("UsersAtLesson"); } }
 
         public Visibility NextPageBtnVisibility { get { return nextPageBtnVisibility; } set { nextPageBtnVisibility = value; OnPropsChanged("NextPageBtnVisibility"); } }
         private Visibility nextPageBtnVisibility;
@@ -372,6 +376,16 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
             hub = SignalHub.GetInstance();
             hub.OnPageSync += onSyncPageEvent;
+            hub.OnLessonUserListUpdate += onLessonUserListUpdateEvent;
+
+            Task.Factory.StartNew(async x =>
+            {
+                var req = new JoinLessonRequest()
+                {
+                    CourseId = courseId
+                };
+                var resp = await JoinLesson(req);
+            }, null);
 
             try
             {
@@ -397,6 +411,29 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     showWordPage(true);
                 }
             }
+        }
+        private void onLessonUserListUpdateEvent(object o, EventArgs e)
+        {
+            var arg = e as OnLessonUserListUpdateArg;
+            if (arg != null)
+            {
+                UsersAtLesson = arg.UserAtLessons;
+            }
+        }
+        private async Task<JoinLessonResponse> JoinLesson(JoinLessonRequest request)
+        {
+            var joinLessonRequest = new RequestModel<JoinLessonRequest>()
+            {
+                Method = Core.HTTPRequests.Enums.RequestMethod.Post,
+                Body = request
+            };
+            var sender = new RequestSender<JoinLessonRequest, JoinLessonResponse>();
+            var responsePost = await sender.SendRequest(joinLessonRequest, "/user/join-lesson");
+            if (!responsePost.isSuccess)
+            {
+                MessageBox.Show("Error");
+            }
+            return responsePost;
         }
         private async Task loadManualFiles()
         {

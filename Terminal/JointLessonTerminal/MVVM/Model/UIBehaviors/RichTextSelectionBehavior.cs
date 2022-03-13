@@ -45,7 +45,7 @@ namespace JointLessonTerminal.MVVM.Model.UIBehaviors
         private static void OnSelectedTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var behavior = d as RichTextSelectionBehavior;
-            if (behavior == null)
+            if (behavior == null || behavior.SelectedText == null)
                 return;
             behavior.AssociatedObject.Selection.Text = behavior.SelectedText.Text;
         }

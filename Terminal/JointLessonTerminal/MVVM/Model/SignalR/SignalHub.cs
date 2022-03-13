@@ -1,11 +1,13 @@
 ﻿using JointLessonTerminal.Core.HTTPRequests;
 using JointLessonTerminal.MVVM.Model.EventModels;
+using JointLessonTerminal.MVVM.Model.EventModels.Inner;
 using JointLessonTerminal.MVVM.Model.HttpModels.Request;
 using JointLessonTerminal.MVVM.Model.HttpModels.Response;
 using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Text.Json;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +26,7 @@ namespace JointLessonTerminal.MVVM.Model.SignalR
 
         public EventHandler OnConnected { get; set; }
         public EventHandler OnPageSync { get; set; }
+        public EventHandler OnLessonUserListUpdate { get; set; }
 
         private HubConnection _hubConnection;
         private string connectiodId;
@@ -65,6 +68,17 @@ namespace JointLessonTerminal.MVVM.Model.SignalR
                     var arg = new OnPageChangeEventArg();
                     arg.NewPageId = val;
                     OnPageSync?.Invoke(this, arg);
+                });
+            });
+
+            _hubConnection.On<string>("LessonUsersUpdate", (val) =>
+            {
+                List<UserAtLesson> data = JsonSerializer.Deserialize<List<UserAtLesson>>(val);
+                System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                {
+                    var arg = new OnLessonUserListUpdateArg();
+                    arg.UserAtLessons = data;
+                    OnLessonUserListUpdate?.Invoke(this, arg);
                 });
             });
 

@@ -13,6 +13,7 @@
         Background="#EFEFEF">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
             <RowDefinition Height="9*"/>
         </Grid.RowDefinitions>
 
@@ -26,8 +27,25 @@
                    HorizontalAlignment="Center"
                    Margin="10">
         </TextBlock>
-
-        <Grid Grid.Row="1"
+        <ListView Grid.Row="1" 
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  ItemsSource="{Binding UsersAtLesson}">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel IsItemsHost="True" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <TextBox Text="{Binding UserId}"/>
+                        <TextBox Text="{Binding IsTeacher}"/>
+                        <TextBox Text="{Binding UpHand}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Grid Grid.Row="2"
               Grid.Column="0">
 
             <Grid.ColumnDefinitions>
@@ -40,20 +58,11 @@
 
             <Grid Grid.Column="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
                     <RowDefinition Height="12*"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-                <StackPanel Grid.Row="0">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Style="{StaticResource BaseTextStyle}" Text="Учащиеся:"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Style="{StaticResource BaseTextStyle}" Text="Преподаватели:"/>
-                    </StackPanel>
-                </StackPanel>
-                <DocumentViewer Grid.Row="1" Document="{Binding ActiveDocument}" />
-                <StackPanel Grid.Row="2" 
+                <DocumentViewer Grid.Row="0" Document="{Binding ActiveDocument}" />
+                <StackPanel Grid.Row="1" 
                             HorizontalAlignment="Center"
                             Orientation="Horizontal">
                     <Button 
@@ -225,7 +234,7 @@
                         </StackPanel>
                     </StackPanel>
                 </Grid>
-                <Grid Grid.Row="1">
+                <Grid Grid.Row="1" Margin="5">
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="Конспект"
                            Style="{StaticResource BaseTextStyle}"
@@ -237,23 +246,23 @@
                                     <Button.CommandParameter>
                                         <Binding Path="Document" ElementName="tb1"/>
                                     </Button.CommandParameter>
-                                    <Image Source="../../Images/folder-btn.png" Width="16" Height="16" />
+                                    <Image Source="../../Images/folder-btn.png" Width="25" Height="25" />
                                 </Button>
                                 <Button Command="{Binding NoteSaveCommand}">
                                     <Button.CommandParameter>
                                         <Binding Path="Document" ElementName="tb1"/>
                                     </Button.CommandParameter>
-                                    <Image Source="../../Images/save-file-btn.png" Width="16" Height="16" />
+                                    <Image Source="../../Images/save-file-btn.png" Width="25" Height="25" />
                                 </Button>
                                 <Separator />
                                 <ToggleButton IsChecked="{Binding BoldIsChecked, Mode=TwoWay}" Command="{Binding NoteBoldCommand}" Name="btnBold">
-                                    <Image Source="../../Images/bold-btn.png" Width="16" Height="16" />
+                                    <Image Source="../../Images/bold-btn.png" Width="25" Height="25" />
                                 </ToggleButton>
                                 <ToggleButton IsChecked="{Binding ItalicIsChecked, Mode=TwoWay}" Command="{Binding NoteItallicCommand}" Name="btnItalic">
-                                    <Image Source="../../Images/italic-btn.png" Width="16" Height="16" />
+                                    <Image Source="../../Images/italic-btn.png" Width="25" Height="25" />
                                 </ToggleButton>
                                 <ToggleButton IsChecked="{Binding UnderlineIsChecked, Mode=TwoWay}" Command="{Binding NoteUnderLineCommand}" Name="btnUnderline">
-                                    <Image Source="../../Images/underline-btn.png" Width="16" Height="16" />
+                                    <Image Source="../../Images/underline-btn.png" Width="25" Height="25" />
                                 </ToggleButton>
                                 <Separator />
                                 <ComboBox MinWidth="50" ItemsSource="{Binding NoteFonts}" SelectedItem="{Binding NoteFontSelected}" />

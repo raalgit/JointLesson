@@ -12,6 +12,9 @@ namespace JL.Service.User.Abstraction
 {
     public interface IUserService : IServiceJL
     {
+        Task<JoinLessonResponse> JoinLesson(JoinLessonRequest request, UserSettings userSettings);
+        Task<LeaveLessonResponse> LeaveLesson(LeaveLessonRequest request, UserSettings userSettings);
+        Task<UpHandResponse> UpHand (UpHandRequest request, UserSettings userSettings);
         Task<GetRemoteAccessListResponse> GetRemoteAccessList(int courseId);
         Task<CreateRemoteAccessResponse> CreateRemoteAccess(CreateRemoteAccessRequest request, UserSettings userSettings);
         Task<GetRemoteAccessDataResponse> GetRemoteAccessData(GetRemoteAccessDataRequest request);

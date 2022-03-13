@@ -265,5 +265,65 @@ namespace jointLessonServer.Controllers
                 };
             }
         }
+
+        [HttpPost]
+        [JwtAuthentication(role: "User")]
+        [Route("/user/up-hand")]
+        public async Task<UpHandResponse> UpHand(UpHandRequest request)
+        {
+            try
+            {
+                var userBehavior = new UserBehavior(_serviceProvider);
+                return await userBehavior.UpHand(request);
+            }
+            catch (Exception er)
+            {
+                return new UpHandResponse()
+                {
+                    IsSuccess = false,
+                    Message = er.Message
+                };
+            }
+        }
+
+        [HttpPost]
+        [JwtAuthentication(role: "User")]
+        [Route("/user/join-lesson")]
+        public async Task<JoinLessonResponse> JoinLesson(JoinLessonRequest request)
+        {
+            try
+            {
+                var userBehavior = new UserBehavior(_serviceProvider);
+                return await userBehavior.JoinLesson(request);
+            }
+            catch (Exception er)
+            {
+                return new JoinLessonResponse()
+                {
+                    IsSuccess = false,
+                    Message = er.Message
+                };
+            }
+        }
+
+        [HttpPost]
+        [JwtAuthentication(role: "User")]
+        [Route("/user/leave-lesson")]
+        public async Task<LeaveLessonResponse> JoinLesson(LeaveLessonRequest request)
+        {
+            try
+            {
+                var userBehavior = new UserBehavior(_serviceProvider);
+                return await userBehavior.LeaveLesson(request);
+            }
+            catch (Exception er)
+            {
+                return new LeaveLessonResponse()
+                {
+                    IsSuccess = false,
+                    Message = er.Message
+                };
+            }
+        }
     }
 }

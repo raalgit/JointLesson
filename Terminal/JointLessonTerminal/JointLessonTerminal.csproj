@@ -436,6 +436,8 @@
     <Compile Include="MVVM\Model\CourseCollection.cs" />
     <Compile Include="MVVM\Model\CourseModel.cs" />
     <Compile Include="MVVM\Model\EventModels\AlertArg.cs" />
+    <Compile Include="MVVM\Model\EventModels\Inner\UserAtLesson.cs" />
+    <Compile Include="MVVM\Model\EventModels\OnLessonUserListUpdateArg.cs" />
     <Compile Include="MVVM\Model\EventModels\OnOpenCourseModel.cs" />
     <Compile Include="MVVM\Model\EventModels\OnPageChangeEventArg.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\AddNewFileRequest.cs" />
@@ -446,12 +448,15 @@
     <Compile Include="MVVM\Model\HttpModels\Request\CreateRemoteAccessRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\GetManualFilesRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\GetRemoteAccessDataRequest.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Request\JoinLessonRequest.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Request\LeaveLessonRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\LoginRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\NewMaterialRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\RegisterSignalConnectionRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\StartSRSLessonRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\StartSyncLessonRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\UpdateMaterialRequest.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Request\UpHandRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\AddNewFileResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\ChangeLessonManualPageResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\ChangeSRSLessonManualPageResponse.cs" />
@@ -467,6 +472,8 @@
     <Compile Include="MVVM\Model\HttpModels\Response\GetMyMaterialsResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetRemoteAccessDataResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetRemoteAccessListResponse.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Response\JoinLessonResponse.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Response\LeaveLessonResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\LoginResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\LogoutResponse.cs" />
     <Compile Include="Core\Material\Author.cs" />
@@ -484,6 +491,7 @@
     <Compile Include="MVVM\Model\HttpModels\Response\StartSRSLessonResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\StartSyncLessonResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\UpdateMaterialResponse.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Response\UpHandResponse.cs" />
     <Compile Include="MVVM\Model\UIBehaviors\RichTextSelectionBehavior.cs" />
     <Compile Include="MVVM\Model\ServerModels\AuthData.cs" />
     <Compile Include="MVVM\Model\ServerModels\Course.cs" />
