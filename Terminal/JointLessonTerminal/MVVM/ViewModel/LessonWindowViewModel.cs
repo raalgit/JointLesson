@@ -20,6 +20,9 @@ using JointLessonTerminal.MVVM.Model.HttpModels.Request;
 using JointLessonTerminal.MVVM.Model.SignalR;
 using JointLessonTerminal.MVVM.Model;
 using JointLessonTerminal.MVVM.View;
+using System.Windows.Controls;
+using System.Collections.ObjectModel;
+using Microsoft.Win32;
 
 namespace JointLessonTerminal.MVVM.ViewModel
 {
@@ -159,6 +162,81 @@ namespace JointLessonTerminal.MVVM.ViewModel
         public RelayCommand ExitCommand { get; set; }
         public RelayCommand OpenRemoteTerminalCommand { get; set; }
 
+        public RelayCommand NoteOpenCommand { get; set; }
+        public RelayCommand NoteSaveCommand { get; set; }
+        public RelayCommand NoteBoldCommand { get; set; }
+        public RelayCommand NoteItallicCommand { get; set; }
+        public RelayCommand NoteUnderLineCommand { get; set; }
+        
+
+        private TextSelection selection;
+        public TextSelection Selection { 
+            get 
+            { 
+                return selection; 
+            } 
+            set 
+            { 
+                selection = value;
+                var prop = selection.GetPropertyValue(Inline.FontWeightProperty);
+                BoldIsChecked = (prop != DependencyProperty.UnsetValue) && (prop.Equals(FontWeights.Bold));
+                
+                var prop2 = selection.GetPropertyValue(Inline.FontStyleProperty);
+                ItalicIsChecked = (prop2 != DependencyProperty.UnsetValue) && (prop2.Equals(FontStyles.Italic));
+
+                UnderlineIsChecked = false;
+                var prop3 = selection.GetPropertyValue(Inline.TextDecorationsProperty) as TextDecorationCollection;
+                if (prop3 != null && prop3 != DependencyProperty.UnsetValue && prop3.Count > 0)
+                {
+                    if (prop3.Contains(TextDecorations.Underline[0])){
+                        UnderlineIsChecked = true;
+                    }
+                }
+            } 
+        }
+
+        public ReadOnlyCollection<System.Windows.Media.FontFamily> NoteFonts { get; set; } = (ReadOnlyCollection<System.Windows.Media.FontFamily>)System.Windows.Media.Fonts.SystemFontFamilies;
+        private System.Windows.Media.FontFamily noteFontSelected;
+        public System.Windows.Media.FontFamily NoteFontSelected
+        {
+            get { return noteFontSelected; }
+            set
+            {
+                if (selection != null)
+                {
+                    selection.ApplyPropertyValue(Inline.FontFamilyProperty, value);
+                }
+                noteFontSelected = value;
+                OnPropsChanged("NoteFontSelected");
+            }
+        }
+
+        public List<double> NoteTextSizes { get; set; } = new List<double>() { 8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72 };
+        private double noteTextSizeSelected;
+        public double NoteTextSizeSelected
+        {
+            get { return noteTextSizeSelected; }
+            set
+            {
+                if (selection != null) 
+                {
+                    selection.ApplyPropertyValue(Inline.FontSizeProperty, value);
+                }
+                noteTextSizeSelected = value;
+                OnPropsChanged("NoteTextSizeSelected");
+            }
+        }
+
+
+        private bool boldIsChecked;
+        public bool BoldIsChecked { get { return boldIsChecked; } set { boldIsChecked = value; OnPropsChanged("BoldIsChecked"); } }
+
+        private bool italicIsChecked;
+        public bool ItalicIsChecked { get { return italicIsChecked; } set { italicIsChecked = value; OnPropsChanged("ItalicIsChecked"); } }
+
+        private bool underlineIsChecked;
+        public bool UnderlineIsChecked { get { return underlineIsChecked; } set { underlineIsChecked = value; OnPropsChanged("UnderlineIsChecked"); } }
+
         public RemoteTerminalViewModel RemoteTerminalVM { get; set; }
 
         public LessonWindowViewModel()
@@ -174,6 +252,99 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
             NextOfflinePageCommand = new RelayCommand(async x => await nextPage(true, false));
             PrevOfflinePageCommand = new RelayCommand(async x => await nextPage(false, false));
+
+            NoteBoldCommand = new RelayCommand(x =>
+            {
+                if (selection != null)
+                {
+                    var textWeight = selection.GetPropertyValue(Inline.FontWeightProperty);
+
+                    if (textWeight != null && textWeight != DependencyProperty.UnsetValue)
+                    {
+                        if ((FontWeight)textWeight == FontWeights.Normal) 
+                        {
+                            textWeight = FontWeights.Bold;
+                        }
+                        else
+                        {
+                            textWeight = FontWeights.Normal;
+                        }
+                    }
+                    selection.ApplyPropertyValue(Inline.FontWeightProperty, textWeight);
+                }
+            });
+
+            NoteItallicCommand = new RelayCommand(x =>
+            {
+                if (selection != null)
+                {
+                    var textStyle = selection.GetPropertyValue(Inline.FontStyleProperty);
+
+                    if (textStyle != null && textStyle != DependencyProperty.UnsetValue)
+                    {
+                        if ((FontStyle)textStyle == FontStyles.Normal)
+                        {
+                            textStyle = FontStyles.Italic;
+                        }
+                        else
+                        {
+                            textStyle = FontStyles.Normal;
+                        }
+                    }
+                    selection.ApplyPropertyValue(Inline.FontStyleProperty, textStyle);
+                }
+            });
+
+            NoteUnderLineCommand = new RelayCommand(x =>
+            {
+                if (selection != null)
+                {
+                    var textDecorations = new TextDecorationCollection();
+                    textDecorations.Add(selection.GetPropertyValue(Inline.TextDecorationsProperty) as TextDecorationCollection);
+
+                    var prop3 = selection.GetPropertyValue(Inline.TextDecorationsProperty) as TextDecorationCollection;
+                    if (prop3 != null && prop3 != DependencyProperty.UnsetValue)
+                    {
+                        if (prop3.Count > 0 && prop3.Contains(TextDecorations.Underline[0]))
+                        {
+                            textDecorations.Remove(TextDecorations.Underline[0]);
+                        }
+                        else
+                        {
+                            textDecorations.Add(TextDecorations.Underline);
+                        }
+                    }
+                    selection.ApplyPropertyValue(Inline.TextDecorationsProperty, textDecorations);
+                }
+            });
+
+            NoteSaveCommand = new RelayCommand(x =>
+            {
+                var document = x as FlowDocument;
+                if (document != null)
+                {
+                    SaveFileDialog dlg = new SaveFileDialog();
+                    dlg.Filter = "Rich Text Format (*.rtf)|*.rtf|All files (*.*)|*.*";
+                    if (dlg.ShowDialog() == true)
+                    {
+                        FileStream fileStream = new FileStream(dlg.FileName, FileMode.Create);
+                        TextRange range = new TextRange(document.ContentStart, document.ContentEnd);
+                        range.Save(fileStream, DataFormats.Rtf);
+                    }
+                }
+            });
+
+            NoteOpenCommand = new RelayCommand(x =>
+            {
+                OpenFileDialog dlg = new OpenFileDialog();
+                dlg.Filter = "Rich Text Format (*.rtf)|*.rtf|All files (*.*)|*.*";
+                if (dlg.ShowDialog() == true)
+                {
+                    FileStream fileStream = new FileStream(dlg.FileName, FileMode.Open);
+                    TextRange range = new TextRange((x as FlowDocument).ContentStart, (x as FlowDocument).ContentEnd);
+                    range.Load(fileStream, DataFormats.Rtf);
+                }
+            });
 
             ExitCommand = new RelayCommand(x => exit());
             OpenRemoteTerminalCommand = new RelayCommand(x => openRemoteTerminal());
