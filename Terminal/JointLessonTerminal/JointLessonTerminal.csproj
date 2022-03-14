@@ -152,6 +152,9 @@
       <HintPath>..\packages\Microsoft.Office.Interop.Word.15.0.4797.1003\lib\net20\Microsoft.Office.Interop.Word.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.39\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -433,6 +436,8 @@
     <Compile Include="MVVM\Model\CourseCollection.cs" />
     <Compile Include="MVVM\Model\CourseModel.cs" />
     <Compile Include="MVVM\Model\EventModels\AlertArg.cs" />
+    <Compile Include="MVVM\Model\EventModels\Inner\UserAtLesson.cs" />
+    <Compile Include="MVVM\Model\EventModels\OnLessonUserListUpdateArg.cs" />
     <Compile Include="MVVM\Model\EventModels\OnOpenCourseModel.cs" />
     <Compile Include="MVVM\Model\EventModels\OnPageChangeEventArg.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\AddNewFileRequest.cs" />
@@ -443,12 +448,15 @@
     <Compile Include="MVVM\Model\HttpModels\Request\CreateRemoteAccessRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\GetManualFilesRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\GetRemoteAccessDataRequest.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Request\JoinLessonRequest.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Request\LeaveLessonRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\LoginRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\NewMaterialRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\RegisterSignalConnectionRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\StartSRSLessonRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\StartSyncLessonRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\UpdateMaterialRequest.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Request\UpHandRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\AddNewFileResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\ChangeLessonManualPageResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\ChangeSRSLessonManualPageResponse.cs" />
@@ -464,6 +472,8 @@
     <Compile Include="MVVM\Model\HttpModels\Response\GetMyMaterialsResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetRemoteAccessDataResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\GetRemoteAccessListResponse.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Response\JoinLessonResponse.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Response\LeaveLessonResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\LoginResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\LogoutResponse.cs" />
     <Compile Include="Core\Material\Author.cs" />
@@ -481,6 +491,8 @@
     <Compile Include="MVVM\Model\HttpModels\Response\StartSRSLessonResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\StartSyncLessonResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\UpdateMaterialResponse.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Response\UpHandResponse.cs" />
+    <Compile Include="MVVM\Model\UIBehaviors\RichTextSelectionBehavior.cs" />
     <Compile Include="MVVM\Model\ServerModels\AuthData.cs" />
     <Compile Include="MVVM\Model\ServerModels\Course.cs" />
     <Compile Include="MVVM\Model\ServerModels\CourseTeacher.cs" />
@@ -593,6 +605,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Resource Include="Images\folder-btn.png" />
+    <Resource Include="Images\italic-btn.png" />
+    <Resource Include="Images\save-file-btn.png" />
+    <Resource Include="Images\underline-btn.png" />
     <Resource Include="Images\open-book-btn.png" />
     <Resource Include="Images\left-arrow-btn.png" />
     <Resource Include="Images\right-arrow-btn.png" />
@@ -606,6 +622,7 @@
     </Resource>
     <Resource Include="Images\demo-btn.png" />
     <Resource Include="Images\chat-btn.png" />
+    <Resource Include="Images\bold-btn.png" />
     <Content Include="Images\exit-btn.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

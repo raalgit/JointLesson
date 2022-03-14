@@ -24,11 +24,11 @@ namespace BLL.Behavior
         {
             _serviceProvider = serviceProvider;
 
-            _httpContextAccessor = _serviceProvider.GetService<IHttpContextAccessor>() ?? 
+            _httpContextAccessor = _serviceProvider.GetService<IHttpContextAccessor>() ??
                 throw new NullReferenceException(nameof(_httpContextAccessor));
-            _userSettings = new UserSettings((JL.Persist.User)(_httpContextAccessor.HttpContext.Items["User"] ?? 
+            _userSettings = new UserSettings((JL.Persist.User)(_httpContextAccessor.HttpContext.Items["User"] ??
                 throw new NullReferenceException("Данные пользователя не найдены")));
-            _userService = serviceProvider.GetService<IUserService>() ?? 
+            _userService = serviceProvider.GetService<IUserService>() ??
                 throw new NullReferenceException(nameof(_userService));
         }
 
@@ -106,13 +106,13 @@ namespace BLL.Behavior
 
         public async Task<GetCourseDataResponse> GetCourseData(int courseId)
         {
-            try 
+            try
             {
                 return await _userService.GetCourseData(courseId, _userSettings);
             }
-            catch(Exception er) 
-            { 
-                throw er; 
+            catch (Exception er)
+            {
+                throw er;
             }
         }
 
@@ -174,6 +174,43 @@ namespace BLL.Behavior
             {
                 throw er;
             }
+        }
+
+        public async Task<JoinLessonResponse> JoinLesson(JoinLessonRequest request)
+        {
+            try
+            {
+                return await _userService.JoinLesson(request, _userSettings);
+            }
+            catch (Exception er)
+            {
+                throw er;
+            }
+        }
+
+        public async Task<LeaveLessonResponse> LeaveLesson(LeaveLessonRequest request)
+        {
+            try
+            {
+                return await _userService.LeaveLesson(request, _userSettings);
+            }
+            catch (Exception er)
+            {
+                throw er;
+            }
+        }
+
+        public async Task<UpHandResponse> UpHand(UpHandRequest request)
+        {
+            try
+            {
+                return await _userService.UpHand(request, _userSettings);
+            }
+            catch (Exception er)
+            {
+                throw er;
+            }
+
         }
     }
 }

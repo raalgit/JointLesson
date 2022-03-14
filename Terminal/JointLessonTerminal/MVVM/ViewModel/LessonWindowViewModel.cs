@@ -20,6 +20,10 @@ using JointLessonTerminal.MVVM.Model.HttpModels.Request;
 using JointLessonTerminal.MVVM.Model.SignalR;
 using JointLessonTerminal.MVVM.Model;
 using JointLessonTerminal.MVVM.View;
+using System.Collections.ObjectModel;
+using JointLessonTerminal.MVVM.Model.EventModels.Inner;
+using System.Windows.Forms;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace JointLessonTerminal.MVVM.ViewModel
 {
@@ -28,10 +32,16 @@ namespace JointLessonTerminal.MVVM.ViewModel
         private ManualData manual;
         public ManualData Manual { get; set; }
 
+        private List<UserAtLesson> usersAtLesson;
+        public List<UserAtLesson> UsersAtLesson { get { return usersAtLesson; } set { usersAtLesson = value; OnPropsChanged("UsersAtLesson"); } }
+
         public Visibility NextPageBtnVisibility { get { return nextPageBtnVisibility; } set { nextPageBtnVisibility = value; OnPropsChanged("NextPageBtnVisibility"); } }
         private Visibility nextPageBtnVisibility;
         public Visibility PrevPageBtnVisibility { get { return prevPageBtnVisibility; } set { prevPageBtnVisibility = value; OnPropsChanged("PrevPageBtnVisibility"); } }
         private Visibility prevPageBtnVisibility;
+
+        private Visibility offlineManualVisibility;
+        public Visibility OfflineManualVisibility { get { return offlineManualVisibility; } set { offlineManualVisibility = value; OnPropsChanged("OfflineManualVisibility"); } }
 
         private int courseId;
 
@@ -153,11 +163,100 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
         public RelayCommand NextOfflinePageCommand { get; set; }
         public RelayCommand PrevOfflinePageCommand { get; set; }
-
+        
         public RelayCommand NextPageCommand { get; set; }
         public RelayCommand PrevPageCommand { get; set; }
         public RelayCommand ExitCommand { get; set; }
+        public RelayCommand UpHandButton { get; set; }
         public RelayCommand OpenRemoteTerminalCommand { get; set; }
+        public RelayCommand ShowOfflineManual { get; set; }
+
+        public RelayCommand NoteOpenCommand { get; set; }
+        public RelayCommand NoteSaveCommand { get; set; }
+        public RelayCommand NoteBoldCommand { get; set; }
+        public RelayCommand NoteItallicCommand { get; set; }
+        public RelayCommand NoteUnderLineCommand { get; set; }
+        
+
+        private TextSelection selection;
+        public TextSelection Selection { 
+            get 
+            { 
+                return selection; 
+            } 
+            set 
+            { 
+                selection = value;
+                var prop = selection.GetPropertyValue(Inline.FontWeightProperty);
+                BoldIsChecked = (prop != DependencyProperty.UnsetValue) && (prop.Equals(FontWeights.Bold));
+                
+                var prop2 = selection.GetPropertyValue(Inline.FontStyleProperty);
+                ItalicIsChecked = (prop2 != DependencyProperty.UnsetValue) && (prop2.Equals(FontStyles.Italic));
+
+                UnderlineIsChecked = false;
+                var prop3 = selection.GetPropertyValue(Inline.TextDecorationsProperty) as TextDecorationCollection;
+                if (prop3 != null && prop3 != DependencyProperty.UnsetValue && prop3.Count > 0)
+                {
+                    if (prop3.Contains(TextDecorations.Underline[0])){
+                        UnderlineIsChecked = true;
+                    }
+                }
+
+                var prop4 = selection.GetPropertyValue(Inline.FontSizeProperty) as double?;
+                if (prop4.HasValue && prop4.Value > 0)
+                {
+                    NoteTextSizeSelected = prop4.Value;
+                }
+
+                var prop5 = selection.GetPropertyValue(Inline.FontFamilyProperty) as System.Windows.Media.FontFamily;
+                if (prop5 != null && prop5 != DependencyProperty.UnsetValue)
+                {
+                    NoteFontSelected = prop5;
+                }
+            } 
+        }
+
+        public ReadOnlyCollection<System.Windows.Media.FontFamily> NoteFonts { get; set; } = (ReadOnlyCollection<System.Windows.Media.FontFamily>)System.Windows.Media.Fonts.SystemFontFamilies;
+        private System.Windows.Media.FontFamily noteFontSelected;
+        public System.Windows.Media.FontFamily NoteFontSelected
+        {
+            get { return noteFontSelected; }
+            set
+            {
+                if (selection != null)
+                {
+                    selection.ApplyPropertyValue(Inline.FontFamilyProperty, value);
+                }
+                noteFontSelected = value;
+                OnPropsChanged("NoteFontSelected");
+            }
+        }
+
+        public List<double> NoteTextSizes { get; set; } = new List<double>() { 8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72 };
+        private double noteTextSizeSelected;
+        public double NoteTextSizeSelected
+        {
+            get { return noteTextSizeSelected; }
+            set
+            {
+                if (selection != null) 
+                {
+                    selection.ApplyPropertyValue(Inline.FontSizeProperty, value);
+                }
+                noteTextSizeSelected = value;
+                OnPropsChanged("NoteTextSizeSelected");
+            }
+        }
+
+
+        private bool boldIsChecked;
+        public bool BoldIsChecked { get { return boldIsChecked; } set { boldIsChecked = value; OnPropsChanged("BoldIsChecked"); } }
+
+        private bool italicIsChecked;
+        public bool ItalicIsChecked { get { return italicIsChecked; } set { italicIsChecked = value; OnPropsChanged("ItalicIsChecked"); } }
+
+        private bool underlineIsChecked;
+        public bool UnderlineIsChecked { get { return underlineIsChecked; } set { underlineIsChecked = value; OnPropsChanged("UnderlineIsChecked"); } }
 
         public RemoteTerminalViewModel RemoteTerminalVM { get; set; }
 
@@ -171,11 +270,111 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
             NextPageCommand = new RelayCommand(async x => await nextPage(true, true));
             PrevPageCommand = new RelayCommand(async x => await nextPage(false, true));
-
             NextOfflinePageCommand = new RelayCommand(async x => await nextPage(true, false));
             PrevOfflinePageCommand = new RelayCommand(async x => await nextPage(false, false));
+            ShowOfflineManual = new RelayCommand(x =>
+            {
+                if (OfflineManualVisibility == Visibility.Visible) OfflineManualVisibility = Visibility.Collapsed;
+                else OfflineManualVisibility = Visibility.Visible;
+            });
+            NoteBoldCommand = new RelayCommand(x =>
+            {
+                if (selection != null)
+                {
+                    var textWeight = selection.GetPropertyValue(Inline.FontWeightProperty);
 
+                    if (textWeight != null && textWeight != DependencyProperty.UnsetValue)
+                    {
+                        if ((FontWeight)textWeight == FontWeights.Normal) 
+                        {
+                            textWeight = FontWeights.Bold;
+                        }
+                        else
+                        {
+                            textWeight = FontWeights.Normal;
+                        }
+                    }
+                    selection.ApplyPropertyValue(Inline.FontWeightProperty, textWeight);
+                }
+            });
+            NoteItallicCommand = new RelayCommand(x =>
+            {
+                if (selection != null)
+                {
+                    var textStyle = selection.GetPropertyValue(Inline.FontStyleProperty);
+
+                    if (textStyle != null && textStyle != DependencyProperty.UnsetValue)
+                    {
+                        if ((FontStyle)textStyle == FontStyles.Normal)
+                        {
+                            textStyle = FontStyles.Italic;
+                        }
+                        else
+                        {
+                            textStyle = FontStyles.Normal;
+                        }
+                    }
+                    selection.ApplyPropertyValue(Inline.FontStyleProperty, textStyle);
+                }
+            });
+            NoteUnderLineCommand = new RelayCommand(x =>
+            {
+                if (selection != null)
+                {
+                    var textDecorations = new TextDecorationCollection();
+                    textDecorations.Add(selection.GetPropertyValue(Inline.TextDecorationsProperty) as TextDecorationCollection);
+
+                    var prop3 = selection.GetPropertyValue(Inline.TextDecorationsProperty) as TextDecorationCollection;
+                    if (prop3 != null && prop3 != DependencyProperty.UnsetValue)
+                    {
+                        if (prop3.Count > 0 && prop3.Contains(TextDecorations.Underline[0]))
+                        {
+                            textDecorations.Remove(TextDecorations.Underline[0]);
+                        }
+                        else
+                        {
+                            textDecorations.Add(TextDecorations.Underline);
+                        }
+                    }
+                    selection.ApplyPropertyValue(Inline.TextDecorationsProperty, textDecorations);
+                }
+            });
+            NoteSaveCommand = new RelayCommand(x =>
+            {
+                var document = x as FlowDocument;
+                if (document != null)
+                {
+                    SaveFileDialog dlg = new SaveFileDialog();
+                    dlg.Filter = "Rich Text Format (*.rtf)|*.rtf|All files (*.*)|*.*";
+                    var answere = dlg.ShowDialog();
+                    if (answere == DialogResult.OK || answere == DialogResult.Yes)
+                    {
+                        FileStream fileStream = new FileStream(dlg.FileName, FileMode.Create);
+                        TextRange range = new TextRange(document.ContentStart, document.ContentEnd);
+                        range.Save(fileStream, System.Windows.Forms.DataFormats.Rtf);
+                    }
+                }
+            });
+            NoteOpenCommand = new RelayCommand(x =>
+            {
+                OpenFileDialog dlg = new OpenFileDialog();
+                dlg.Filter = "Rich Text Format (*.rtf)|*.rtf|All files (*.*)|*.*";
+                var answere = dlg.ShowDialog();
+                if (answere == DialogResult.OK || answere == DialogResult.Yes)
+                {
+                    FileStream fileStream = new FileStream(dlg.FileName, FileMode.Open);
+                    TextRange range = new TextRange((x as FlowDocument).ContentStart, (x as FlowDocument).ContentEnd);
+                    range.Load(fileStream, System.Windows.Forms.DataFormats.Rtf);
+                }
+            });
             ExitCommand = new RelayCommand(x => exit());
+            UpHandButton = new RelayCommand(async x => {
+                var req = new UpHandRequest()
+                {
+                    CourseId = courseId
+                };
+                var resp = await upHand(req); 
+            });
             OpenRemoteTerminalCommand = new RelayCommand(x => openRemoteTerminal());
         }
 
@@ -201,6 +400,10 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
             hub = SignalHub.GetInstance();
             hub.OnPageSync += onSyncPageEvent;
+            hub.OnLessonUserListUpdate += onLessonUserListUpdateEvent;
+
+            if (hub.IsConnected) onSignalRConnected(null, null);
+            else hub.OnConnected += onSignalRConnected;
 
             try
             {
@@ -214,6 +417,17 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 SendEventSignal(signal);
             }
         }
+        private void onSignalRConnected(object o, EventArgs e)
+        {
+            Task.Factory.StartNew(async x =>
+            {
+                var req = new JoinLessonRequest()
+                {
+                    CourseId = courseId
+                };
+                var resp = await JoinLesson(req);
+            }, null);
+        }
         private void onSyncPageEvent(object o, EventArgs e)
         {
             var arg = e as OnPageChangeEventArg;
@@ -226,6 +440,29 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     showWordPage(true);
                 }
             }
+        }
+        private void onLessonUserListUpdateEvent(object o, EventArgs e)
+        {
+            var arg = e as OnLessonUserListUpdateArg;
+            if (arg != null)
+            {
+                UsersAtLesson = arg.UserAtLessons;
+            }
+        }
+        private async Task<JoinLessonResponse> JoinLesson(JoinLessonRequest request)
+        {
+            var joinLessonRequest = new RequestModel<JoinLessonRequest>()
+            {
+                Method = Core.HTTPRequests.Enums.RequestMethod.Post,
+                Body = request
+            };
+            var sender = new RequestSender<JoinLessonRequest, JoinLessonResponse>();
+            var responsePost = await sender.SendRequest(joinLessonRequest, "/user/join-lesson");
+            if (!responsePost.isSuccess)
+            {
+                System.Windows.Forms.MessageBox.Show("Error");
+            }
+            return responsePost;
         }
         private async Task loadManualFiles()
         {
@@ -260,16 +497,73 @@ namespace JointLessonTerminal.MVVM.ViewModel
             var terminal = new RemoteTerminalWindow(courseId);
             terminal.Show();
         }
-
+        private async Task<UpHandResponse> upHand(UpHandRequest request)
+        {
+            var upHandRequest = new RequestModel<UpHandRequest>()
+            {
+                Method = Core.HTTPRequests.Enums.RequestMethod.Post,
+                Body = request
+            };
+            var sender = new RequestSender<UpHandRequest, UpHandResponse>();
+            var responsePost = await sender.SendRequest(upHandRequest, "/user/up-hand");
+            if (!responsePost.isSuccess)
+            {
+                MessageBox.Show("Error");
+            }
+            return responsePost;
+        }
         private void exit()
         {
             var signal = new WindowEvent();
             signal.Type = WindowEventType.EXITFROMLESSON;
             signal.Argument = courseId;
             SendEventSignal(signal);
+
+            Task.Factory.StartNew(async () =>
+            {
+                var req = new LeaveLessonRequest()
+                {
+                    CourseId = courseId
+                };
+                var resp = await leaveFromLesson(req);
+            });
+        }
+        private async Task<LeaveLessonResponse> leaveFromLesson(LeaveLessonRequest request)
+        {
+            var leaveLessonRequest = new RequestModel<LeaveLessonRequest>()
+            {
+                Method = Core.HTTPRequests.Enums.RequestMethod.Post,
+                Body = request
+            };
+            var sender = new RequestSender<LeaveLessonRequest, LeaveLessonResponse>();
+            var responsePost = await sender.SendRequest(leaveLessonRequest, "/user/leave-lesson");
+            if (!responsePost.isSuccess)
+            {
+                MessageBox.Show("Error");
+            }
+            return responsePost;
         }
         private async Task <bool> nextPage(bool forward, bool online)
         {
+            if (online)
+            {
+                var hasHand = usersAtLesson.Any(x => x.UpHand);
+                if (hasHand)
+                {
+                    var answere =
+                        MessageBox.Show(
+                            "Один или несколько участников занятия подняли руку. Вы уверены, что хотите перейти на новую страницу?",
+                            "Подтверждение перехода",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question);
+
+                    if (answere == DialogResult.Cancel || answere == DialogResult.No)
+                    {
+                        return false;
+                    }
+                }
+            }
+
             var currentPageIndex = -1;
 
             if (online) currentPageIndex = manualPages.FindIndex(x => x.id == currentPageId);

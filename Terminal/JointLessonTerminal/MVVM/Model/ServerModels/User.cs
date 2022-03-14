@@ -12,7 +12,7 @@ namespace JointLessonTerminal.Model.ServerModels
         public string firstName { get; set; }
         public string secondName { get; set; }
         public string thirdName { get; set; }
-        public int groupId { get; set; }
+        public int? groupId { get; set; }
         public int? avatarId { get; set; }
     }
 }

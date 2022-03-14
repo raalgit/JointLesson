@@ -11,6 +11,7 @@ using JL.Utility2L.Implementation;
 using JL.Utility2L.Models.SignalR;
 using Microsoft.AspNetCore.SignalR;
 using System;
+using System.Text.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,7 @@ namespace JL.Service.User.Implementation
     public class UserService : IUserService
     {
         private readonly IServiceProvider _serviceProvider;
+        private readonly ILessonTabelRepository _lessonTabelRepository;
         private readonly IGroupAtCourseRepository _groupAtCourseRepository;
         private readonly ICourseRepository _courseRepository;
         private readonly ICourseTeacherRepository _courseTeacherRepository;
@@ -36,6 +38,7 @@ namespace JL.Service.User.Implementation
         private readonly IHubContext<SignalHub> _hubContext;
 
         public UserService(IServiceProvider serviceProvider,
+                           ILessonTabelRepository lessonTabelRepository,
                            ICourseRepository courseRepository,
                            ICourseTeacherRepository courseTeacherRepository,
                            IGroupAtCourseRepository groupAtCourseRepository,
@@ -49,6 +52,7 @@ namespace JL.Service.User.Implementation
                            IHubContext<SignalHub> hubContext)
         {
             _serviceProvider = serviceProvider;
+            _lessonTabelRepository = lessonTabelRepository;
             _courseRepository = courseRepository;
             _groupRepository = groupRepository;
             _userRemoteAccessRepository = userRemoteAccessRepository;
@@ -128,6 +132,13 @@ namespace JL.Service.User.Implementation
         public async Task<RegisterSignalConnectionResponse> RegisterSignalConnection(string connectionId, UserSettings userSettings)
         {
             var response = new RegisterSignalConnectionResponse();
+
+            var oldConnectionData = _signalUserConnectionRepository.Get().Where(x => x.UserId == userSettings.User.Id).ToList();
+            if (oldConnectionData != null && oldConnectionData.Count > 0)
+            {
+                foreach (var data in oldConnectionData) _signalUserConnectionRepository.Delete(data);
+            }
+
             var domain = new SignalUserConnection()
             {
                 UserId = userSettings.User.Id,
@@ -323,6 +334,185 @@ namespace JL.Service.User.Implementation
 
             response.UserRemoteAccesses = list;
             return response;
+        }
+
+        public async Task<JoinLessonResponse> JoinLesson(JoinLessonRequest request, UserSettings userSettings) 
+        {
+            var response = new JoinLessonResponse();
+
+            // если пользователь - не преподаватель
+            if (userSettings.User.GroupId != null)
+            {
+                // проверка старых записей на табель
+                var oldActiveTabels = _lessonTabelRepository.Get().Where(x => x.UserId == userSettings.User.Id && !x.LeaveDate.HasValue).ToList();
+                if (oldActiveTabels != null && oldActiveTabels.Count > 0)
+                {
+                    foreach (var tabel in oldActiveTabels)
+                    {
+                        tabel.LeaveDate = DateTime.Now;
+                        _lessonTabelRepository.Update(tabel);
+                    }
+                }
+
+                // получение данных по группе пользователя
+                var courseGroup = _groupAtCourseRepository.Get().FirstOrDefault(x => x.CourseId == request.CourseId && x.GroupId == userSettings.User.GroupId)
+                    ?? throw new Exception("Группа для данного курса не найдена");
+
+                // получение активного занятия
+                var lesson = _lessonRepository.Get().FirstOrDefault(x => x.GroupAtCourseId == courseGroup.Id && !x.EndDate.HasValue)
+                    ?? throw new Exception("Занятие для Вашей группы на данный момент не ведется");
+
+                // добавление записи в табель занятия
+                var newTabel = new LessonTabel()
+                {
+                    EnterDate = DateTime.Now,
+                    LeaveDate = null,
+                    LessonId = lesson.Id,
+                    UserId = userSettings.User.Id
+                };
+
+                _lessonTabelRepository.Insert(newTabel);
+                _lessonTabelRepository.SaveChanges();
+            }
+            else
+            {
+                var courseTeacher = _courseTeacherRepository.Get().FirstOrDefault(x => x.UserId == userSettings.User.Id && x.CourseId == request.CourseId)
+                    ?? throw new Exception("Запись о преподавателе курса не найдена");
+
+                courseTeacher.OnLesson = true;
+                _courseTeacherRepository.Update(courseTeacher);
+                _courseTeacherRepository.SaveChanges();
+            }
+            
+            await onLessonUserListUpdateSendSignalR(request.CourseId);
+            return response;
+        }
+
+        public async Task<LeaveLessonResponse> LeaveLesson(LeaveLessonRequest request, UserSettings userSettings) 
+        {
+            var response = new LeaveLessonResponse();
+
+            // если пользователь - не преподаватель
+            if (userSettings.User.GroupId != null)
+            {
+                // проверка старых записей на табель
+                var oldActiveTabels = _lessonTabelRepository.Get().Where(x => x.UserId == userSettings.User.Id && !x.LeaveDate.HasValue).ToList();
+                if (oldActiveTabels != null && oldActiveTabels.Count > 0)
+                {
+                    foreach (var tabel in oldActiveTabels)
+                    {
+                        tabel.LeaveDate = DateTime.Now;
+                        _lessonTabelRepository.Update(tabel);
+                    }
+                }
+                _lessonTabelRepository.SaveChanges();
+            }
+            else
+            {
+                var courseTeacher = _courseTeacherRepository.Get().FirstOrDefault(x => x.UserId == userSettings.User.Id && x.CourseId == request.CourseId)
+                    ?? throw new Exception("Запись о преподавателе курса не найдена");
+
+                courseTeacher.OnLesson = false;
+                _courseTeacherRepository.Update(courseTeacher);
+                _courseTeacherRepository.SaveChanges();
+            }
+
+            await onLessonUserListUpdateSendSignalR(request.CourseId);
+            return response;
+        }
+
+        public async Task<UpHandResponse> UpHand(UpHandRequest request, UserSettings userSettings)
+        {
+            var response = new UpHandResponse();
+            if (userSettings.User.GroupId == null) throw new Exception("Только учащийся занятия может поднять руку");
+
+            // получение данных по группе пользователя
+            var courseGroup = _groupAtCourseRepository.Get().FirstOrDefault(x => x.CourseId == request.CourseId && x.GroupId == userSettings.User.GroupId)
+                ?? throw new Exception("Группа для данного курса не найдена");
+
+            // получение активного занятия
+            var lesson = _lessonRepository.Get().FirstOrDefault(x => x.GroupAtCourseId == courseGroup.Id && !x.EndDate.HasValue)
+                ?? throw new Exception("Занятие для Вашей группы на данный момент не ведется");
+
+            var tabel = _lessonTabelRepository.Get().FirstOrDefault(x => x.LessonId == lesson.Id && x.UserId == userSettings.User.Id && !x.LeaveDate.HasValue)
+                ?? throw new Exception("Не найден табель занятия");
+
+            tabel.HandUp = !tabel.HandUp;
+            _lessonTabelRepository.Update(tabel);
+            _lessonTabelRepository.SaveChanges();
+
+            await onLessonUserListUpdateSendSignalR(request.CourseId);
+            return response;
+        }
+
+
+        private async Task<bool> onLessonUserListUpdateSendSignalR(int courseId)
+        {
+            var usersAtLessonSignalRModel = new List<UserAtLesson>();
+
+            // получение списка учащихся на занятии
+            var groupsData = (from grpAtCourse in _groupAtCourseRepository.Get()
+                              join les in _lessonRepository.Get() on grpAtCourse.Id equals les.GroupAtCourseId
+                              join lesTbl in _lessonTabelRepository.Get() on les.Id equals lesTbl.LessonId
+                              join user in _userRepository.Get() on grpAtCourse.GroupId equals user.GroupId
+                              where
+                              grpAtCourse.CourseId == courseId &&
+                              !les.EndDate.HasValue &&
+                              !lesTbl.LeaveDate.HasValue &&
+                              lesTbl.UserId == user.Id
+                              select new
+                              {
+                                  grpAtCourse,
+                                  lesTbl,
+                                  user
+                              }).ToList();
+
+            // добавление участников занятия к списку нотификации signalR
+            usersAtLessonSignalRModel.AddRange(groupsData.Select(x => new UserAtLesson()
+            {
+                UserId = x.user.Id,
+                IsTeacher = false,
+                UpHand = x.lesTbl.HandUp,
+                UserFio = x.user.FirstName + " " + x.user.ThirdName
+            }).ToList());
+
+            var userIds = groupsData.Select(x => x.user).Select(x => x.Id).Distinct().ToList();
+
+            // добавление списка преподавателей
+            var teachers = (from courseTeacher in _courseTeacherRepository.Get()
+                            join user in _userRepository.Get() on courseTeacher.UserId equals user.Id
+                            where
+                            courseTeacher.CourseId == courseId &&
+                            courseTeacher.OnLesson
+                            select user).ToList();
+
+            usersAtLessonSignalRModel.AddRange(teachers.Select(x => new UserAtLesson()
+            {
+                UserId = x.Id,
+                IsTeacher = true,
+                UpHand = false,
+                UserFio = x.FirstName + " " + x.ThirdName
+            }).ToList());
+            userIds.AddRange(teachers.Select(x => x.Id));
+
+            // отправка нотификации
+            var connectionInfo = _signalUserConnectionRepository.Get().Where(x => userIds.Contains(x.UserId)).ToList();
+            var connectionIds = connectionInfo.Select(x => x.ConnectionId).ToArray();
+
+            // отправка signalR нотификации об изменении страницы всем участникам групп
+            string lessonUsersJson = JsonSerializer.Serialize(usersAtLessonSignalRModel);
+            await _hubContext.Clients.Clients(connectionIds).SendAsync("LessonUsersUpdate", lessonUsersJson);
+
+            return true;
+        }
+
+        [Serializable]
+        class UserAtLesson
+        {
+            public int UserId { get; set; }
+            public string UserFio { get; set; }
+            public bool UpHand { get; set; }
+            public bool IsTeacher { get; set; }
         }
     }
 }
