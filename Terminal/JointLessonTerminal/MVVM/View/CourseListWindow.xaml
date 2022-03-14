@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:JointLessonTerminal.MVVM.View" xmlns:viewmodel="clr-namespace:JointLessonTerminal.MVVM.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:CourseListViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="#EFEFEF">
+    <Grid Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="8*"/>
@@ -16,20 +16,25 @@
         <TextBlock Grid.Row="0"
                    Grid.Column="0"
                    Text="Просмотр списка курсов"
-                   Foreground="#000000"
+                   Style="{StaticResource BaseTextStyle}"
                    FontSize="18"
+                   FontWeight="Bold"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
                    Margin="5">
         </TextBlock>
-        <ListView 
+        <ListView
             Grid.Column="0"
             Grid.Row="1" 
             ItemsSource="{Binding CourseCollection.CourseModels}"
-            SelectedItem="{Binding SelectedCourse}">
+            SelectedItem="{Binding SelectedCourse}" 
+            ItemContainerStyle="{StaticResource JLListViewItem}">
+            <ListView.Background>
+                <ImageBrush Opacity="0.75" ImageSource="../../Images/background-invert.png" />
+            </ListView.Background>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="50"
+                    <Grid Margin="10"
                           Width="auto"
                           Height="auto">
                         <Grid.RowDefinitions>
@@ -45,7 +50,6 @@
                                Height="100"
                                Grid.Row="0"
                                Grid.Column="0"
-                               Stretch="UniformToFill"
                                HorizontalAlignment="Center"
                                Margin="5">
                             <Image.Source>
@@ -61,33 +65,37 @@
 
                         <StackPanel Grid.Row="0"
                                     Grid.Column="1"
-                                    Margin="10">
+                                    Margin="5">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="40"/>
                                     <RowDefinition Height="auto"/>
                                 </Grid.RowDefinitions>
-                                
+
                                 <TextBlock Grid.Column="0"
                                            Grid.Row="0"
                                            Width="auto"
                                            MinWidth="300"
                                            Height="40"
+                                           Style="{StaticResource BaseTextStyle}"
                                            FontSize="22"
                                            FontWeight="Bold"
+                                           Foreground="White"
                                            Text="{Binding Title}">
-                            
                                 </TextBlock>
                                 <TextBlock Grid.Column="0"
                                            Grid.Row="1"
                                            Width="600" 
+                                           Style="{StaticResource BaseTextStyle}"
+                                           FontSize="16"
                                            Height="auto"
                                            HorizontalAlignment="Left"
                                            TextWrapping="Wrap"
+                                           Foreground="White"
                                            Text="{Binding Description}">
 
                                 </TextBlock>
-                                
+
                             </Grid>
                         </StackPanel>
 
@@ -97,7 +105,6 @@
                                Source="../../Images/enter-btn.png"
                                Width="50"
                                Height="50">
-
                         </Image>
                     </Grid>
                 </DataTemplate>
@@ -116,9 +123,11 @@
                 <Image MaxHeight="50"
                        MaxWidth="50"
                        Source="../../Images/enter-btn.png" />
-                <TextBlock Text="Панель контруктора"
+                <TextBlock Text="Редактор"
+                           Margin="10 0 0 0"
                            Style="{StaticResource BaseTextStyle}"
-                           FontSize="16"/>
+                           FontSize="18"
+                           FontWeight="Bold"/>
             </StackPanel>
         </Button>
     </Grid>

@@ -7,12 +7,14 @@
              StartupUri="MVVM/View/MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
-            
+
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Theme/MenuButtonTheme.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="Theme/MenuInputBoxTheme.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="Theme/ButtonThemes.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="Theme/TextThemes.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="Theme/ListThemes1.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="Theme/ListThemes2.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="pack://application:,,,/ToastNotifications.Messages;component/Themes/Default.xaml" />
             </ResourceDictionary.MergedDictionaries>
 

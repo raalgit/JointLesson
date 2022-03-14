@@ -553,6 +553,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Theme\ListThemes2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Theme\MenuInputBoxTheme.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -560,6 +564,10 @@
     <Page Include="Theme\MenuButtonTheme.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\ListThemes1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Theme\TextThemes.xaml">
       <SubType>Designer</SubType>
@@ -623,6 +631,8 @@
     <Resource Include="Images\demo-btn.png" />
     <Resource Include="Images\chat-btn.png" />
     <Resource Include="Images\bold-btn.png" />
+    <Resource Include="Images\background.png" />
+    <Resource Include="Images\background-invert.png" />
     <Content Include="Images\exit-btn.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
