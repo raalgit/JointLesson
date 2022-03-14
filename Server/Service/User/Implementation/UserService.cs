@@ -340,8 +340,6 @@ namespace JL.Service.User.Implementation
         {
             var response = new JoinLessonResponse();
 
-            var usersAtLessonSignalRModel = new List<UserAtLesson>();
-
             // если пользователь - не преподаватель
             if (userSettings.User.GroupId != null)
             {
@@ -349,7 +347,11 @@ namespace JL.Service.User.Implementation
                 var oldActiveTabels = _lessonTabelRepository.Get().Where(x => x.UserId == userSettings.User.Id && !x.LeaveDate.HasValue).ToList();
                 if (oldActiveTabels != null && oldActiveTabels.Count > 0)
                 {
-                    foreach (var tabel in oldActiveTabels) _lessonTabelRepository.Delete(tabel);
+                    foreach (var tabel in oldActiveTabels)
+                    {
+                        tabel.LeaveDate = DateTime.Now;
+                        _lessonTabelRepository.Update(tabel);
+                    }
                 }
 
                 // получение данных по группе пользователя
@@ -372,6 +374,81 @@ namespace JL.Service.User.Implementation
                 _lessonTabelRepository.Insert(newTabel);
                 _lessonTabelRepository.SaveChanges();
             }
+            else
+            {
+                var courseTeacher = _courseTeacherRepository.Get().FirstOrDefault(x => x.UserId == userSettings.User.Id && x.CourseId == request.CourseId)
+                    ?? throw new Exception("Запись о преподавателе курса не найдена");
+
+                courseTeacher.OnLesson = true;
+                _courseTeacherRepository.Update(courseTeacher);
+                _courseTeacherRepository.SaveChanges();
+            }
+            
+            await onLessonUserListUpdateSendSignalR(request.CourseId);
+            return response;
+        }
+
+        public async Task<LeaveLessonResponse> LeaveLesson(LeaveLessonRequest request, UserSettings userSettings) 
+        {
+            var response = new LeaveLessonResponse();
+
+            // если пользователь - не преподаватель
+            if (userSettings.User.GroupId != null)
+            {
+                // проверка старых записей на табель
+                var oldActiveTabels = _lessonTabelRepository.Get().Where(x => x.UserId == userSettings.User.Id && !x.LeaveDate.HasValue).ToList();
+                if (oldActiveTabels != null && oldActiveTabels.Count > 0)
+                {
+                    foreach (var tabel in oldActiveTabels)
+                    {
+                        tabel.LeaveDate = DateTime.Now;
+                        _lessonTabelRepository.Update(tabel);
+                    }
+                }
+                _lessonTabelRepository.SaveChanges();
+            }
+            else
+            {
+                var courseTeacher = _courseTeacherRepository.Get().FirstOrDefault(x => x.UserId == userSettings.User.Id && x.CourseId == request.CourseId)
+                    ?? throw new Exception("Запись о преподавателе курса не найдена");
+
+                courseTeacher.OnLesson = false;
+                _courseTeacherRepository.Update(courseTeacher);
+                _courseTeacherRepository.SaveChanges();
+            }
+
+            await onLessonUserListUpdateSendSignalR(request.CourseId);
+            return response;
+        }
+
+        public async Task<UpHandResponse> UpHand(UpHandRequest request, UserSettings userSettings)
+        {
+            var response = new UpHandResponse();
+            if (userSettings.User.GroupId == null) throw new Exception("Только учащийся занятия может поднять руку");
+
+            // получение данных по группе пользователя
+            var courseGroup = _groupAtCourseRepository.Get().FirstOrDefault(x => x.CourseId == request.CourseId && x.GroupId == userSettings.User.GroupId)
+                ?? throw new Exception("Группа для данного курса не найдена");
+
+            // получение активного занятия
+            var lesson = _lessonRepository.Get().FirstOrDefault(x => x.GroupAtCourseId == courseGroup.Id && !x.EndDate.HasValue)
+                ?? throw new Exception("Занятие для Вашей группы на данный момент не ведется");
+
+            var tabel = _lessonTabelRepository.Get().FirstOrDefault(x => x.LessonId == lesson.Id && x.UserId == userSettings.User.Id && !x.LeaveDate.HasValue)
+                ?? throw new Exception("Не найден табель занятия");
+
+            tabel.HandUp = !tabel.HandUp;
+            _lessonTabelRepository.Update(tabel);
+            _lessonTabelRepository.SaveChanges();
+
+            await onLessonUserListUpdateSendSignalR(request.CourseId);
+            return response;
+        }
+
+
+        private async Task<bool> onLessonUserListUpdateSendSignalR(int courseId)
+        {
+            var usersAtLessonSignalRModel = new List<UserAtLesson>();
 
             // получение списка учащихся на занятии
             var groupsData = (from grpAtCourse in _groupAtCourseRepository.Get()
@@ -379,7 +456,7 @@ namespace JL.Service.User.Implementation
                               join lesTbl in _lessonTabelRepository.Get() on les.Id equals lesTbl.LessonId
                               join user in _userRepository.Get() on grpAtCourse.GroupId equals user.GroupId
                               where
-                              grpAtCourse.CourseId == request.CourseId &&
+                              grpAtCourse.CourseId == courseId &&
                               !les.EndDate.HasValue &&
                               !lesTbl.LeaveDate.HasValue &&
                               lesTbl.UserId == user.Id
@@ -395,20 +472,28 @@ namespace JL.Service.User.Implementation
             {
                 UserId = x.user.Id,
                 IsTeacher = false,
-                UpHand = false
+                UpHand = x.lesTbl.HandUp,
+                UserFio = x.user.FirstName + " " + x.user.ThirdName
             }).ToList());
 
             var userIds = groupsData.Select(x => x.user).Select(x => x.Id).Distinct().ToList();
 
             // добавление списка преподавателей
-            var teachers = _courseTeacherRepository.Get().Where(x => x.CourseId == request.CourseId).ToList();
+            var teachers = (from courseTeacher in _courseTeacherRepository.Get()
+                            join user in _userRepository.Get() on courseTeacher.UserId equals user.Id
+                            where
+                            courseTeacher.CourseId == courseId &&
+                            courseTeacher.OnLesson
+                            select user).ToList();
+
             usersAtLessonSignalRModel.AddRange(teachers.Select(x => new UserAtLesson()
             {
-                UserId = x.UserId,
+                UserId = x.Id,
                 IsTeacher = true,
-                UpHand = false
+                UpHand = false,
+                UserFio = x.FirstName + " " + x.ThirdName
             }).ToList());
-            userIds.AddRange(teachers.Select(x => x.UserId));
+            userIds.AddRange(teachers.Select(x => x.Id));
 
             // отправка нотификации
             var connectionInfo = _signalUserConnectionRepository.Get().Where(x => userIds.Contains(x.UserId)).ToList();
@@ -418,32 +503,14 @@ namespace JL.Service.User.Implementation
             string lessonUsersJson = JsonSerializer.Serialize(usersAtLessonSignalRModel);
             await _hubContext.Clients.Clients(connectionIds).SendAsync("LessonUsersUpdate", lessonUsersJson);
 
-            _lessonTabelRepository.SaveChanges();
-            return response;
+            return true;
         }
-        
-
-
-        public async Task<LeaveLessonResponse> LeaveLesson(LeaveLessonRequest request, UserSettings userSettings) 
-        {
-            var response = new LeaveLessonResponse();
-
-            return response;
-        }
-
-        public async Task<UpHandResponse> UpHand(UpHandRequest request, UserSettings userSettings)
-        {
-            var response = new UpHandResponse();
-
-            return response;
-        }
-
-
 
         [Serializable]
         class UserAtLesson
         {
             public int UserId { get; set; }
+            public string UserFio { get; set; }
             public bool UpHand { get; set; }
             public bool IsTeacher { get; set; }
         }

@@ -14,6 +14,7 @@ namespace JL.Persist
         public int Id { get; set; }
         public int UserId { get; set; }
         public int LessonId { get; set; }
+        public bool HandUp { get; set; }
         public DateTime EnterDate { get; set; }
         public DateTime? LeaveDate { get; set; }
     }

@@ -91,7 +91,7 @@ namespace JointLessonTerminal.Core.RemoteTerminalServer
         private void OnAttendeeConnected(object pAttendee)
         {
             var attendee = (IRDPSRAPIAttendee)pAttendee;
-            attendee.ControlLevel = CTRL_LEVEL.CTRL_LEVEL_INTERACTIVE;
+            attendee.ControlLevel = CTRL_LEVEL.CTRL_LEVEL_VIEW;
         }
     }
 }

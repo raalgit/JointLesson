@@ -24,6 +24,7 @@ namespace JointLessonTerminal.MVVM.Model.SignalR
             return instanse;
         }
 
+        public bool IsConnected { get { return _hubConnection.State == HubConnectionState.Connected; } }
         public EventHandler OnConnected { get; set; }
         public EventHandler OnPageSync { get; set; }
         public EventHandler OnLessonUserListUpdate { get; set; }
@@ -74,6 +75,11 @@ namespace JointLessonTerminal.MVVM.Model.SignalR
             _hubConnection.On<string>("LessonUsersUpdate", (val) =>
             {
                 List<UserAtLesson> data = JsonSerializer.Deserialize<List<UserAtLesson>>(val);
+                data.ForEach(x =>
+                {
+                    x.IsTeacherVisibility = x.IsTeacher ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+                    x.UpHandVisibility = x.UpHand ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+                });
                 System.Windows.Application.Current.Dispatcher.Invoke(() =>
                 {
                     var arg = new OnLessonUserListUpdateArg();

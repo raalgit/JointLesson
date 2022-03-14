@@ -38,9 +38,20 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical">
-                        <TextBox Text="{Binding UserId}"/>
-                        <TextBox Text="{Binding IsTeacher}"/>
-                        <TextBox Text="{Binding UpHand}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Image 
+                                Source="../../Images/profile-btn.png"
+                                Width="25"
+                                Height="25"/>
+                            <Image 
+                                Visibility="{Binding UpHandVisibility}"
+                                Margin="5"
+                                Source="../../Images/hand-btn.png"
+                                Width="20"
+                                Height="20"/>
+                        </StackPanel>
+                        <TextBlock Text="{Binding UserFio}" Style="{StaticResource BaseTextStyle}"/>
+                        <TextBlock Text="Учитель" Visibility="{Binding IsTeacherVisibility}" Style="{StaticResource BaseTextStyle}" FontStyle="Italic"/>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
@@ -106,6 +117,7 @@
                 <StackPanel Grid.Row="0" Orientation="Horizontal">
                     <TextBlock Style="{StaticResource BaseTextStyle}" Text="Оффлайн пособие"/>
                     <Button 
+                        Command="{Binding ShowOfflineManual}"
                         Margin="20 0 0 0"
                             Background="Transparent"
                             Width="30"
@@ -119,11 +131,12 @@
                     </Button>
                 </StackPanel>
 
-                <DocumentViewer Grid.Row="1" Document="{Binding ActiveOfflineDocument}">
+                <DocumentViewer Visibility="{Binding OfflineManualVisibility}" Grid.Row="1" Document="{Binding ActiveOfflineDocument}">
 
                 </DocumentViewer>
 
-                <StackPanel Grid.Row="2" 
+                <StackPanel Visibility="{Binding OfflineManualVisibility}" 
+                            Grid.Row="2" 
                             HorizontalAlignment="Center"
                             Orientation="Horizontal">
                     <Button 
@@ -175,6 +188,7 @@
                                            VerticalAlignment="Center">
                             </TextBlock>
                             <Button 
+                                Command="{Binding UpHandButton}"
                                 Margin="20 0 0 0"
                                     HorizontalAlignment="Right"
                                     Background="Transparent"

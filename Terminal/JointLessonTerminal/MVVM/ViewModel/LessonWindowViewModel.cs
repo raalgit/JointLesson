@@ -20,10 +20,10 @@ using JointLessonTerminal.MVVM.Model.HttpModels.Request;
 using JointLessonTerminal.MVVM.Model.SignalR;
 using JointLessonTerminal.MVVM.Model;
 using JointLessonTerminal.MVVM.View;
-using System.Windows.Controls;
 using System.Collections.ObjectModel;
-using Microsoft.Win32;
 using JointLessonTerminal.MVVM.Model.EventModels.Inner;
+using System.Windows.Forms;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace JointLessonTerminal.MVVM.ViewModel
 {
@@ -39,6 +39,9 @@ namespace JointLessonTerminal.MVVM.ViewModel
         private Visibility nextPageBtnVisibility;
         public Visibility PrevPageBtnVisibility { get { return prevPageBtnVisibility; } set { prevPageBtnVisibility = value; OnPropsChanged("PrevPageBtnVisibility"); } }
         private Visibility prevPageBtnVisibility;
+
+        private Visibility offlineManualVisibility;
+        public Visibility OfflineManualVisibility { get { return offlineManualVisibility; } set { offlineManualVisibility = value; OnPropsChanged("OfflineManualVisibility"); } }
 
         private int courseId;
 
@@ -160,11 +163,13 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
         public RelayCommand NextOfflinePageCommand { get; set; }
         public RelayCommand PrevOfflinePageCommand { get; set; }
-
+        
         public RelayCommand NextPageCommand { get; set; }
         public RelayCommand PrevPageCommand { get; set; }
         public RelayCommand ExitCommand { get; set; }
+        public RelayCommand UpHandButton { get; set; }
         public RelayCommand OpenRemoteTerminalCommand { get; set; }
+        public RelayCommand ShowOfflineManual { get; set; }
 
         public RelayCommand NoteOpenCommand { get; set; }
         public RelayCommand NoteSaveCommand { get; set; }
@@ -195,6 +200,18 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     if (prop3.Contains(TextDecorations.Underline[0])){
                         UnderlineIsChecked = true;
                     }
+                }
+
+                var prop4 = selection.GetPropertyValue(Inline.FontSizeProperty) as double?;
+                if (prop4.HasValue && prop4.Value > 0)
+                {
+                    NoteTextSizeSelected = prop4.Value;
+                }
+
+                var prop5 = selection.GetPropertyValue(Inline.FontFamilyProperty) as System.Windows.Media.FontFamily;
+                if (prop5 != null && prop5 != DependencyProperty.UnsetValue)
+                {
+                    NoteFontSelected = prop5;
                 }
             } 
         }
@@ -253,10 +270,13 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
             NextPageCommand = new RelayCommand(async x => await nextPage(true, true));
             PrevPageCommand = new RelayCommand(async x => await nextPage(false, true));
-
             NextOfflinePageCommand = new RelayCommand(async x => await nextPage(true, false));
             PrevOfflinePageCommand = new RelayCommand(async x => await nextPage(false, false));
-
+            ShowOfflineManual = new RelayCommand(x =>
+            {
+                if (OfflineManualVisibility == Visibility.Visible) OfflineManualVisibility = Visibility.Collapsed;
+                else OfflineManualVisibility = Visibility.Visible;
+            });
             NoteBoldCommand = new RelayCommand(x =>
             {
                 if (selection != null)
@@ -277,7 +297,6 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     selection.ApplyPropertyValue(Inline.FontWeightProperty, textWeight);
                 }
             });
-
             NoteItallicCommand = new RelayCommand(x =>
             {
                 if (selection != null)
@@ -298,7 +317,6 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     selection.ApplyPropertyValue(Inline.FontStyleProperty, textStyle);
                 }
             });
-
             NoteUnderLineCommand = new RelayCommand(x =>
             {
                 if (selection != null)
@@ -321,7 +339,6 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     selection.ApplyPropertyValue(Inline.TextDecorationsProperty, textDecorations);
                 }
             });
-
             NoteSaveCommand = new RelayCommand(x =>
             {
                 var document = x as FlowDocument;
@@ -329,28 +346,35 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 {
                     SaveFileDialog dlg = new SaveFileDialog();
                     dlg.Filter = "Rich Text Format (*.rtf)|*.rtf|All files (*.*)|*.*";
-                    if (dlg.ShowDialog() == true)
+                    var answere = dlg.ShowDialog();
+                    if (answere == DialogResult.OK || answere == DialogResult.Yes)
                     {
                         FileStream fileStream = new FileStream(dlg.FileName, FileMode.Create);
                         TextRange range = new TextRange(document.ContentStart, document.ContentEnd);
-                        range.Save(fileStream, DataFormats.Rtf);
+                        range.Save(fileStream, System.Windows.Forms.DataFormats.Rtf);
                     }
                 }
             });
-
             NoteOpenCommand = new RelayCommand(x =>
             {
                 OpenFileDialog dlg = new OpenFileDialog();
                 dlg.Filter = "Rich Text Format (*.rtf)|*.rtf|All files (*.*)|*.*";
-                if (dlg.ShowDialog() == true)
+                var answere = dlg.ShowDialog();
+                if (answere == DialogResult.OK || answere == DialogResult.Yes)
                 {
                     FileStream fileStream = new FileStream(dlg.FileName, FileMode.Open);
                     TextRange range = new TextRange((x as FlowDocument).ContentStart, (x as FlowDocument).ContentEnd);
-                    range.Load(fileStream, DataFormats.Rtf);
+                    range.Load(fileStream, System.Windows.Forms.DataFormats.Rtf);
                 }
             });
-
             ExitCommand = new RelayCommand(x => exit());
+            UpHandButton = new RelayCommand(async x => {
+                var req = new UpHandRequest()
+                {
+                    CourseId = courseId
+                };
+                var resp = await upHand(req); 
+            });
             OpenRemoteTerminalCommand = new RelayCommand(x => openRemoteTerminal());
         }
 
@@ -378,14 +402,8 @@ namespace JointLessonTerminal.MVVM.ViewModel
             hub.OnPageSync += onSyncPageEvent;
             hub.OnLessonUserListUpdate += onLessonUserListUpdateEvent;
 
-            Task.Factory.StartNew(async x =>
-            {
-                var req = new JoinLessonRequest()
-                {
-                    CourseId = courseId
-                };
-                var resp = await JoinLesson(req);
-            }, null);
+            if (hub.IsConnected) onSignalRConnected(null, null);
+            else hub.OnConnected += onSignalRConnected;
 
             try
             {
@@ -398,6 +416,17 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 signal.Argument = er.Message;
                 SendEventSignal(signal);
             }
+        }
+        private void onSignalRConnected(object o, EventArgs e)
+        {
+            Task.Factory.StartNew(async x =>
+            {
+                var req = new JoinLessonRequest()
+                {
+                    CourseId = courseId
+                };
+                var resp = await JoinLesson(req);
+            }, null);
         }
         private void onSyncPageEvent(object o, EventArgs e)
         {
@@ -431,7 +460,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
             var responsePost = await sender.SendRequest(joinLessonRequest, "/user/join-lesson");
             if (!responsePost.isSuccess)
             {
-                MessageBox.Show("Error");
+                System.Windows.Forms.MessageBox.Show("Error");
             }
             return responsePost;
         }
@@ -468,16 +497,73 @@ namespace JointLessonTerminal.MVVM.ViewModel
             var terminal = new RemoteTerminalWindow(courseId);
             terminal.Show();
         }
-
+        private async Task<UpHandResponse> upHand(UpHandRequest request)
+        {
+            var upHandRequest = new RequestModel<UpHandRequest>()
+            {
+                Method = Core.HTTPRequests.Enums.RequestMethod.Post,
+                Body = request
+            };
+            var sender = new RequestSender<UpHandRequest, UpHandResponse>();
+            var responsePost = await sender.SendRequest(upHandRequest, "/user/up-hand");
+            if (!responsePost.isSuccess)
+            {
+                MessageBox.Show("Error");
+            }
+            return responsePost;
+        }
         private void exit()
         {
             var signal = new WindowEvent();
             signal.Type = WindowEventType.EXITFROMLESSON;
             signal.Argument = courseId;
             SendEventSignal(signal);
+
+            Task.Factory.StartNew(async () =>
+            {
+                var req = new LeaveLessonRequest()
+                {
+                    CourseId = courseId
+                };
+                var resp = await leaveFromLesson(req);
+            });
+        }
+        private async Task<LeaveLessonResponse> leaveFromLesson(LeaveLessonRequest request)
+        {
+            var leaveLessonRequest = new RequestModel<LeaveLessonRequest>()
+            {
+                Method = Core.HTTPRequests.Enums.RequestMethod.Post,
+                Body = request
+            };
+            var sender = new RequestSender<LeaveLessonRequest, LeaveLessonResponse>();
+            var responsePost = await sender.SendRequest(leaveLessonRequest, "/user/leave-lesson");
+            if (!responsePost.isSuccess)
+            {
+                MessageBox.Show("Error");
+            }
+            return responsePost;
         }
         private async Task <bool> nextPage(bool forward, bool online)
         {
+            if (online)
+            {
+                var hasHand = usersAtLesson.Any(x => x.UpHand);
+                if (hasHand)
+                {
+                    var answere =
+                        MessageBox.Show(
+                            "Один или несколько участников занятия подняли руку. Вы уверены, что хотите перейти на новую страницу?",
+                            "Подтверждение перехода",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question);
+
+                    if (answere == DialogResult.Cancel || answere == DialogResult.No)
+                    {
+                        return false;
+                    }
+                }
+            }
+
             var currentPageIndex = -1;
 
             if (online) currentPageIndex = manualPages.FindIndex(x => x.id == currentPageId);
