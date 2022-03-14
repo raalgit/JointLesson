@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:JointLessonTerminal.MVVM.View" xmlns:viewmodel="clr-namespace:JointLessonTerminal.MVVM.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:CurrentCourseWindowViewModel}"
              mc:Ignorable="d" d:DesignWidth="800">
     <StackPanel
-        Background="#EFEFEF"
+        Background="Transparent"
         Height="auto">
 
         <Grid>
@@ -22,20 +22,21 @@
                   Grid.Column="0">
 
                 <StackPanel Grid.Row="0"
-                            Grid.Column="0">
+                            Grid.Column="0"
+                            Margin="15">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="2*"/>
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
-                        
-                        <StackPanel>
-                            <Image Width="auto"
-                                   Height="200"
-                                   Source="../../Images/course-template.jpg">
-                            </Image>
-                        </StackPanel>
+
+                        <Image HorizontalAlignment="Left"
+                               VerticalAlignment="Stretch"
+                               Width="auto"
+                               Height="200"
+                               Source="../../Images/course-template.jpg">
+                        </Image>
 
                         <Grid Grid.Row="0"
                               Grid.Column="1">
@@ -63,7 +64,7 @@
                                        FontSize="18"
                                        Margin="5"
                                        TextWrapping="Wrap">
-                                
+
                             </TextBlock>
                             <StackPanel Grid.Row="2"
                                         Grid.Column="0"
@@ -71,12 +72,12 @@
                                 <TextBlock Text="Текущая страница: " Style="{StaticResource BaseTextStyle}" />
                                 <TextBlock Text="{Binding CurrentPageId}" Style="{StaticResource BaseTextStyle}"/>
                             </StackPanel>
-                            
+
                         </Grid>
 
                         <StackPanel Grid.Row="0"
                                     Grid.Column="2">
-                            
+
                             <Grid Margin="5"
                                   Visibility="{Binding StartLessonBtnVisibility}">
                                 <Grid.ColumnDefinitions>
@@ -194,12 +195,7 @@
                         </StackPanel>
 
                     </Grid>
-                    
-                </StackPanel>
 
-                <StackPanel Grid.Row="0"
-                            Grid.Column="1">
-                    
                 </StackPanel>
             </Grid>
 
@@ -208,10 +204,10 @@
                         MinHeight="300"
                         Height="auto"
                         Width="auto"
-                        Margin="10">
+                        Margin="5">
                 <Border Margin="10"
-                        BorderBrush="#C4C4C4"
-                        BorderThickness="2">
+                        BorderBrush="Gray"
+                        BorderThickness="1">
                     <Grid Grid.Row="2"
                           Grid.Column="0"
                           Margin="0 10 0 0"
@@ -240,16 +236,16 @@
 
                                 <ScrollViewer Grid.Row="1"
                                               Height="250">
-                                <ListView 
+                                    <ListView ItemContainerStyle="{StaticResource JLListViewItem2}"
                                           ItemsSource="{Binding ManualData.chapters}"
                                           SelectedItem="{Binding ManualData.SelectedChapter}">
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding name}"
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding name}"
                                                        Style="{StaticResource BaseTextStyle}"/>
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
                                 </ScrollViewer>
                             </Grid>
 
@@ -268,7 +264,7 @@
 
                                 <ScrollViewer Grid.Row="1"
                                               Height="250">
-                                    <ListView
+                                    <ListView ItemContainerStyle="{StaticResource JLListViewItem2}"
                                           ItemsSource="{Binding ManualData.SelectedChapter.topics}"
                                           SelectedItem="{Binding ManualData.SelectedChapter.SelectedTopic}">
                                         <ListView.ItemTemplate>
@@ -297,7 +293,7 @@
 
                                 <ScrollViewer Grid.Row="1"
                                               Height="250">
-                                    <ListView
+                                    <ListView ItemContainerStyle="{StaticResource JLListViewItem2}"
                                           ItemsSource="{Binding ManualData.SelectedChapter.SelectedTopic.didacticUnits}"
                                           SelectedItem="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit}">
                                         <ListView.ItemTemplate>
@@ -308,7 +304,7 @@
                                         </ListView.ItemTemplate>
                                     </ListView>
                                 </ScrollViewer>
-                                
+
                             </Grid>
 
                             <Grid Grid.Column="3">
@@ -326,7 +322,7 @@
 
                                 <ScrollViewer Grid.Row="1"
                                               Height="250">
-                                    <ListView
+                                    <ListView ItemContainerStyle="{StaticResource JLListViewItem2}"
                                           ItemsSource="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit.pages}"
                                           SelectedItem="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit.SelectedPage}">
                                         <ListView.ItemTemplate>
@@ -354,13 +350,13 @@
                                         </ListView.ItemTemplate>
                                     </ListView>
                                 </ScrollViewer>
-                                
+
                             </Grid>
                         </Grid>
                     </Grid>
                 </Border>
             </StackPanel>
-            
+
         </Grid>
     </StackPanel>
 </UserControl>

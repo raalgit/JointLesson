@@ -9,8 +9,12 @@
         Title="Joint lesson" Height="auto" Width="auto"
         WindowStyle="SingleBorderWindow"
         ResizeMode="CanResizeWithGrip"
+        WindowState="Maximized"
         MouseDown="Window_MouseDown">
 
+    <Window.Background>
+        <ImageBrush ImageSource="../../Images/background.png" />
+    </Window.Background>
     <Window.DataContext >
         <viewModel:MainWindowViewModel></viewModel:MainWindowViewModel>
     </Window.DataContext>
@@ -100,7 +104,8 @@
             </Grid>
         </StackPanel>
 
-        <ContentControl Grid.Row="1" 
+        <ContentControl Background="Transparent"
+                        Grid.Row="1" 
                         Grid.Column="0"
                         Content="{Binding CurrentView}">
 
