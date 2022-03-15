@@ -39,6 +39,9 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.AspNetCore.Authentication.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.Authentication.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.Abstractions.dll</HintPath>
@@ -613,6 +616,8 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Resource Include="Images\max-btn.png" />
+    <Resource Include="Images\min-btn.png" />
     <Resource Include="Images\student.png" />
     <Resource Include="Images\teacher.png" />
     <Resource Include="Images\folder-btn.png" />
@@ -635,6 +640,8 @@
     <Resource Include="Images\bold-btn.png" />
     <Resource Include="Images\background.png" />
     <Resource Include="Images\background-invert.png" />
+    <Resource Include="Images\close-win-btn.png" />
+    <Resource Include="icon.ico" />
     <Content Include="Images\exit-btn.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
