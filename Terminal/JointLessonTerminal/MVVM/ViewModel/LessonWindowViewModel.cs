@@ -35,6 +35,8 @@ namespace JointLessonTerminal.MVVM.ViewModel
         private List<UserAtLesson> usersAtLesson;
         public List<UserAtLesson> UsersAtLesson { get { return usersAtLesson; } set { usersAtLesson = value; OnPropsChanged("UsersAtLesson"); } }
 
+        public Visibility UpHandVisibility { get { return upHandVisibility; } set { upHandVisibility = value; OnPropsChanged("UpHandVisibility"); } }
+        private Visibility upHandVisibility;
         public Visibility NextPageBtnVisibility { get { return nextPageBtnVisibility; } set { nextPageBtnVisibility = value; OnPropsChanged("NextPageBtnVisibility"); } }
         private Visibility nextPageBtnVisibility;
         public Visibility PrevPageBtnVisibility { get { return prevPageBtnVisibility; } set { prevPageBtnVisibility = value; OnPropsChanged("PrevPageBtnVisibility"); } }
@@ -391,11 +393,13 @@ namespace JointLessonTerminal.MVVM.ViewModel
             {
                 NextPageBtnVisibility = Visibility.Visible;
                 PrevPageBtnVisibility = Visibility.Visible;
+                UpHandVisibility = Visibility.Collapsed;
             }
             else
             {
                 NextPageBtnVisibility = Visibility.Collapsed;
                 PrevPageBtnVisibility = Visibility.Collapsed;
+                UpHandVisibility = Visibility.Visible;
             }
 
             hub = SignalHub.GetInstance();
@@ -446,6 +450,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
             var arg = e as OnLessonUserListUpdateArg;
             if (arg != null)
             {
+                arg.UserAtLessons.ForEach(x => x.UserImagePath = x.IsTeacher ? "../../Images/teacher.png" : "../../Images/student.png");
                 UsersAtLesson = arg.UserAtLessons;
             }
         }

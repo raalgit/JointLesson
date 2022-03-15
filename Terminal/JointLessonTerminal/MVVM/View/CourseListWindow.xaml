@@ -120,8 +120,8 @@
                 BorderThickness="0">
             <StackPanel Height="auto"
                         Orientation="Horizontal">
-                <Image MaxHeight="50"
-                       MaxWidth="50"
+                <Image MaxHeight="35"
+                       MaxWidth="35"
                        Source="../../Images/enter-btn.png" />
                 <TextBlock Text="Редактор"
                            Margin="10 0 0 0"

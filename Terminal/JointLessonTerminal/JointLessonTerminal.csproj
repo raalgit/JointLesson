@@ -613,6 +613,8 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Resource Include="Images\student.png" />
+    <Resource Include="Images\teacher.png" />
     <Resource Include="Images\folder-btn.png" />
     <Resource Include="Images\italic-btn.png" />
     <Resource Include="Images\save-file-btn.png" />

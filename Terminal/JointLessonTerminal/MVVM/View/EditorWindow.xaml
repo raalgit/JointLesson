@@ -256,6 +256,7 @@
                                                         Content="Удалить">
                                                         </Button>
                                                         <TextBox Grid.Column="1" 
+                                                                 FontSize="14"
                                                            Text="{Binding name}"/>
                                                     </Grid>
                                                 </DataTemplate>
@@ -351,6 +352,7 @@
                                                         Content="Удалить">
                                                         </Button>
                                                         <TextBox Grid.Column="1" 
+                                                                 FontSize="14"
                                                            Text="{Binding name}"/>
                                                     </Grid>
                                                 </DataTemplate>
@@ -443,7 +445,8 @@
                                                         Style="{StaticResource DarkButtonStyle}"
                                                         Content="Удалить">
                                                         </Button>
-                                                        <TextBox Grid.Column="1" 
+                                                        <TextBox Grid.Column="1"
+                                                                 FontSize="14"
                                                          Text="{Binding name}"/>
                                                     </Grid>
                                                 </DataTemplate>
@@ -556,8 +559,8 @@
                                         <Image Margin="5 5 5 5"
                                            HorizontalAlignment="Left"
                                            Source="../../Images/enter-btn.png"
-                                           Width="20"
-                                           Height="20">
+                                           Width="35"
+                                           Height="35">
                                         </Image>
                                         <TextBlock Text="{Binding title}"
                                                Style="{StaticResource BaseTextStyle}"
