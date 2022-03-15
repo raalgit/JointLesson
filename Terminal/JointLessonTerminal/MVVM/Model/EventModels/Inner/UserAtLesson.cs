@@ -21,5 +21,7 @@ namespace JointLessonTerminal.MVVM.Model.EventModels.Inner
         public Visibility UpHandVisibility { get; set; }
         [JsonIgnore]
         public Visibility IsTeacherVisibility { get; set; }
+        [JsonIgnore]
+        public string UserImagePath { get; set; }
     }
 }

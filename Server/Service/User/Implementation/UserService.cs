@@ -121,6 +121,9 @@ namespace JL.Service.User.Implementation
         {
             var response = new AddNewFileResponse();
 
+            request.Name = request.Name.Split('\\').LastOrDefault() ??
+                throw new Exception("Ошибка в названии файла");
+
             string extension = Path.GetExtension(request.Name);
             Stream stream = new MemoryStream(request.File);
             int fileDataId = await _fileUtility.CreateNewFileAsync(stream, request.Name, extension);

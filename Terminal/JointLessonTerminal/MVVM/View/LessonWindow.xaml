@@ -40,19 +40,21 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical" Margin="5">
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <Image 
-                                Source="../../Images/profile-btn.png"
-                                Width="25"
-                                Height="25"/>
+                                Source="{Binding UserImagePath}"
+                                Width="35"
+                                Height="35"
+                                HorizontalAlignment="Center"/>
                             <Image 
                                 Visibility="{Binding UpHandVisibility}"
                                 Source="../../Images/hand-btn.png"
-                                Width="20"
-                                Height="20"/>
+                                Width="25"
+                                Height="25"
+                                HorizontalAlignment="Center"/>
                         </StackPanel>
                         <TextBlock Text="{Binding UserFio}" Style="{StaticResource BaseTextStyle}" FontWeight="Bold" Foreground="White"/>
-                        <TextBlock Text="Учитель" Visibility="{Binding IsTeacherVisibility}" Style="{StaticResource BaseTextStyle}" FontStyle="Italic" Foreground="White"/>
+                        <TextBlock Text="Преподаватель" Visibility="{Binding IsTeacherVisibility}" Style="{StaticResource BaseTextStyle}" FontStyle="Italic" Foreground="White"/>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
@@ -202,7 +204,8 @@
                                 </StackPanel>
                             </Button>
                         </StackPanel>
-                        <StackPanel Margin="5" Orientation="Horizontal">
+                        <StackPanel Visibility="{Binding UpHandVisibility}" 
+                                    Margin="5" Orientation="Horizontal">
                             <TextBlock  Style="{StaticResource BaseTextStyle}"
                                            Text="Поднять руку"
                                            FontSize="14"
