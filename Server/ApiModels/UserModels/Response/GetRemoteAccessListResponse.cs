@@ -10,6 +10,12 @@ namespace JL.ApiModels.UserModels.Response
 {
     public class GetRemoteAccessListResponse : ResponseBase, IResponse
     {
-        public List<UserRemoteAccess> UserRemoteAccesses { get; set; }
+        public List<UserRemoteAccessWithUserData> UserRemoteAccesses { get; set; }
+    }
+
+    public class UserRemoteAccessWithUserData
+    {
+        public UserRemoteAccess UserRemote { get; set; }
+        public string UserName { get; set; }
     }
 }

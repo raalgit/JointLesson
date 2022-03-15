@@ -21,16 +21,22 @@ namespace JointLessonTerminal.MVVM.ViewModel
         private string _serverConnectionText;
         private string _teminalEventText;
         private bool _actionChoosen = false;
+        private RdpSessionServer server { get; set; }
 
-        private ObservableCollection<UserRemoteAccess> connectionList;
-        public ObservableCollection<UserRemoteAccess> ConnectionList
+        private Visibility startTerminalVisibility;
+        public Visibility StartTerminalVisibility { get { return startTerminalVisibility; } set { startTerminalVisibility = value; OnPropsChanged("StartTerminalVisibility"); } }
+        private Visibility stopTerminalVisibility;
+        public Visibility StopTerminalVisibility { get { return stopTerminalVisibility; } set { stopTerminalVisibility = value; OnPropsChanged("StopTerminalVisibility"); } }
+
+        private ObservableCollection<UserRemoteAccessWithUserData> connectionList;
+        public ObservableCollection<UserRemoteAccessWithUserData> ConnectionList
         {
             get { return connectionList; } 
             set { connectionList = value; OnPropsChanged("ConnectionList"); }
         }
 
-        private UserRemoteAccess selectedConnection;
-        public UserRemoteAccess SelectedConnection 
+        private UserRemoteAccessWithUserData selectedConnection;
+        public UserRemoteAccessWithUserData SelectedConnection 
         {
             get
             {
@@ -48,11 +54,14 @@ namespace JointLessonTerminal.MVVM.ViewModel
         {
             _courseId = courseId;
             RdpManagerInst = new RdpManager() { SmartSizing = true };
+            StartTerminalVisibility = Visibility.Visible;
+            StopTerminalVisibility = Visibility.Collapsed;
 
             RdpManagerInst.OnConnectionTerminated += (reason, info) => SessionTerminated();
             RdpManagerInst.OnGraphicsStreamPaused += (sender, args) => SessionTerminated();
             RdpManagerInst.OnAttendeeDisconnected += info => SessionTerminated();
 
+            StopCommand = new RelayCommand(x => Stop());
             SingleStartCommand = new RelayCommand(x => SingleStart(), o => !_actionChoosen);
             ConnectCommand = new RelayCommand(x => Connect());
             DisconnectCommand = new RelayCommand(x => Disconnect());
@@ -77,12 +86,10 @@ namespace JointLessonTerminal.MVVM.ViewModel
         public RelayCommand ServerStartCommand { get; set; }
         public RelayCommand CopyCommand { get; set; }
         public RelayCommand SingleStartCommand { get; set; }
+        public RelayCommand StopCommand { get; set; }
         public RelayCommand ConnectCommand { get; set; }
         public RelayCommand DisconnectCommand { get; set; }
         public RelayCommand GetConnectionListCommand { get; set; }
-
-        private SolidColorBrush canvasColor;
-        public SolidColorBrush CanvasColor { get { return canvasColor; } set { canvasColor = value; OnPropsChanged("CanvasColor"); } }
 
         public string TeminalEventText
         {
@@ -100,6 +107,16 @@ namespace JointLessonTerminal.MVVM.ViewModel
             get { return "Pa$$w0rrrd"; }
         }
 
+        private void Stop()
+        {
+            if (server != null)
+            {
+                server.Close();
+                StartTerminalVisibility = Visibility.Visible;
+                StopTerminalVisibility = Visibility.Collapsed;
+            }
+        }
+
         private void SingleStart()
         {
             if (!SupportUtils.CheckOperationSytem())
@@ -108,7 +125,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 return;
             }
 
-            var server = new RdpSessionServer();
+            server = new RdpSessionServer();
             server.Open();
 
             var executableName = GetApplicationName(AppDomain.CurrentDomain.FriendlyName);
@@ -155,19 +172,21 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 return;
             }
 
-            var server = new RdpSessionServer();
+            server = new RdpSessionServer();
             server.Open();
 
             ServerConnectionText = server.CreateInvitation(GroupName, Password);
             ServerStarted();
-            CanvasColor = new SolidColorBrush(Color.FromRgb(233, 150, 122));
+
+            StartTerminalVisibility = Visibility.Collapsed;
+            StopTerminalVisibility = Visibility.Visible;
             Task.Factory.StartNew(async x => { await sendConnectionData(ServerConnectionText); }, null);
         }
 
-        private void ConnectToHost(UserRemoteAccess selectedConnection)
+        private void ConnectToHost(UserRemoteAccessWithUserData selectedConnection)
         {
             if (selectedConnection == null) return;
-            ConnectionText = selectedConnection.connectionData;
+            ConnectionText = selectedConnection.userRemote.connectionData;
             Connect();
         }
 

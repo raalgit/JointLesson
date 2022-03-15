@@ -15,4 +15,9 @@ namespace JointLessonTerminal.MVVM.Model.ServerModels
         public string connectionData { get; set; }
         public DateTime startDate { get; set; }
     }
+    public class UserRemoteAccessWithUserData
+    {
+        public UserRemoteAccess userRemote { get; set; }
+        public string userName { get; set; }
+    }
 }

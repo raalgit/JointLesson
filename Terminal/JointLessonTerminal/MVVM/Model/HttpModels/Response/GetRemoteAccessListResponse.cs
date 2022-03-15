@@ -12,7 +12,7 @@ namespace JointLessonTerminal.MVVM.Model.HttpModels.Response
     [Serializable]
     public class GetRemoteAccessListResponse : IResponse
     {
-        public ObservableCollection<UserRemoteAccess> userRemoteAccesses { get; set; }
+        public ObservableCollection<UserRemoteAccessWithUserData> userRemoteAccesses { get; set; }
 
         public bool isSuccess { get; set; }
         public string message { get; set; }

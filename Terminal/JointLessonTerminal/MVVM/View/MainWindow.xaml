@@ -83,15 +83,26 @@
                             HorizontalAlignment="Center" 
                             VerticalAlignment="Bottom"
                             Margin="0 0 0 10">
+                    
+                    <Button Background="Transparent" 
+                            Name="mini_btn" 
+                            BorderThickness="0"
+                            Click="mini_btn_Click">
+                        <Image Width="30"
+                               Height="30"
+                               Source="../../Images/min-btn.png" />
+                    </Button>
+                    
                     <Button Background="Transparent" 
                             Name="maximize_btn"
                             BorderThickness="0"
-                            Click="maximize_btn_Click">
+                            Click="maximize_btn_Click"
+                             Margin="20 0 0 0">
                         <Image Width="30"
                                Height="30"
                                Name="WinStateBtnImage"/>
                     </Button>
-
+                    
                     <Button Background="Transparent" 
                             Name="exit_btn" 
                             BorderThickness="0"
@@ -101,6 +112,7 @@
                                Height="30"
                                Source="../../Images/close-win-btn.png" />
                     </Button>
+
                 </StackPanel>
                 <StackPanel HorizontalAlignment="Right"
                                 Orientation="Horizontal"

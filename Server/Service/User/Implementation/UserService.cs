@@ -328,12 +328,16 @@ namespace JL.Service.User.Implementation
         {
             var response = new GetRemoteAccessListResponse();
 
-            var list = _userRemoteAccessRepository
-                .Get()
-                .Where(x => x.CourseId == courseId)
-                .ToList();
+            List<UserRemoteAccessWithUserData> list = (from remote in _userRemoteAccessRepository.Get()
+                                                       join user in _userRepository.Get() on remote.UserId equals user.Id
+                                                       where remote.CourseId == courseId
+                                                       select new UserRemoteAccessWithUserData()
+                                                       {
+                                                           UserRemote = remote,
+                                                           UserName = user.FirstName + " " + user.ThirdName
+                                                       }).ToList();
 
-            list = list.Where(x => (DateTime.Now - x.StartDate).Hours < 1).ToList();
+            list = list.Where(x => (DateTime.Now - x.UserRemote.StartDate).Hours < 1).ToList();
 
             response.UserRemoteAccesses = list;
             return response;

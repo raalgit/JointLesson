@@ -21,14 +21,14 @@ namespace JointLessonTerminal.MVVM.View
     public partial class MainWindow : Window
     {
         public ImageSource maximizeBtnImage { get; set; }
-        public ImageSource minimizeBtnImage { get; set; }
+        public ImageSource normalizeBtnImage { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
             maximizeBtnImage = new BitmapImage(new Uri("../../Images/max-btn.png", UriKind.Relative));
-            minimizeBtnImage = new BitmapImage(new Uri("../../Images/min-btn.png", UriKind.Relative));
-            WinStateBtnImage.Source = minimizeBtnImage;
+            normalizeBtnImage = new BitmapImage(new Uri("../../Images/norm-btn.png", UriKind.Relative));
+            WinStateBtnImage.Source = normalizeBtnImage;
             mainWin.StateChanged += MainWin_StateChanged;
             mainWin.MouseDoubleClick += MainWin_MouseDoubleClick;
         }
@@ -53,7 +53,7 @@ namespace JointLessonTerminal.MVVM.View
             }
             else
             {
-                WinStateBtnImage.Source = minimizeBtnImage;
+                WinStateBtnImage.Source = normalizeBtnImage;
             }
         }
 
@@ -77,6 +77,11 @@ namespace JointLessonTerminal.MVVM.View
         private void exit_btn_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void mini_btn_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
         }
     }
 }

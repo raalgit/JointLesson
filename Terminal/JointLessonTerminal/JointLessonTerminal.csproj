@@ -616,6 +616,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Resource Include="Images\norm-btn.png" />
     <Resource Include="Images\max-btn.png" />
     <Resource Include="Images\min-btn.png" />
     <Resource Include="Images\student.png" />
