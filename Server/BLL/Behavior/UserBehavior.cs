@@ -32,11 +32,35 @@ namespace BLL.Behavior
                 throw new NullReferenceException(nameof(_userService));
         }
 
+        public async Task<LoadNoteResponse> LoadNoteAsync(LoadNoteRequest request)
+        {
+            try
+            {
+                return await _userService.LoadNoteAsync(request, _userSettings);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<SendNoteResponse> SendNoteAsync(SendNoteRequest request)
+        {
+            try
+            {
+                return await _userService.SendNoteAsync(request, _userSettings);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public async Task<GetRemoteAccessDataResponse> GetRemoteAccessData(GetRemoteAccessDataRequest request)
         {
             try
             {
-                return await _userService.GetRemoteAccessData(request);
+                return await _userService.GetRemoteAccessDataAsync(request);
             }
             catch (Exception ex)
             {
@@ -48,7 +72,7 @@ namespace BLL.Behavior
         {
             try
             {
-                return await _userService.CreateRemoteAccess(request, _userSettings);
+                return await _userService.CreateRemoteAccessAsync(request, _userSettings);
             }
             catch (Exception ex)
             {
@@ -60,7 +84,7 @@ namespace BLL.Behavior
         {
             try
             {
-                return await _userService.GetMyCourses(_userSettings);
+                return await _userService.GetMyCoursesAsync(_userSettings);
             }
             catch (Exception er)
             {
@@ -72,7 +96,7 @@ namespace BLL.Behavior
         {
             try
             {
-                return await _userService.GetManualFiles(request);
+                return await _userService.GetManualFilesAsync(request);
             }
             catch (Exception er)
             {
@@ -84,7 +108,7 @@ namespace BLL.Behavior
         {
             try
             {
-                return await _userService.GetFile(fileDataId);
+                return await _userService.GetFileAsync(fileDataId);
             }
             catch (Exception er)
             {
@@ -96,7 +120,7 @@ namespace BLL.Behavior
         {
             try
             {
-                return await _userService.AddNewFile(request);
+                return await _userService.AddNewFileAsync(request);
             }
             catch (Exception er)
             {
@@ -108,7 +132,7 @@ namespace BLL.Behavior
         {
             try
             {
-                return await _userService.GetCourseData(courseId, _userSettings);
+                return await _userService.GetCourseDataAsync(courseId, _userSettings);
             }
             catch (Exception er)
             {
@@ -120,7 +144,7 @@ namespace BLL.Behavior
         {
             try
             {
-                return await _userService.RegisterSignalConnection(connectionId, _userSettings);
+                return await _userService.RegisterSignalConnectionAsync(connectionId, _userSettings);
             }
             catch (Exception er)
             {
@@ -132,7 +156,7 @@ namespace BLL.Behavior
         {
             try
             {
-                return await _userService.StartSRSLesson(request, _userSettings);
+                return await _userService.StartSRSLessonAsync(request, _userSettings);
             }
             catch (Exception er)
             {
@@ -144,7 +168,7 @@ namespace BLL.Behavior
         {
             try
             {
-                return await _userService.ChangeActivePage(request, _userSettings);
+                return await _userService.ChangeActivePageAsync(request, _userSettings);
             }
             catch (Exception er)
             {
@@ -156,7 +180,7 @@ namespace BLL.Behavior
         {
             try
             {
-                return await _userService.CloseLesson(request, _userSettings);
+                return await _userService.CloseLessonAsync(request, _userSettings);
             }
             catch (Exception er)
             {
@@ -168,7 +192,7 @@ namespace BLL.Behavior
         {
             try
             {
-                return await _userService.GetRemoteAccessList(courseId);
+                return await _userService.GetRemoteAccessListAsync(courseId);
             }
             catch (Exception er)
             {
@@ -180,7 +204,7 @@ namespace BLL.Behavior
         {
             try
             {
-                return await _userService.JoinLesson(request, _userSettings);
+                return await _userService.JoinLessonAsync(request, _userSettings);
             }
             catch (Exception er)
             {
@@ -192,7 +216,7 @@ namespace BLL.Behavior
         {
             try
             {
-                return await _userService.LeaveLesson(request, _userSettings);
+                return await _userService.LeaveLessonAsync(request, _userSettings);
             }
             catch (Exception er)
             {
@@ -204,7 +228,7 @@ namespace BLL.Behavior
         {
             try
             {
-                return await _userService.UpHand(request, _userSettings);
+                return await _userService.UpHandAsync(request, _userSettings);
             }
             catch (Exception er)
             {

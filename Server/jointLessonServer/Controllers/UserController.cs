@@ -325,5 +325,45 @@ namespace jointLessonServer.Controllers
                 };
             }
         }
+
+        [HttpPost]
+        [JwtAuthentication(role: "User")]
+        [Route("/user/load-note")]
+        public async Task<LoadNoteResponse> LoadNoteAsync(LoadNoteRequest request)
+        {
+            try
+            {
+                var userBehavior = new UserBehavior(_serviceProvider);
+                return await userBehavior.LoadNoteAsync(request);
+            }
+            catch (Exception ex)
+            {
+                return new LoadNoteResponse()
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+        [HttpPost]
+        [JwtAuthentication(role: "User")]
+        [Route("/user/send-note")]
+        public async Task<SendNoteResponse> SendNoteAsync(SendNoteRequest request)
+        {
+            try
+            {
+                var userBehavior = new UserBehavior(_serviceProvider);
+                return await userBehavior.SendNoteAsync(request);
+            }
+            catch (Exception ex)
+            {
+                return new SendNoteResponse()
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
     }
 }

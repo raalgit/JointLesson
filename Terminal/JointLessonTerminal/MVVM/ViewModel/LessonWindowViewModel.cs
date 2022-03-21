@@ -173,6 +173,8 @@ namespace JointLessonTerminal.MVVM.ViewModel
         public RelayCommand OpenRemoteTerminalCommand { get; set; }
         public RelayCommand ShowOfflineManual { get; set; }
 
+        public RelayCommand NoteSyncCommand { get; set; }
+        public RelayCommand NoteLoadCommand { get; set; }
         public RelayCommand NoteOpenCommand { get; set; }
         public RelayCommand NoteSaveCommand { get; set; }
         public RelayCommand NoteBoldCommand { get; set; }
@@ -377,6 +379,8 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 };
                 var resp = await upHand(req); 
             });
+            NoteSyncCommand = new RelayCommand(async x => await SendNoteToServer(x as FlowDocument));
+            NoteLoadCommand = new RelayCommand(async x => await LoadNoteFromServer(x as FlowDocument));
             OpenRemoteTerminalCommand = new RelayCommand(x => openRemoteTerminal());
         }
 
@@ -452,6 +456,69 @@ namespace JointLessonTerminal.MVVM.ViewModel
             {
                 arg.UserAtLessons.ForEach(x => x.UserImagePath = x.IsTeacher ? "../../Images/teacher.png" : "../../Images/student.png");
                 UsersAtLesson = arg.UserAtLessons;
+            }
+        }
+        private async Task LoadNoteFromServer(FlowDocument doc)
+        {
+            var req = new LoadNoteRequest();
+            req.Page = currentPageId;
+            if (!string.IsNullOrEmpty(req.Page))
+            {
+                var loadNoteRequest = new RequestModel<LoadNoteRequest>()
+                {
+                    Method = Core.HTTPRequests.Enums.RequestMethod.Post,
+                    Body = req
+                };
+                var sender = new RequestSender<LoadNoteRequest, LoadNoteResponse>();
+                var responsePost = await sender.SendRequest(loadNoteRequest, "/user/load-note");
+
+                if (!responsePost.isSuccess)
+                {
+                    System.Windows.Forms.MessageBox.Show("Error");
+                }
+                else
+                {
+                    MemoryStream stream = new MemoryStream(responsePost.file);
+                    TextRange range = new TextRange(doc.ContentStart, doc.ContentEnd);
+
+                    range.Load(stream, System.Windows.Forms.DataFormats.Rtf);
+                }
+            }
+        }
+        private async Task SendNoteToServer(FlowDocument doc)
+        {
+            var req = new SendNoteRequest();
+            req.Page = currentPageId;
+            if (doc != null && !string.IsNullOrEmpty(req.Page))
+            {
+                string rtfFromRtb = string.Empty;
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    TextRange range2 = new TextRange(doc.ContentStart, doc.ContentEnd);
+                    range2.Save(ms, System.Windows.Forms.DataFormats.Rtf);
+                    ms.Seek(0, SeekOrigin.Begin);
+                    using (StreamReader sr = new StreamReader(ms))
+                    {
+                        rtfFromRtb = sr.ReadToEnd();
+                        req.File = Encoding.Default.GetBytes(rtfFromRtb);
+                    }
+                }
+
+                if (req.File != null)
+                {
+                    var sendNoteRequest = new RequestModel<SendNoteRequest>()
+                    {
+                        Method = Core.HTTPRequests.Enums.RequestMethod.Post,
+                        Body = req
+                    };
+                    var sender = new RequestSender<SendNoteRequest, SendNoteResponse>();
+                    var responsePost = await sender.SendRequest(sendNoteRequest, "/user/send-note");
+                    
+                    if (!responsePost.isSuccess)
+                    {
+                        System.Windows.Forms.MessageBox.Show("Error");
+                    }
+                }
             }
         }
         private async Task<JoinLessonResponse> JoinLesson(JoinLessonRequest request)

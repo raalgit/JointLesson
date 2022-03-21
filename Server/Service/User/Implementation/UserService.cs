@@ -33,6 +33,7 @@ namespace JL.Service.User.Implementation
         private readonly IUserRepository _userRepository; 
         private readonly ISignalUserConnectionRepository _signalUserConnectionRepository;
         private readonly IUserRemoteAccessRepository _userRemoteAccessRepository;
+        private readonly IWorkBookRepository _workBookRepository;
         private readonly IFileUtility _fileUtility;
 
         private readonly IHubContext<SignalHub> _hubContext;
@@ -47,6 +48,7 @@ namespace JL.Service.User.Implementation
                            IMongoRepository mongoRepository,
                            IGroupRepository groupRepository,
                            IUserRepository userRepository,
+                           IWorkBookRepository workBookRepository,
                            IUserRemoteAccessRepository userRemoteAccessRepository,
                            IFileDataRepository fileDataRepository,
                            IHubContext<SignalHub> hubContext)
@@ -54,6 +56,7 @@ namespace JL.Service.User.Implementation
             _serviceProvider = serviceProvider;
             _lessonTabelRepository = lessonTabelRepository;
             _courseRepository = courseRepository;
+            _workBookRepository = workBookRepository;
             _groupRepository = groupRepository;
             _userRemoteAccessRepository = userRemoteAccessRepository;
             _courseTeacherRepository = courseTeacherRepository;
@@ -68,11 +71,55 @@ namespace JL.Service.User.Implementation
             _fileUtility = new FileUtility(_mongoRepository, _fileDataRepository);
         }
 
+        public async Task<LoadNoteResponse> LoadNoteAsync(LoadNoteRequest request, UserSettings userSettings) 
+        {
+            var response = new LoadNoteResponse();
+
+            // Получение записи о конспекте
+            var note = _workBookRepository.Get().FirstOrDefault(x => x.UserId == userSettings.User.Id && x.Page == request.Page)
+                ?? throw new Exception("Запись о конспекте не найдена");
+            
+            
+            var fileData = _fileDataRepository.GetById(note.FileDataId);
+            response.File = await _fileUtility.GetFileAsBytesById(fileData.MongoId) 
+                ?? throw new Exception("Файл конспекта не найден");
+
+            return response;
+        }
+
+        public async Task<SendNoteResponse> SendNoteAsync(SendNoteRequest request, UserSettings userSettings) 
+        {
+            var response = new SendNoteResponse();
+
+            Stream stream = new MemoryStream(request.File);
+            int fileDataId = await _fileUtility.CreateNewFileAsync(stream, $"Конспект_{userSettings.User.Id}_от_{DateTime.Now.ToShortDateString().Replace(" ", "_")}", "rtf");
+
+            // Получение записи о конспекте
+            var note = _workBookRepository.Get().FirstOrDefault(x => x.UserId == userSettings.User.Id && x.Page == request.Page);
+            if (note != null)
+            {
+                note.FileDataId = fileDataId;
+                _workBookRepository.Update(note);
+            }
+            else
+            {
+                var newNote = new WorkBook()
+                {
+                    FileDataId = fileDataId,
+                    Page = request.Page,
+                    UserId = userSettings.User.Id
+                };
+                _workBookRepository.Insert(newNote);
+            }
+            _workBookRepository.SaveChanges();
+            return response;
+        }
+
         /// Если у пользователя установлена группа, то он студент
         /// В этом случае мы возвращаем курсы, к которым есть доступ у группы
         /// студента. Если пользователь не студент, то выдаем курсы, которые
         /// ведет преподаватель
-        public async Task<GetMyCoursesResponse> GetMyCourses(UserSettings userSettings)
+        public async Task<GetMyCoursesResponse> GetMyCoursesAsync(UserSettings userSettings)
         {
             var response = new GetMyCoursesResponse();
 
@@ -99,7 +146,7 @@ namespace JL.Service.User.Implementation
             return response;
         }
 
-        public async Task<GetFileResponse> GetFile(int fileDataId)
+        public async Task<GetFileResponse> GetFileAsync(int fileDataId)
         {
             var response = new GetFileResponse();
 
@@ -108,7 +155,7 @@ namespace JL.Service.User.Implementation
             return response;
         }
 
-        public async Task<GetManualFilesResponse> GetManualFiles(GetManualFilesRequest request)
+        public async Task<GetManualFilesResponse> GetManualFilesAsync(GetManualFilesRequest request)
         {
             var response = new GetManualFilesResponse();
 
@@ -117,7 +164,7 @@ namespace JL.Service.User.Implementation
             return response;
         }
 
-        public async Task<AddNewFileResponse> AddNewFile(AddNewFileRequest request)
+        public async Task<AddNewFileResponse> AddNewFileAsync(AddNewFileRequest request)
         {
             var response = new AddNewFileResponse();
 
@@ -132,7 +179,7 @@ namespace JL.Service.User.Implementation
             return response;
         }
 
-        public async Task<RegisterSignalConnectionResponse> RegisterSignalConnection(string connectionId, UserSettings userSettings)
+        public async Task<RegisterSignalConnectionResponse> RegisterSignalConnectionAsync(string connectionId, UserSettings userSettings)
         {
             var response = new RegisterSignalConnectionResponse();
 
@@ -153,7 +200,7 @@ namespace JL.Service.User.Implementation
             return response;
         }
 
-        public async Task<GetCourseDataResponse> GetCourseData(int courseId, UserSettings userSettings)
+        public async Task<GetCourseDataResponse> GetCourseDataAsync(int courseId, UserSettings userSettings)
         {
             var response = new GetCourseDataResponse();
 
@@ -202,7 +249,7 @@ namespace JL.Service.User.Implementation
             return response;
         }
 
-        public async Task<StartSRSLessonResponse> StartSRSLesson(StartSRSLessonRequest request, UserSettings userSettings)
+        public async Task<StartSRSLessonResponse> StartSRSLessonAsync(StartSRSLessonRequest request, UserSettings userSettings)
         {
             var response = new StartSRSLessonResponse();
 
@@ -242,7 +289,7 @@ namespace JL.Service.User.Implementation
             return response;
         }
 
-        public async Task<ChangeSRSLessonManualPageResponse> ChangeActivePage(ChangeSRSLessonManualPageRequest request, UserSettings userSettings)
+        public async Task<ChangeSRSLessonManualPageResponse> ChangeActivePageAsync(ChangeSRSLessonManualPageRequest request, UserSettings userSettings)
         {
             var response = new ChangeSRSLessonManualPageResponse();
 
@@ -264,7 +311,7 @@ namespace JL.Service.User.Implementation
             return response;
         }
 
-        public async Task<CloseSRSLessonResponse> CloseLesson(CloseSRSLessonRequest request, UserSettings userSettings)
+        public async Task<CloseSRSLessonResponse> CloseLessonAsync(CloseSRSLessonRequest request, UserSettings userSettings)
         {
             var response = new CloseSRSLessonResponse();
 
@@ -288,7 +335,7 @@ namespace JL.Service.User.Implementation
             return response;
         }
 
-        public async Task<GetRemoteAccessDataResponse> GetRemoteAccessData(GetRemoteAccessDataRequest request)
+        public async Task<GetRemoteAccessDataResponse> GetRemoteAccessDataAsync(GetRemoteAccessDataRequest request)
         {
             var response = new GetRemoteAccessDataResponse();
 
@@ -302,7 +349,7 @@ namespace JL.Service.User.Implementation
             return response;
         }
 
-        public async Task<CreateRemoteAccessResponse> CreateRemoteAccess(CreateRemoteAccessRequest request, UserSettings userSettings)
+        public async Task<CreateRemoteAccessResponse> CreateRemoteAccessAsync(CreateRemoteAccessRequest request, UserSettings userSettings)
         {
             var response = new CreateRemoteAccessResponse();
 
@@ -324,7 +371,7 @@ namespace JL.Service.User.Implementation
             return response;
         }
 
-        public async Task<GetRemoteAccessListResponse> GetRemoteAccessList(int courseId)
+        public async Task<GetRemoteAccessListResponse> GetRemoteAccessListAsync(int courseId)
         {
             var response = new GetRemoteAccessListResponse();
 
@@ -343,7 +390,7 @@ namespace JL.Service.User.Implementation
             return response;
         }
 
-        public async Task<JoinLessonResponse> JoinLesson(JoinLessonRequest request, UserSettings userSettings) 
+        public async Task<JoinLessonResponse> JoinLessonAsync(JoinLessonRequest request, UserSettings userSettings) 
         {
             var response = new JoinLessonResponse();
 
@@ -395,7 +442,7 @@ namespace JL.Service.User.Implementation
             return response;
         }
 
-        public async Task<LeaveLessonResponse> LeaveLesson(LeaveLessonRequest request, UserSettings userSettings) 
+        public async Task<LeaveLessonResponse> LeaveLessonAsync(LeaveLessonRequest request, UserSettings userSettings) 
         {
             var response = new LeaveLessonResponse();
 
@@ -428,7 +475,7 @@ namespace JL.Service.User.Implementation
             return response;
         }
 
-        public async Task<UpHandResponse> UpHand(UpHandRequest request, UserSettings userSettings)
+        public async Task<UpHandResponse> UpHandAsync(UpHandRequest request, UserSettings userSettings)
         {
             var response = new UpHandResponse();
             if (userSettings.User.GroupId == null) throw new Exception("Только учащийся занятия может поднять руку");

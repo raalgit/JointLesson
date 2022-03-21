@@ -65,7 +65,7 @@ namespace JointLessonTerminal.Core.RemoteTerminalServer
 
         public string CreateInvitation(string groupName, string passowrd)
         {
-            var invitation = _rdpSession.Invitations.CreateInvitation(null, groupName, passowrd, 2);
+            var invitation = _rdpSession.Invitations.CreateInvitation(null, groupName, passowrd, 14);
             return invitation.ConnectionString;
         }
 

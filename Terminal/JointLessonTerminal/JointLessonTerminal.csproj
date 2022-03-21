@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\CefSharp.Common.99.2.120\build\CefSharp.Common.props" Condition="Exists('..\packages\CefSharp.Common.99.2.120\build\CefSharp.Common.props')" />
+  <Import Project="..\packages\cef.redist.x86.99.2.12\build\cef.redist.x86.props" Condition="Exists('..\packages\cef.redist.x86.99.2.12\build\cef.redist.x86.props')" />
+  <Import Project="..\packages\cef.redist.x64.99.2.12\build\cef.redist.x64.props" Condition="Exists('..\packages\cef.redist.x64.99.2.12\build\cef.redist.x64.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -43,6 +46,15 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CefSharp, Version=99.2.120.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=MSIL">
+      <HintPath>..\packages\CefSharp.Common.99.2.120\lib\net452\CefSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="CefSharp.Core, Version=99.2.120.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=MSIL">
+      <HintPath>..\packages\CefSharp.Common.99.2.120\lib\net452\CefSharp.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="CefSharp.Wpf, Version=99.2.120.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=MSIL">
+      <HintPath>..\packages\CefSharp.Wpf.99.2.120\lib\net462\CefSharp.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNetCore.Authentication.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.Authentication.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.Abstractions.dll</HintPath>
     </Reference>
@@ -454,9 +466,11 @@
     <Compile Include="MVVM\Model\HttpModels\Request\GetRemoteAccessDataRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\JoinLessonRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\LeaveLessonRequest.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Request\LoadNoteRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\LoginRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\NewMaterialRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\RegisterSignalConnectionRequest.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Request\SendNoteRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\StartSRSLessonRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\StartSyncLessonRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\UpdateMaterialRequest.cs" />
@@ -478,6 +492,7 @@
     <Compile Include="MVVM\Model\HttpModels\Response\GetRemoteAccessListResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\JoinLessonResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\LeaveLessonResponse.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Response\LoadNoteResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\LoginResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\LogoutResponse.cs" />
     <Compile Include="Core\Material\Author.cs" />
@@ -492,6 +507,7 @@
     <Compile Include="Core\Material\Topic.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\NewMaterialResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\RegisterSignalConnectionResponse.cs" />
+    <Compile Include="MVVM\Model\HttpModels\Response\SendNoteResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\StartSRSLessonResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\StartSyncLessonResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\UpdateMaterialResponse.cs" />
@@ -626,6 +642,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\sync-note-btn.png" />
+    <Resource Include="Images\load-note-server-btn.png" />
+    <Content Include="index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Images\norm-btn.png" />
     <Resource Include="Images\max-btn.png" />
     <Resource Include="Images\min-btn.png" />
@@ -680,6 +701,11 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\build\Microsoft.Extensions.Logging.Abstractions.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\build\Microsoft.Extensions.Logging.Abstractions.targets'))" />
     <Error Condition="!Exists('..\packages\System.Text.Json.6.0.2\build\System.Text.Json.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Text.Json.6.0.2\build\System.Text.Json.targets'))" />
+    <Error Condition="!Exists('..\packages\cef.redist.x64.99.2.12\build\cef.redist.x64.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x64.99.2.12\build\cef.redist.x64.props'))" />
+    <Error Condition="!Exists('..\packages\cef.redist.x86.99.2.12\build\cef.redist.x86.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x86.99.2.12\build\cef.redist.x86.props'))" />
+    <Error Condition="!Exists('..\packages\CefSharp.Common.99.2.120\build\CefSharp.Common.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Common.99.2.120\build\CefSharp.Common.props'))" />
+    <Error Condition="!Exists('..\packages\CefSharp.Common.99.2.120\build\CefSharp.Common.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Common.99.2.120\build\CefSharp.Common.targets'))" />
   </Target>
   <Import Project="..\packages\System.Text.Json.6.0.2\build\System.Text.Json.targets" Condition="Exists('..\packages\System.Text.Json.6.0.2\build\System.Text.Json.targets')" />
+  <Import Project="..\packages\CefSharp.Common.99.2.120\build\CefSharp.Common.targets" Condition="Exists('..\packages\CefSharp.Common.99.2.120\build\CefSharp.Common.targets')" />
 </Project>

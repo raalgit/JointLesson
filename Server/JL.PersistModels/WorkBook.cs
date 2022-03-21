@@ -13,8 +13,7 @@ namespace JL.Persist
     {
         public int Id { get; set; }
         public int UserId { get; set; }
-        public int LessonId { get; set; }
-        public string Text { get; set; }
-        public int Page { get; set; }
+        public int FileDataId { get; set; }
+        public string Page { get; set; }
     }
 }

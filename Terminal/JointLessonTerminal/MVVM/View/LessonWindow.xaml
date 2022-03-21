@@ -6,6 +6,7 @@
              xmlns:viewmodel="clr-namespace:JointLessonTerminal.MVVM.ViewModel" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
              xmlns:local1="clr-namespace:JointLessonTerminal.MVVM.Model.UIBehaviors"
+             xmlns:cefsharpwpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
              d:DataContext="{d:DesignInstance Type=viewmodel:LessonWindowViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -111,7 +112,7 @@
                     </LayoutPanel>
                     <LayoutDocumentPaneGroup DockWidth="*" DockMinWidth="500">
                         <LayoutDocumentPane DockWidth="*">
-                            <LayoutDocument Title="Окно offile материала" x:Name="tab2" CanClose="False">
+                            <LayoutDocument Title="Окно offline материала" x:Name="tab2" CanClose="False">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="1*"/>
@@ -257,22 +258,35 @@
                                     <Grid Grid.Row="1" Margin="5">
                                         <StackPanel Orientation="Vertical">
                                             <TextBlock Text="Конспект"
-                           Style="{StaticResource BaseTextStyle}"
-                           FontSize="18"
-                           FontWeight="Bold"/>
+                                                       Style="{StaticResource BaseTextStyle}"
+                                                       FontSize="18"
+                                                       FontWeight="Bold"/>
                                             <DockPanel VerticalAlignment="Stretch" LastChildFill="True">
                                                 <ToolBar DockPanel.Dock="Top">
-                                                    <Button Command="{Binding NoteOpenCommand}">
+                                                    <Button ToolTip="Загрузка конспекта с устройства" Command="{Binding NoteOpenCommand}">
                                                         <Button.CommandParameter>
                                                             <Binding Path="Document" ElementName="tb1"/>
                                                         </Button.CommandParameter>
                                                         <Image Source="../../Images/folder-btn.png" Width="25" Height="25" />
                                                     </Button>
-                                                    <Button Command="{Binding NoteSaveCommand}">
+                                                    <Button ToolTip="Сохранение конспекта на локальном устройстве" Command="{Binding NoteSaveCommand}">
                                                         <Button.CommandParameter>
                                                             <Binding Path="Document" ElementName="tb1"/>
                                                         </Button.CommandParameter>
                                                         <Image Source="../../Images/save-file-btn.png" Width="25" Height="25" />
+                                                    </Button>
+                                                    <Separator />
+                                                    <Button ToolTip="Синхронизация и отправка конспекта на сервер" Command="{Binding NoteSyncCommand}">
+                                                        <Button.CommandParameter>
+                                                            <Binding Path="Document" ElementName="tb1"/>
+                                                        </Button.CommandParameter>
+                                                        <Image Source="../../Images/sync-note-btn.png" Width="25" Height="25" />
+                                                    </Button>
+                                                    <Button ToolTip="Загрузка конспекта с сервера" Command="{Binding NoteLoadCommand}">
+                                                        <Button.CommandParameter>
+                                                            <Binding Path="Document" ElementName="tb1"/>
+                                                        </Button.CommandParameter>
+                                                        <Image Source="../../Images/load-note-server-btn.png" Width="25" Height="25" />
                                                     </Button>
                                                     <Separator />
                                                     <ToggleButton IsChecked="{Binding BoldIsChecked, Mode=TwoWay}" Command="{Binding NoteBoldCommand}" Name="btnBold">
@@ -309,6 +323,93 @@
                                             </DockPanel>
                                         </StackPanel>
                                     </Grid>
+                                </Grid>
+                            </LayoutDocument>
+                            <LayoutDocument Title="JavaScript console" x:Name="tab4" CanClose="False">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="5*"></RowDefinition>
+                                        <RowDefinition Height="4*"></RowDefinition>
+                                        <RowDefinition Height="1*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+
+                                    <cefsharpwpf:ChromiumWebBrowser Name="Browser" 
+                                                                    Grid.Row="0">
+                                    </cefsharpwpf:ChromiumWebBrowser>
+                                    <Border Grid.Row="1"
+                                            BorderBrush="Red"
+                                            BorderThickness="2">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            
+                                            <StackPanel Grid.Column="0" 
+                                                        Orientation="Vertical"
+                                                        Background="White">
+                                                <TextBlock 
+                                                    Style="{StaticResource BaseTextStyle}"
+                                                    FontSize="18"
+                                                    Text="Ввод текста скрипта:" />
+                                                <TextBox 
+                                                     Name="ScriptTextBox"
+                                                     AcceptsReturn="True"
+                                                     FontSize="18"
+                                                     FontWeight="DemiBold">
+                                                </TextBox>
+                                            </StackPanel>
+                                            
+                                            <StackPanel Grid.Column="1"
+                                                        Orientation="Vertical"
+                                                        Background="White">
+                                                <TextBlock  
+                                                    Style="{StaticResource BaseTextStyle}"
+                                                    FontSize="18"
+                                                    Text="Результаты выполнения:" />
+                                                <RichTextBox
+                                                    IsReadOnly="True"
+                                                    Name="ScriptResponse"
+                                                    FontSize="18"
+                                                    FontWeight="Bold">
+                                                </RichTextBox>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+
+                                    <StackPanel Orientation="Horizontal" 
+                                                Grid.Row="2">
+                                        <Button Style="{StaticResource DarkButtonStyle}"
+                                                Width="100"
+                                                Height="40"
+                                                Margin="5"
+                                                Content="Выполнить"
+                                                VerticalAlignment="Top"
+                                                Name="ExecuteJavaScriptBtn" 
+                                                Click="ExecuteJavaScriptBtn_Click">
+                                        </Button>
+                                        <Button Style="{StaticResource DarkButtonStyle}"
+                                                Width="100"
+                                                Height="40"
+                                                Margin="5"
+                                                Content="Очистить"
+                                                VerticalAlignment="Top"
+                                                Name="ClearJavaScriptBtn"
+                                                Click="ClearJavaScriptBtn_Click">
+                                        </Button>
+                                        <Button Style="{StaticResource DarkButtonStyle}"
+                                                Width="100"
+                                                Height="40"
+                                                Margin="5"
+                                                Content="Вернуться"
+                                                VerticalAlignment="Top"
+                                                Name="BackJavaScriptBtn"
+                                                Click="BackJavaScriptBtn_Click">
+                                        </Button>
+                                    </StackPanel>
                                 </Grid>
                             </LayoutDocument>
                         </LayoutDocumentPane>
