@@ -64,7 +64,13 @@ namespace JointLessonTerminal.MVVM.ViewModel
         public FixedDocumentSequence ActiveOfflineDocument { get { return activeOfflineDocument; } set { activeOfflineDocument = value; OnPropsChanged("ActiveOfflineDocument"); } }
 
         private readonly string wordDirPath;
-        
+
+        private string documentReady;
+        public string DocumentReady { get { return documentReady; } set { documentReady = value; OnPropsChanged("DocumentReady"); } }
+        private string documentOffReady;
+        public string DocumentOffReady { get { return documentOffReady; } set { documentOffReady = value; OnPropsChanged("DocumentOffReady"); } }
+
+
         private string documentXpsPath;
         private string documentWordPath;
 
@@ -86,8 +92,6 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     wordPath = wordPath.Replace("\\", "/").Replace(" ", "_");
 
                     var xpsPath = wordPath + ".xps";
-
-                    documentXpsPath = wordPath;
                     documentXpsPath = xpsPath;
 
                     if (!File.Exists(wordPath))
@@ -103,6 +107,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
                                 {
                                     sequence = getFixedDoc(documentXpsPath).GetFixedDocumentSequence();
                                     ActiveDocument = sequence;
+                                    DocumentReady = "True";
                                 });
                             }
                         }, new System.Threading.CancellationToken());
@@ -111,6 +116,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     {
                         sequence = getFixedDoc(xpsPath).GetFixedDocumentSequence();
                         ActiveDocument = sequence;
+                        DocumentReady = "True";
                     }
                 }
             } 
@@ -134,7 +140,6 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
                     var xpsPath = wordPath + ".xps";
 
-                    documentXpsPath = wordPath;
                     documentXpsPath = xpsPath;
 
                     if (!File.Exists(wordPath))
@@ -150,6 +155,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
                                 {
                                     offlineSequence = getFixedDoc(documentXpsPath).GetFixedDocumentSequence();
                                     ActiveOfflineDocument = offlineSequence;
+                                    DocumentOffReady = "True";
                                 });
                             }
                         }, new System.Threading.CancellationToken());
@@ -158,6 +164,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     {
                         offlineSequence = getFixedDoc(xpsPath).GetFixedDocumentSequence();
                         ActiveOfflineDocument = offlineSequence;
+                        DocumentOffReady = "True";
                     }
                 }
             }
@@ -266,11 +273,20 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
         public LessonWindowViewModel()
         {
-            wordDirPath = AppDomain.CurrentDomain.BaseDirectory + "WORD";
+            wordDirPath = System.IO.Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath);
             if (!Directory.Exists(wordDirPath))
             {
                 Directory.CreateDirectory(wordDirPath);
             }
+
+            wordDirPath += "/WordFiles";
+            if (!Directory.Exists(wordDirPath))
+            {
+                Directory.CreateDirectory(wordDirPath);
+            }
+
+            DocumentOffReady = "False";
+            DocumentReady = "False";
 
             NextPageCommand = new RelayCommand(async x => await nextPage(true, true));
             PrevPageCommand = new RelayCommand(async x => await nextPage(false, true));
@@ -638,8 +654,12 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
             var currentPageIndex = -1;
 
-            if (online) currentPageIndex = manualPages.FindIndex(x => x.id == currentPageId);
-            else currentPageIndex = manualPages.FindIndex(x => x.id == currentOfflinePageId);
+            if (online) {
+                currentPageIndex = manualPages.FindIndex(x => x.id == currentPageId); 
+            }
+            else {
+                currentPageIndex = manualPages.FindIndex(x => x.id == currentOfflinePageId); 
+            }
 
             var nextPageIndex = currentPageIndex;
             if (forward)
@@ -655,12 +675,14 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
             if (online)
             {
+                DocumentReady = "False";
                 currentPage = manualPages.ElementAt(nextPageIndex);
                 currentPageId = currentPage.id;
                 var response = await SyncPage();
             }
             else
             {
+                DocumentOffReady = "False";
                 currentOfflinePage = manualPages.ElementAt(nextPageIndex);
                 currentOfflinePageId = currentOfflinePage.id;
             }

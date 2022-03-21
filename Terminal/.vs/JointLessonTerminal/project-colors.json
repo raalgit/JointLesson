@@ -15,7 +15,12 @@
       "ProjectGuid": "a5286b87-d242-49d3-acbf-a656f783a77f",
       "DisplayName": "AvalonDock",
       "ColorIndex": 1
+    },
+    "3f4e978b-8c39-451e-90e6-29a72299e2bd": {
+      "ProjectGuid": "3f4e978b-8c39-451e-90e6-29a72299e2bd",
+      "DisplayName": "AvalonDock.Themes.VS2010",
+      "ColorIndex": 2
     }
   },
-  "NextColorIndex": 2
+  "NextColorIndex": 3
 }

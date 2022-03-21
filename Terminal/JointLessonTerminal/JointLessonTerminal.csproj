@@ -644,6 +644,7 @@
   <ItemGroup>
     <Resource Include="Images\sync-note-btn.png" />
     <Resource Include="Images\load-note-server-btn.png" />
+    <Resource Include="Images\computer-btn.png" />
     <Content Include="index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
