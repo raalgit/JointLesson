@@ -12,6 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using AvalonDock.Layout.Serialization;
+using AvalonDock.Layout;
+using AvalonDock;
+using System.Diagnostics;
 
 namespace JointLessonTerminal.MVVM.View
 {

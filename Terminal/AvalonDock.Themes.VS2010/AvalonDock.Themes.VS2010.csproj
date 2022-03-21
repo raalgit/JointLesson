@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <RootNamespace>AvalonDock.Themes</RootNamespace>
+    <TargetFrameworks>netcoreapp3.0;net5.0-windows;net40</TargetFrameworks>
+    <UseWPF>true</UseWPF>
+    <AssemblyOriginatorKeyFile>sn.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>4.70.1</Version>
+    <AssemblyVersion>4.70.1</AssemblyVersion>
+    <FileVersion>4.70.1</FileVersion>
+    <PackageVersion>4.70.1</PackageVersion>
+    <Company>Open Source</Company>
+    <Product>Dirkster.AvalonDock</Product>
+    <Copyright>2017-2022</Copyright>
+    <Description>This assembly implements a docking layout system for WPF.</Description>
+    <PackageId>Dirkster.AvalonDock.Themes.VS2010</PackageId>
+    <Authors>https://github.com/Dirkster99/AvalonDock</Authors>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Resource Include="**\*.png" />
+  </ItemGroup>
+
+  <!-- NuGet Packaging -->
+  <ItemGroup>
+    <None Include="LICENSE" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AvalonDock\AvalonDock.csproj" />
+  </ItemGroup>
+</Project>

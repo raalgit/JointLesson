@@ -5,6 +5,10 @@ VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JointLessonTerminal", "JointLessonTerminal\JointLessonTerminal.csproj", "{7190C33C-6ABE-45A2-9CD0-1EDE7B426229}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvalonDock", "AvalonDock\AvalonDock.csproj", "{A5286B87-D242-49D3-ACBF-A656F783A77F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvalonDock.Themes.VS2010", "AvalonDock.Themes.VS2010\AvalonDock.Themes.VS2010.csproj", "{3F4E978B-8C39-451E-90E6-29A72299E2BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{7190C33C-6ABE-45A2-9CD0-1EDE7B426229}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7190C33C-6ABE-45A2-9CD0-1EDE7B426229}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7190C33C-6ABE-45A2-9CD0-1EDE7B426229}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5286B87-D242-49D3-ACBF-A656F783A77F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5286B87-D242-49D3-ACBF-A656F783A77F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5286B87-D242-49D3-ACBF-A656F783A77F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5286B87-D242-49D3-ACBF-A656F783A77F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F4E978B-8C39-451E-90E6-29A72299E2BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F4E978B-8C39-451E-90E6-29A72299E2BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F4E978B-8C39-451E-90E6-29A72299E2BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F4E978B-8C39-451E-90E6-29A72299E2BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

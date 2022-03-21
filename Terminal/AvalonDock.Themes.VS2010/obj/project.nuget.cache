@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "VuLRrKHSNktoBTJ2f9aolRlQ1GmcEhuFAO25JromOKWkoWe8qjp1uKdXP4OTiQ5I6xQlynGLa2+pUw37XjjFPQ==",
+  "success": true,
+  "projectFilePath": "F:\\4курс\\Диплом\\JointLessonSystem\\jointLessonSystem\\Terminal\\AvalonDock.Themes.VS2010\\AvalonDock.Themes.VS2010.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ivanp\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.0.1\\microsoft.aspnetcore.app.ref.3.0.1.nupkg.sha512",
+    "C:\\Users\\ivanp\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\3.0.0\\microsoft.windowsdesktop.app.ref.3.0.0.nupkg.sha512",
+    "C:\\Users\\ivanp\\.nuget\\packages\\microsoft.netcore.app.ref\\3.0.0\\microsoft.netcore.app.ref.3.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
