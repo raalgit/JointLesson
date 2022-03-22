@@ -22,39 +22,27 @@ namespace JointLessonTerminal.MVVM.ViewModel
 {
     public class MainWindowViewModel : ObservableObject
     {
-
-        #region Обработчики окон
+        #region открытые поля
         public AuthWindowViewModel AuthVM { get; set; }
         public CourseListViewModel CourseVM { get; set; }
         public EditorWindowViewModel EditorVM { get; set; }
         public CurrentCourseWindowViewModel CurrentCourseVM { get; set; }
         public LessonWindowViewModel LessonVM { get; set; }
         public SrsLessonWindowViewModel SrsLessonVM { get; set; }
-        #endregion
-
-        #region Отображение кнопок в верхнем меню
         public RelayCommand ExitFromSystemCommand { get; set; }
         public RelayCommand BackCommand { get; set; }
-
         public TopMenuVisibility MenuVisibility { get; set; }
+        public object CurrentView { get { return _currentView; } set { _currentView = value; OnPropsChanged(); } }
+        public string FIO { get { return fio; } set { fio = value; OnPropsChanged("FIO"); } }
         #endregion
 
+        #region закрытые поля
         private object _currentView;
-        public object CurrentView { 
-            get {
-                return _currentView;
-            }
-            set
-            {
-                _currentView = value;
-                OnPropsChanged();
-            }
-        }
-
-        public string FIO { get { return fio; } set { fio = value; OnPropsChanged("FIO"); } }
         private string fio;
-
+        private static MainWindowViewModel instanse { get; set; }
         private readonly Notifier _notifier;
+        #endregion
+
         public MainWindowViewModel()
         {
             MenuVisibility = new TopMenuVisibility()
@@ -114,7 +102,34 @@ namespace JointLessonTerminal.MVVM.ViewModel
             _notifier.ClearMessages(new ClearAll());
         }
 
-        #region Сигналы от дочерних окон
+        #region открытые методы
+        public static MainWindowViewModel GetInstance()
+        {
+            if (instanse == null)
+                instanse = new MainWindowViewModel();
+            return instanse;
+        }
+        public void ShowNotification(string text, NotificationType type)
+        {
+            switch (type)
+            {
+                case NotificationType.SUCCESS:
+                    _notifier.ShowSuccess(text);
+                    break;
+                case NotificationType.WARNING:
+                    _notifier.ShowWarning(text);
+                    break;
+                case NotificationType.ERROR:
+                    _notifier.ShowError(text);
+                    break;
+                case NotificationType.INFO:
+                    _notifier.ShowInformation(text);
+                    break;
+            }
+        }
+        #endregion
+
+        #region закрытые методы
         private void subscribeOnChildrenWindowSignals()
         {
             AuthVM.WindowStateChanged += onAuthCompleted;
@@ -124,38 +139,9 @@ namespace JointLessonTerminal.MVVM.ViewModel
             EditorVM.WindowStateChanged += onEditorCompleted;
             SrsLessonVM.WindowStateChanged += onSrsLessonCompleted;
         }
-
         private void onEditorCompleted(object sender, WindowEvent e)
         {
-            switch (e.Type)
-            {
-                case WindowEventType.EDITOR_MYMANUALSLOADED:
-                    _notifier.ShowInformation(e.Argument.ToString());
-                    break;
-                case WindowEventType.EDITOR_MANUALDATALOADED:
-                    _notifier.ShowInformation(e.Argument.ToString());
-                    break;
-                case WindowEventType.EDITOR_MANUALCREATED:
-                    _notifier.ShowSuccess(e.Argument.ToString());
-                    break;
-                case WindowEventType.EDITOR_MANUALUPDATED:
-                    _notifier.ShowSuccess(e.Argument.ToString());
-                    break;
-                case WindowEventType.EDITOR_MANUALUPDATEDERROR:
-                    _notifier.ShowError(e.Argument.ToString());
-                    break;
-                case WindowEventType.EDITOR_MANUALCREATEDERROR:
-                    _notifier.ShowError(e.Argument.ToString());
-                    break;
-                case WindowEventType.EDITOR_ONFILEUPLOAD:
-                    _notifier.ShowSuccess(e.Argument.ToString());
-                    break;
-                case WindowEventType.EDITOR_ONFILEUPLOADERROR:
-                    _notifier.ShowError(e.Argument.ToString());
-                    break;
-            }
         }
-
         private void onSrsLessonCompleted(object sender, WindowEvent e)
         {
             switch (e.Type)
@@ -168,7 +154,6 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     break;
             }
         }
-
         private void onLessonCompleted(object sender, WindowEvent e)
         {
             switch (e.Type)
@@ -179,15 +164,8 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     MenuVisibility.ProfileBtnVisibility = Visibility.Visible;
                     CurrentView = CourseVM;
                     break;
-                case WindowEventType.LESSON_LOADMANUALERROR:
-                    _notifier.ShowError(e.Argument.ToString());
-                    break;
-                case WindowEventType.LESSON_SYNCERROR:
-                    _notifier.ShowError(e.Argument.ToString());
-                    break;
             }
         }
-
         private void onCurrentCourseCompleted(object sender, WindowEvent e)
         {
             switch (e.Type)
@@ -204,7 +182,6 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     break;
             }
         }
-
         private void onCourseCompleted(object sender, WindowEvent e)
         {
             switch (e.Type)
@@ -219,18 +196,13 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     MenuVisibility.BackBtnVisibility = Visibility.Visible;
                     CurrentView = EditorVM;
                     break;
-                case WindowEventType.COURSELIST_GETERROR:
-                    _notifier.ShowError(e.Argument.ToString());
-                    break;
             }
         }
-
         private void onAuthCompleted(object sender, WindowEvent e)
         {
             switch (e.Type)
             {
                 case WindowEventType.AUTHORIZED:
-                    _notifier.ShowSuccess("Вы успешно вошли в систему!");
                     var userData = UserSettings.GetInstance().CurrentUser;
                     FIO = userData.firstName + " " + userData.thirdName;
                     MenuVisibility.ExitBtnVisibility = Visibility.Visible;
@@ -241,9 +213,6 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     break;
                 case WindowEventType.AUTH_EMPTYLOGIN:
                     _notifier.ShowError("Пожалуйста, введите Ваш логин и пароль!");
-                    break;
-                case WindowEventType.AUTH_ERROR:
-                    _notifier.ShowError(e.Argument.ToString());
                     break;
             }
         } 

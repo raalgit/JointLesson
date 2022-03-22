@@ -1,9 +1,10 @@
 ﻿<UserControl x:Class="JointLessonTerminal.MVVM.View.EditorWindow"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:JointLessonTerminal.MVVM.View" xmlns:viewmodel="clr-namespace:JointLessonTerminal.MVVM.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:EditorWindowViewModel}"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="clr-namespace:JointLessonTerminal.MVVM.View"
+	xmlns:viewmodel="clr-namespace:JointLessonTerminal.MVVM.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:EditorWindowViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel Height="auto" 
@@ -21,17 +22,14 @@
                    VerticalAlignment="Top"
                    FontWeight="Bold"
                    HorizontalAlignment="Center"
-                   Margin="10">
-            </TextBlock>
+                   Margin="10"></TextBlock>
             <Grid Grid.Row="1"
               Grid.Column="0"
               Height="auto">
-
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
-
                 <Grid Grid.Row="0"
                   Grid.Column="0">
                     <Grid Margin="5">
@@ -40,7 +38,6 @@
                             <RowDefinition Height="1*"/>
                             <RowDefinition Height="8*"/>
                         </Grid.RowDefinitions>
-
                         <Grid Grid.Row="0"
                           Grid.Column="0">
                             <StackPanel Orientation="Horizontal">
@@ -51,8 +48,7 @@
                                     Style="{StaticResource DarkButtonStyle}"
                                     Command="{Binding CreateNewManualCommand}"
                                     IsEnabled="{Binding CreateMod}"
-                                    Content="Создать новый">
-                                </Button>
+                                    Content="Создать новый"></Button>
                                 <Button Grid.Column="1"
                                     Grid.Row="0"
                                     Width="100"
@@ -61,11 +57,9 @@
                                     Style="{StaticResource DarkButtonStyle}"
                                     Command="{Binding UpdateManualCommand}"
                                     IsEnabled="{Binding UpdateMod}"
-                                    Content="Сохранить изменения">
-                                </Button>
+                                    Content="Сохранить изменения"></Button>
                             </StackPanel>
                         </Grid>
-
                         <Grid Grid.Row="1"
                           Grid.Column="0"
                           Margin="0 10 0 0">
@@ -104,13 +98,11 @@
                                 </StackPanel>
                             </Grid>
                         </Grid>
-
                         <Grid Grid.Row="2"
                           Grid.Column="0"
                           Margin="0 10 0 0"
                           Background="#EFEFEF"
                           MinWidth="300">
-
                             <Grid MinHeight="200">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1*"/>
@@ -118,22 +110,18 @@
                                     <ColumnDefinition Width="1*"/>
                                     <ColumnDefinition Width="2*"/>
                                 </Grid.ColumnDefinitions>
-
                                 <Grid Grid.Column="0">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="2*"/>
                                         <RowDefinition Height="7*"/>
                                         <RowDefinition Height="2*"/>
                                     </Grid.RowDefinitions>
-
                                     <TextBlock Grid.Row="0"
                                            Text="Главы"
                                            Height="30"
                                            Style="{StaticResource BaseTextStyle}"
                                            FontSize="14"
-                                           FontWeight="Bold">
-                                    </TextBlock>
-
+                                           FontWeight="Bold"></TextBlock>
                                     <ScrollViewer HorizontalScrollBarVisibility="Auto"
                                               Height="350"
                                               Grid.Row="1">
@@ -153,8 +141,7 @@
                                                         Margin="5"
                                                         Command="{Binding RemoveCommand}"
                                                         Style="{StaticResource DarkButtonStyle}"
-                                                        Content="Удалить">
-                                                        </Button>
+                                                        Content="Удалить"></Button>
                                                         <TextBox Grid.Column="1"
                                                          FontSize="14"
                                                          FontFamily="../../Fonts/#Golos-UI_Medium"
@@ -169,7 +156,6 @@
                                             <RowDefinition Height="4*"/>
                                             <RowDefinition Height="1*"/>
                                         </Grid.RowDefinitions>
-
                                         <Grid Grid.Row="0"
                                           Margin="5">
                                             <Grid.RowDefinitions>
@@ -181,59 +167,47 @@
                                                 <ColumnDefinition />
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
-
                                             <TextBlock Grid.Row="0" 
                                                    Grid.Column="0" 
                                                    Style="{StaticResource BaseTextStyle}"
                                                    FontSize="14"
                                                    FontWeight="Bold" 
                                                    Text="Название" />
-
                                             <TextBox Grid.Row="0" 
                                                  Grid.Column="1"
                                                  FontSize="14"
                                                  Text="{Binding ManualData.NewItemName}"/>
-
                                             <TextBlock Grid.Row="1" 
                                                    Grid.Column="0" 
                                                    Style="{StaticResource BaseTextStyle}" Text="Доступ (0-3)"
                                                    FontSize="14"
                                                    FontWeight="Bold"/>
-
                                             <TextBox Grid.Row="1" 
                                                  Grid.Column="1" 
                                                  FontSize="14"
                                                  Text="{Binding ManualData.NewItemAccess}" PreviewTextInput="TextBox_OnPreviewTextInput"/>
-
                                             <Button Margin="5" 
                                                 Grid.Row="2"
                                                 Grid.Column="0"
                                                 HorizontalAlignment="Left"
                                                 Content="Добавить"
                                                 Style="{StaticResource DarkButtonStyle}"
-                                                Command="{Binding ManualData.AddCommand}">
-                                            </Button>
+                                                Command="{Binding ManualData.AddCommand}"></Button>
                                         </Grid>
                                     </Grid>
-
                                 </Grid>
-
                                 <Grid Grid.Column="1">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="2*"/>
                                         <RowDefinition Height="7*"/>
                                         <RowDefinition Height="2*"/>
                                     </Grid.RowDefinitions>
-
                                     <TextBlock Grid.Row="0"
                                            Height="30"
                                            Text="Темы"
                                            Style="{StaticResource BaseTextStyle}"
                                            FontSize="14"
-                                           FontWeight="Bold">
-
-                                    </TextBlock>
-
+                                           FontWeight="Bold"></TextBlock>
                                     <ScrollViewer HorizontalScrollBarVisibility="Auto"
                                               Height="350"
                                               Grid.Row="1">
@@ -253,8 +227,7 @@
                                                         Margin="5"
                                                         Style="{StaticResource DarkButtonStyle}"
                                                         Command="{Binding RemoveCommand}"
-                                                        Content="Удалить">
-                                                        </Button>
+                                                        Content="Удалить"></Button>
                                                         <TextBox Grid.Column="1" 
                                                                  FontSize="14"
                                                            Text="{Binding name}"/>
@@ -267,7 +240,6 @@
                                       Margin="5"
                                       Visibility="Hidden"
                                       x:Name="TopicSelectionPanel">
-
                                         <Grid.RowDefinitions>
                                             <RowDefinition />
                                             <RowDefinition />
@@ -277,59 +249,48 @@
                                             <ColumnDefinition />
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
-
                                         <TextBlock Grid.Row="0" 
                                                    Grid.Column="0" 
                                                    Style="{StaticResource BaseTextStyle}" 
                                                FontSize="14"
                                                FontWeight="Bold" 
                                                Text="Название" />
-
                                         <TextBox Grid.Row="0" 
                                                  Grid.Column="1"
                                              FontSize="14"
                                                  Text="{Binding ManualData.SelectedChapter.NewItemName}"/>
-
                                         <TextBlock Grid.Row="1" 
                                                    Grid.Column="0" 
                                                    Style="{StaticResource BaseTextStyle}"
                                                FontSize="14"
                                                    FontWeight="Bold"  
                                                Text="Доступ (0-3)" />
-
                                         <TextBox Grid.Row="1" 
                                                  Grid.Column="1" 
                                              FontSize="14"
                                                  Text="{Binding ManualData.SelectedChapter.NewItemAccess}" PreviewTextInput="TextBox_OnPreviewTextInput"/>
-
                                         <Button Margin="5" 
                                                 Grid.Row="2"
                                                 Grid.Column="0"
                                                 HorizontalAlignment="Left"
                                                 Style="{StaticResource DarkButtonStyle}"
                                             Content="Добавить"
-                                                Command="{Binding ManualData.SelectedChapter.AddCommand}">
-                                        </Button>
+                                                Command="{Binding ManualData.SelectedChapter.AddCommand}"></Button>
                                     </Grid>
                                 </Grid>
-
                                 <Grid Grid.Column="2">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="2*"/>
                                         <RowDefinition Height="7*"/>
                                         <RowDefinition Height="2*"/>
                                     </Grid.RowDefinitions>
-
                                     <TextBlock Grid.Row="0"
                                            Height="30"
                                            TextWrapping="Wrap"
                                            Text="Дидактические единицы"
                                            Style="{StaticResource BaseTextStyle}"
                                            FontSize="14"
-                                           FontWeight="Bold">
-
-                                    </TextBlock>
-
+                                           FontWeight="Bold"></TextBlock>
                                     <ScrollViewer HorizontalScrollBarVisibility="Auto"
                                               Height="350"
                                               Grid.Row="1">
@@ -349,8 +310,7 @@
                                                         Margin="5"
                                                         Command="{Binding RemoveCommand}"
                                                         Style="{StaticResource DarkButtonStyle}"
-                                                        Content="Удалить">
-                                                        </Button>
+                                                        Content="Удалить"></Button>
                                                         <TextBox Grid.Column="1" 
                                                                  FontSize="14"
                                                            Text="{Binding name}"/>
@@ -363,7 +323,6 @@
                                       Margin="5"
                                       x:Name="UnitSelectionPanel"
                                       Visibility="Hidden">
-
                                         <Grid.RowDefinitions>
                                             <RowDefinition />
                                             <RowDefinition />
@@ -373,58 +332,47 @@
                                             <ColumnDefinition />
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
-
                                         <TextBlock Grid.Row="0" 
                                                    Grid.Column="0" 
                                                    Style="{StaticResource BaseTextStyle}" 
                                                FontSize="14"
                                                    FontWeight="Bold" 
                                                Text="Название" />
-
                                         <TextBox Grid.Row="0" 
                                                  Grid.Column="1"
                                              FontSize="14"
                                                  Text="{Binding ManualData.SelectedChapter.SelectedTopic.NewItemName}"/>
-
                                         <TextBlock Grid.Row="1" 
                                                    Grid.Column="0" 
                                                    Style="{StaticResource BaseTextStyle}" 
                                                FontSize="14"
                                                    FontWeight="Bold" 
                                                Text="Доступ (0-3)" />
-
                                         <TextBox Grid.Row="1" 
                                                  Grid.Column="1" 
                                              FontSize="14"
                                                  Text="{Binding ManualData.SelectedChapter.SelectedTopic.NewItemAccess}" PreviewTextInput="TextBox_OnPreviewTextInput"/>
-
                                         <Button Margin="5" 
                                                 Grid.Row="2"
                                                 Grid.Column="0"
                                                 HorizontalAlignment="Left"
                                                 Style="{StaticResource DarkButtonStyle}"
                                             Content="Добавить"
-                                                Command="{Binding ManualData.SelectedChapter.SelectedTopic.AddCommand}">
-                                        </Button>
+                                                Command="{Binding ManualData.SelectedChapter.SelectedTopic.AddCommand}"></Button>
                                     </Grid>
                                 </Grid>
-
                                 <Grid Grid.Column="3">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="2*"/>
                                         <RowDefinition Height="7*"/>
                                         <RowDefinition Height="2*"/>
                                     </Grid.RowDefinitions>
-
                                     <TextBlock Grid.Row="0"
                                            Height="30"
                                            Text="Страницы"
                                            Style="{StaticResource BaseTextStyle}"
                                            FontSize="14"
-                                           FontWeight="Bold">
-
-                                    </TextBlock>
-
+                                           FontWeight="Bold"></TextBlock>
                                     <ScrollViewer HorizontalScrollBarVisibility="Auto"
                                               Height="350"
                                               Grid.Row="1">
@@ -443,8 +391,7 @@
                                                         Margin="5"
                                                         Command="{Binding RemoveCommand}"
                                                         Style="{StaticResource DarkButtonStyle}"
-                                                        Content="Удалить">
-                                                        </Button>
+                                                        Content="Удалить"></Button>
                                                         <TextBox Grid.Column="1"
                                                                  FontSize="14"
                                                          Text="{Binding name}"/>
@@ -468,87 +415,70 @@
                                             <ColumnDefinition Width="4*"/>
                                             <ColumnDefinition Width="1*"/>
                                         </Grid.ColumnDefinitions>
-
                                         <TextBlock Grid.Row="0"
                                                 Grid.Column="0" 
                                                 Style="{StaticResource BaseTextStyle}" 
                                                FontSize="14"
                                                    FontWeight="Bold" 
                                                Text="Название" />
-
                                         <TextBox Grid.Row="0" 
                                               Grid.Column="1"
                                              Margin="0 0 10 0"
                                              FontSize="14"
                                               Text="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit.NewItemName}"/>
-
                                         <TextBlock Grid.Row="0" 
                                                Grid.Column="2" 
                                                Style="{StaticResource BaseTextStyle}" 
                                                FontSize="14"
                                                    FontWeight="Bold" 
                                                Text="Доступ (0-3)" />
-
                                         <TextBox Grid.Row="0" 
                                              Margin="2"
                                                  Grid.Column="3" 
                                              FontSize="14"
                                                  Text="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit.NewItemAccess}" PreviewTextInput="TextBox_OnPreviewTextInput"/>
-
                                         <TextBlock Grid.Row="1"
                                                Grid.Column="2" 
                                                Style="{StaticResource BaseTextStyle}"
                                                FontSize="14"
                                                    FontWeight="Bold" 
                                                Text="Номер документа" />
-
                                         <TextBlock Grid.Row="1" 
                                                Grid.Column="3"
                                                Style="{StaticResource BaseTextStyle}"
                                                HorizontalAlignment="Right"
                                                Text="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit.NewItemDocId}"/>
-
                                         <Button Grid.Row="2" 
                                             Margin="5"
                                             Grid.Column="0"
                                             Content="Документ"
                                             Style="{StaticResource DarkButtonStyle}"
                                             Command="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit.UploadCommand}" PreviewTextInput="TextBox_OnPreviewTextInput"/>
-
                                         <Button  Grid.Row="2"
                                              Margin="5"
                                              Grid.Column="1"
                                              HorizontalAlignment="Left"
                                              Style="{StaticResource DarkButtonStyle}"
                                              Content="Добавить"
-                                             Command="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit.AddCommand}">
-                                        </Button>
+                                             Command="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit.AddCommand}"></Button>
                                     </Grid>
                                 </Grid>
-
                             </Grid>
-
                         </Grid>
                     </Grid>
-
                 </Grid>
-
                 <Grid Grid.Row="0"
                   Grid.Column="1">
-
                     <Grid Margin="10 0 10 0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="1*"/>
                             <RowDefinition Height="6*"/>
                         </Grid.RowDefinitions>
-
                         <TextBlock Grid.Row="0"
                                Text="Мои материалы"
                                Style="{StaticResource BaseTextStyle}"
                                FontSize="16"
-                               FontWeight="Bold">
-                        </TextBlock>
-
+                               FontWeight="Bold"></TextBlock>
                         <ListView ItemContainerStyle="{StaticResource JLListViewItem}"
                               Grid.Row="1"
                               ItemsSource="{Binding MyManuals}"
@@ -560,12 +490,10 @@
                                            HorizontalAlignment="Left"
                                            Source="../../Images/enter-btn.png"
                                            Width="35"
-                                           Height="35">
-                                        </Image>
+                                           Height="35"></Image>
                                         <TextBlock Text="{Binding title}"
                                                Style="{StaticResource BaseTextStyle}"
-                                               FontSize="14">
-                                        </TextBlock>
+                                               FontSize="14"></TextBlock>
                                     </StackPanel>
                                 </DataTemplate>
                             </ListView.ItemTemplate>

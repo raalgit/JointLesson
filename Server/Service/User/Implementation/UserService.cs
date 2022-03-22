@@ -84,6 +84,7 @@ namespace JL.Service.User.Implementation
             response.File = await _fileUtility.GetFileAsBytesById(fileData.MongoId) 
                 ?? throw new Exception("Файл конспекта не найден");
 
+            response.Message = $"Конспект для страницы {request.Page} получен";
             return response;
         }
 
@@ -112,6 +113,7 @@ namespace JL.Service.User.Implementation
                 _workBookRepository.Insert(newNote);
             }
             _workBookRepository.SaveChanges();
+            response.Message = $"Конспект для страницы {request.Page} обновлен";
             return response;
         }
 
@@ -143,6 +145,7 @@ namespace JL.Service.User.Implementation
             }
 
             response.Courses = courses;
+            response.Message = $"Получен список доступных курсов ({courses.Count} шт.)";
             return response;
         }
 
@@ -152,6 +155,8 @@ namespace JL.Service.User.Implementation
 
             var fileData = _fileDataRepository.GetById(fileDataId);
             response.File = await _fileUtility.GetFileAsBytesById(fileData.MongoId);
+
+            response.Message = $"Файл под номером {fileDataId} получен";
             return response;
         }
 
@@ -161,6 +166,8 @@ namespace JL.Service.User.Implementation
 
             var fileDatas = _fileDataRepository.Get().Where(x => request.FileDataIds.Distinct().Contains(x.Id)).ToList();
             response.FileDatas = fileDatas;
+
+            response.Message = $"Список файлов материалов получен ({response.FileDatas.Count} шт.)";
             return response;
         }
 
@@ -176,6 +183,7 @@ namespace JL.Service.User.Implementation
             int fileDataId = await _fileUtility.CreateNewFileAsync(stream, request.Name, extension);
             response.FileDataId = fileDataId;
 
+            response.Message = $"Файл {request.Name} успешно загружен под номером {fileDataId}";
             return response;
         }
 
@@ -197,6 +205,8 @@ namespace JL.Service.User.Implementation
 
             _signalUserConnectionRepository.Insert(domain);
             _signalUserConnectionRepository.SaveChanges();
+
+            response.Message = $"SignalR соединение успешно зарегистрировано (...{connectionId[..10]})";
             return response;
         }
 
@@ -206,7 +216,7 @@ namespace JL.Service.User.Implementation
 
             // Получение преподавателей текущего курса
             var courseTeachers = _courseTeacherRepository.Get().Where(x => x.CourseId == courseId).ToList();
-            if (courseTeachers == null || courseTeachers.Count == 0) throw new NullReferenceException(nameof(courseTeachers));
+            if (courseTeachers == null || courseTeachers.Count == 0) throw new NullReferenceException("Преподаватели курса не найдены");
             response.CourseTeachers = courseTeachers;
 
             // Проверка пользователя на статус преподавателя
@@ -214,7 +224,7 @@ namespace JL.Service.User.Implementation
 
             // Получение данных курсовых занятий для всех групп
             var groupsAtCourse = _groupAtCourseRepository.Get().Where(x => x.CourseId == courseId)
-                ?? throw new ArgumentException(nameof(courseId));
+                ?? throw new ArgumentException("Учебные группы курса не найдены");
 
             response.LastPage = groupsAtCourse.FirstOrDefault()?.LastMaterialPage ?? string.Empty;
 
@@ -246,6 +256,7 @@ namespace JL.Service.User.Implementation
                 }
             }
 
+            response.Message = $"Данные по курсу получены";
             return response;
         }
 
@@ -286,6 +297,7 @@ namespace JL.Service.User.Implementation
 
             _lessonRepository.SaveChanges();
 
+            response.Message = "Занятие в режиме СРС начато";
             return response;
         }
 
@@ -308,6 +320,7 @@ namespace JL.Service.User.Implementation
                 _lessonRepository.SaveChanges();
             }
 
+            response.Message = $"Активная страница изменена на {request.NextPage}";
             return response;
         }
 
@@ -331,7 +344,7 @@ namespace JL.Service.User.Implementation
             }
 
             _lessonRepository.SaveChanges();
-
+            response.Message = "Занятие в режиме СРС завершено";
             return response;
         }
 
@@ -346,6 +359,8 @@ namespace JL.Service.User.Implementation
                        );
 
             response.ConnectionData = data != null ? data.ConnectionData : String.Empty;
+
+            response.Message = "Данные для удаленного подключения получены";
             return response;
         }
 
@@ -368,6 +383,7 @@ namespace JL.Service.User.Implementation
             });
             _userRemoteAccessRepository.SaveChanges();
 
+            response.Message = "Удаленный доступ синхронизирован. К Вам можно подключиться";
             return response;
         }
 
@@ -387,6 +403,8 @@ namespace JL.Service.User.Implementation
             list = list.Where(x => (DateTime.Now - x.UserRemote.StartDate).Hours < 1).ToList();
 
             response.UserRemoteAccesses = list;
+
+            response.Message = $"Список удаленных терминалов получен ({list.Count} шт.)";
             return response;
         }
 
@@ -439,6 +457,8 @@ namespace JL.Service.User.Implementation
             }
             
             await onLessonUserListUpdateSendSignalR(request.CourseId);
+
+            response.Message = "Вы успешно присоединились к занятию";
             return response;
         }
 
@@ -472,6 +492,8 @@ namespace JL.Service.User.Implementation
             }
 
             await onLessonUserListUpdateSendSignalR(request.CourseId);
+
+            response.Message = "Вы покинули занятие";
             return response;
         }
 
@@ -496,6 +518,7 @@ namespace JL.Service.User.Implementation
             _lessonTabelRepository.SaveChanges();
 
             await onLessonUserListUpdateSendSignalR(request.CourseId);
+
             return response;
         }
 

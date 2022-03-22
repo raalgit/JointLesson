@@ -56,6 +56,8 @@ namespace JL.Service.Editor.Implementation
 
             _manualRepository.Insert(manual);
             _manualRepository.SaveChanges();
+
+            response.Message = $"Новый материл {request.OriginalName} успешно создан. Номер файла {fileId} ";
             return response;
         }
 
@@ -65,7 +67,7 @@ namespace JL.Service.Editor.Implementation
             var manualJsonBuffer = JsonSerializer.SerializeToUtf8Bytes<ManualData>(request.ManualData);
             Stream stream = new MemoryStream(manualJsonBuffer);
 
-            var originalFileData = _fileDataRepository.GetById(request.OriginalFileDataId) ?? throw new NullReferenceException();
+            var originalFileData = _fileDataRepository.GetById(request.OriginalFileDataId) ?? throw new NullReferenceException("Не удалось найти файл по номеру");
             var updatedFileId = await _fileUtility.UpdateFileAsync(stream, originalFileData.MongoId, request.OriginalName, ".jl");
             
             var fileData = _manualRepository.Get().Where(x => x.FileDataId == request.OriginalFileDataId).First();
@@ -74,6 +76,7 @@ namespace JL.Service.Editor.Implementation
             _manualRepository.Update(fileData);
             _manualRepository.SaveChanges();
 
+            response.Message = $"Материал {fileData.Title} успешно обновлен. Новый номер файла {fileData.FileDataId}";
             return response;
         }
 
@@ -83,16 +86,19 @@ namespace JL.Service.Editor.Implementation
             
             var fileData = _fileUtility.GetFileData(fileId);
             var fileBytes = await _fileUtility.GetFileAsBytesById(fileData.MongoId);
-            var manual = JsonSerializer.Deserialize<ManualData>(fileBytes) ?? throw new NullReferenceException();
+            var manual = JsonSerializer.Deserialize<ManualData>(fileBytes) ?? throw new NullReferenceException("Не удалось десериализовать данные материала");
             response.ManualData = manual;
 
+            response.Message = $"Данные материала {fileData.OriginalName} получены";
             return response;
         }
 
         public async Task<GetCourseManualResponse> GetMaterialById(int id)
         {
             var response = new GetCourseManualResponse();
-            response.Manual = _manualRepository.Get().Where(x => x.Id == id).FirstOrDefault() ?? throw new NullReferenceException();
+            response.Manual = _manualRepository.Get().Where(x => x.Id == id).FirstOrDefault() ?? throw new NullReferenceException("Материал не найден");
+
+            response.Message = $"Материал {response.Manual.Title} получен";
             return response;
         }
 
@@ -102,6 +108,7 @@ namespace JL.Service.Editor.Implementation
 
             response.Manuals = _manualRepository.Get().Where(x => x.AuthorId == userSettings.User.Id).ToList();
 
+            response.Message = $"Список материалов получен ({response.Manuals.Count} шт.)";
             return response;
         }
     }

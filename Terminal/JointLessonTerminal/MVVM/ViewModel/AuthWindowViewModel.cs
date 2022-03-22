@@ -15,10 +15,13 @@ namespace JointLessonTerminal.MVVM.ViewModel
 {
     public class AuthWindowViewModel : ObservableObject
     {
-        public RelayCommand SendRequestCommand { get; set; }
 
+        #region открытые поля
+        public RelayCommand SendRequestCommand { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
+        #endregion
+
 
         public AuthWindowViewModel()
         {

@@ -14,29 +14,10 @@ namespace JointLessonTerminal.MVVM.ViewModel
 {
     public class EditorWindowViewModel : ObservableObject
     {
-        private MaterialHandler materialHandler;
-        private UserSettings userSettings;
-
-        #region Manual
-        private ManualData manualData;
-        public ManualData ManualData { get { return manualData; } set {  manualData = value; OnPropsChanged("ManualData"); } }
-        #endregion
-        #region My manuals
-        private ObservableCollection<Manual> myManuals;
-        public ObservableCollection<Manual> MyManuals {
-            get
-            { 
-                return myManuals;
-            } 
-            set {
-                myManuals = value;
-                OnPropsChanged("MyManuals");
-            }
-        }
-        #endregion
-        #region Selected manual
-        private Manual selectedManual;
-        public Manual SelectedManual 
+        #region открытые поля
+        public ManualData ManualData { get { return manualData; } set { manualData = value; OnPropsChanged("ManualData"); } }
+        public ObservableCollection<Manual> MyManuals { get { return myManuals; } set { myManuals = value; OnPropsChanged("MyManuals"); } }
+        public Manual SelectedManual
         {
             get { return selectedManual; }
             set
@@ -51,39 +32,28 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 }
             }
         }
-        #endregion
-        #region mods
-        private bool updateMod;
         public bool UpdateMod
         {
-            get
-            {
-                return updateMod;
-            }
-            set
-            {
-                updateMod = value;
-                OnPropsChanged("UpdateMod");
-            }
+            get { return updateMod; }
+            set { updateMod = value; OnPropsChanged("UpdateMod"); }
         }
-
-        private bool createMod;
         public bool CreateMod
         {
-            get
-            {
-                return createMod;
-            }
-            set
-            {
-                createMod = value;
-                OnPropsChanged("CreateMod");
-            }
+            get { return createMod; }
+            set { createMod = value; OnPropsChanged("CreateMod"); }
         }
-        #endregion
-        #region commands
         public RelayCommand CreateNewManualCommand { get; set; }
         public RelayCommand UpdateManualCommand { get; set; }
+        #endregion
+
+        #region закрытые поля
+        private MaterialHandler materialHandler;
+        private UserSettings userSettings;
+        private ManualData manualData;
+        private ObservableCollection<Manual> myManuals;
+        private Manual selectedManual;
+        private bool updateMod;
+        private bool createMod;
         #endregion
 
         public EditorWindowViewModel()
@@ -91,6 +61,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
         }
 
+        #region открытые методы
         public void InitData()
         {
             userSettings = UserSettings.GetInstance();
@@ -99,8 +70,8 @@ namespace JointLessonTerminal.MVVM.ViewModel
             UpdateMod = false;
             CreateMod = true;
 
-            Task.Factory.StartNew(async () => { 
-                await loadMyMaterials(); 
+            Task.Factory.StartNew(async () => {
+                await loadMyMaterials();
             });
 
             /// Шаблонная запись метариала
@@ -129,58 +100,30 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 chapters = new ObservableCollection<Chapter>()
             };
 
-            ManualData.OnFileUpload += fileUploadEvent;
-
             CreateNewManualCommand = new RelayCommand(async x =>
             {
                 bool resp = await materialHandler.SaveAtDataBase(manualData);
-                var signal = new WindowEvent();
-                signal.Type = resp ? WindowEventType.EDITOR_MANUALCREATED : WindowEventType.EDITOR_MANUALCREATEDERROR;
-                signal.Argument = resp ? $"Материал был успешно создан" : "При создании материала возникла ошибка!";
-                SendEventSignal(signal);
-
                 if (resp) await loadMyMaterials();
             });
             UpdateManualCommand = new RelayCommand(async x =>
             {
                 bool resp = await materialHandler.UpdateAtDataBase(manualData, selectedManual.fileDataId.Value);
-                var signal = new WindowEvent();
-                signal.Type = resp ? WindowEventType.EDITOR_MANUALUPDATED : WindowEventType.EDITOR_MANUALUPDATEDERROR;
-                signal.Argument = resp ? $"Материал был успешно обновлен" : "При обновлении материала возникла ошибка!";
-                SendEventSignal(signal);
             });
         }
+        #endregion
 
-        private void fileUploadEvent(object sender, EventArgs args)
-        {
-            var signal = new WindowEvent();
-            signal.Type = (args as AlertArg).Success ? WindowEventType.EDITOR_ONFILEUPLOAD : WindowEventType.EDITOR_ONFILEUPLOADERROR;
-            signal.Argument = (args as AlertArg).Title;
-            SendEventSignal(signal);
-        }
-
+        #region закрытые методы
         private async Task loadMyMaterials()
         {
             MyManuals = await materialHandler.GetMyMaterials();
-            
-            var signal = new WindowEvent();
-            signal.Type = WindowEventType.EDITOR_MYMANUALSLOADED;
-            signal.Argument = $"Получено {MyManuals.Count} моих учебных материалов";
-            SendEventSignal(signal);
         }
-
         private async Task loadMaterialData(Manual manual)
         {
             if (manual == null) return;
             CreateMod = false;
             UpdateMod = true;
             ManualData = await materialHandler.LoadById(manual.fileDataId.Value);
-            ManualData.OnFileUpload += fileUploadEvent;
-
-            var signal = new WindowEvent();
-            signal.Type = WindowEventType.EDITOR_MANUALDATALOADED;
-            signal.Argument = $"Материал {ManualData.name} загружен";
-            SendEventSignal(signal);
         }
+        #endregion
     }
 }

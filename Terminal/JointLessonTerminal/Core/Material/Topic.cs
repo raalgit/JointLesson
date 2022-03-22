@@ -23,7 +23,6 @@ namespace JointLessonTerminal.Core.Material
                 foreach(var unit in _didacticUnits)
                 {
                     unit.OnUnitRemove += RemoveUnit;
-                    unit.OnFileUpload += uploadFileEvent;
                 }
             } 
         }
@@ -60,8 +59,6 @@ namespace JointLessonTerminal.Core.Material
         public RelayCommand RemoveCommand { get; set; }
         [JsonIgnore]
         public EventHandler OnTopicRemove { get; set; }
-        [JsonIgnore]
-        public EventHandler OnFileUpload { get; set; }
         #endregion
 
         private DidacticUnit selectedDidacticUnit;
@@ -89,7 +86,6 @@ namespace JointLessonTerminal.Core.Material
             didacticUnits.Add(newDidacticUnit);
             OnPropsChanged("didacticUnits");
             newDidacticUnit.OnUnitRemove += RemoveUnit;
-            newDidacticUnit.OnFileUpload += uploadFileEvent;
             parts++;
             
         }
@@ -101,11 +97,6 @@ namespace JointLessonTerminal.Core.Material
             didacticUnits.Remove(unit);
             OnPropsChanged("didacticUnits");
             parts--;
-        }
-
-        private void uploadFileEvent(object sender, EventArgs arg)
-        {
-            OnFileUpload?.Invoke(sender, arg);
         }
     }
 }

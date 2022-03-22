@@ -1,4 +1,5 @@
 ﻿using JointLessonTerminal.MVVM.Model;
+using JointLessonTerminal.MVVM.ViewModel;
 using System;
 using System.Configuration;
 using System.IO;
@@ -93,6 +94,14 @@ namespace JointLessonTerminal.Core.HTTPRequests
             requestParams.Dispose();
             result.Dispose();
 
+            IResponse respData = response as IResponse;
+            if (!string.IsNullOrEmpty(respData.message))
+            {
+                var inst = MainWindowViewModel.GetInstance();
+                NotificationType type = respData.isSuccess ? NotificationType.INFO : NotificationType.ERROR;
+                if (inst != null) inst.ShowNotification(respData.message, type);
+            }
+            
             return response;
         }
     }

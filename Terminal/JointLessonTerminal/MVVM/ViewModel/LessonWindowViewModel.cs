@@ -29,63 +29,26 @@ namespace JointLessonTerminal.MVVM.ViewModel
 {
     public class LessonWindowViewModel : ObservableObject
     {
-        private ManualData manual;
+        #region открытые поля
         public ManualData Manual { get; set; }
-
-        private List<UserAtLesson> usersAtLesson;
         public List<UserAtLesson> UsersAtLesson { get { return usersAtLesson; } set { usersAtLesson = value; OnPropsChanged("UsersAtLesson"); } }
-
         public Visibility UpHandVisibility { get { return upHandVisibility; } set { upHandVisibility = value; OnPropsChanged("UpHandVisibility"); } }
-        private Visibility upHandVisibility;
         public Visibility NextPageBtnVisibility { get { return nextPageBtnVisibility; } set { nextPageBtnVisibility = value; OnPropsChanged("NextPageBtnVisibility"); } }
-        private Visibility nextPageBtnVisibility;
         public Visibility PrevPageBtnVisibility { get { return prevPageBtnVisibility; } set { prevPageBtnVisibility = value; OnPropsChanged("PrevPageBtnVisibility"); } }
-        private Visibility prevPageBtnVisibility;
-
-        private Visibility offlineManualVisibility;
         public Visibility OfflineManualVisibility { get { return offlineManualVisibility; } set { offlineManualVisibility = value; OnPropsChanged("OfflineManualVisibility"); } }
-
-        private int courseId;
-
-        private string currentPageId;
-        private Core.Material.Page currentPage;
-
-        private string currentOfflinePageId;
-        private Core.Material.Page currentOfflinePage;
-
-        private List<FileData> manualFiles;
-        private List<Core.Material.Page> manualPages;
-
-
-        private FixedDocumentSequence activeDocument;
         public FixedDocumentSequence ActiveDocument { get { return activeDocument; } set { activeDocument = value; OnPropsChanged("ActiveDocument"); } }
-
-        private FixedDocumentSequence activeOfflineDocument;
         public FixedDocumentSequence ActiveOfflineDocument { get { return activeOfflineDocument; } set { activeOfflineDocument = value; OnPropsChanged("ActiveOfflineDocument"); } }
-
-        private readonly string wordDirPath;
-
-        private string documentReady;
         public string DocumentReady { get { return documentReady; } set { documentReady = value; OnPropsChanged("DocumentReady"); } }
-        private string documentOffReady;
         public string DocumentOffReady { get { return documentOffReady; } set { documentOffReady = value; OnPropsChanged("DocumentOffReady"); } }
-
-
-        private string documentXpsPath;
-        private string documentWordPath;
-
-        private SignalHub hub;
-        private FixedDocumentSequence sequence;
-        private FixedDocumentSequence offlineSequence;
-
-        private FileData fileData;
-        public FileData FileData { 
-            get { 
-                return fileData; 
-            } 
-            set { 
+        public FileData FileData
+        {
+            get
+            {
+                return fileData;
+            }
+            set
+            {
                 fileData = value;
-
                 if (fileData.mongoName.Contains(".doc"))
                 {
                     var wordPath = Path.Combine(wordDirPath, fileData.mongoName.Replace(":", "-"));
@@ -96,7 +59,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
                     if (!File.Exists(wordPath))
                     {
-                        Task.Factory.StartNew(async x => 
+                        Task.Factory.StartNew(async x =>
                         {
                             var resp = await downloadWord(fileData.id, wordPath, xpsPath);
                             if (resp.isSuccess)
@@ -119,10 +82,8 @@ namespace JointLessonTerminal.MVVM.ViewModel
                         DocumentReady = "True";
                     }
                 }
-            } 
+            }
         }
-
-        private FileData fileDataOffline;
         public FileData FileDataOffline
         {
             get
@@ -169,38 +130,18 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 }
             }
         }
-
-        public RelayCommand NextOfflinePageCommand { get; set; }
-        public RelayCommand PrevOfflinePageCommand { get; set; }
-        
-        public RelayCommand NextPageCommand { get; set; }
-        public RelayCommand PrevPageCommand { get; set; }
-        public RelayCommand ExitCommand { get; set; }
-        public RelayCommand UpHandButton { get; set; }
-        public RelayCommand OpenRemoteTerminalCommand { get; set; }
-        public RelayCommand ShowOfflineManual { get; set; }
-
-        public RelayCommand NoteSyncCommand { get; set; }
-        public RelayCommand NoteLoadCommand { get; set; }
-        public RelayCommand NoteOpenCommand { get; set; }
-        public RelayCommand NoteSaveCommand { get; set; }
-        public RelayCommand NoteBoldCommand { get; set; }
-        public RelayCommand NoteItallicCommand { get; set; }
-        public RelayCommand NoteUnderLineCommand { get; set; }
-        
-
-        private TextSelection selection;
-        public TextSelection Selection { 
-            get 
-            { 
-                return selection; 
-            } 
-            set 
-            { 
+        public TextSelection Selection
+        {
+            get
+            {
+                return selection;
+            }
+            set
+            {
                 selection = value;
                 var prop = selection.GetPropertyValue(Inline.FontWeightProperty);
                 BoldIsChecked = (prop != DependencyProperty.UnsetValue) && (prop.Equals(FontWeights.Bold));
-                
+
                 var prop2 = selection.GetPropertyValue(Inline.FontStyleProperty);
                 ItalicIsChecked = (prop2 != DependencyProperty.UnsetValue) && (prop2.Equals(FontStyles.Italic));
 
@@ -208,7 +149,8 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 var prop3 = selection.GetPropertyValue(Inline.TextDecorationsProperty) as TextDecorationCollection;
                 if (prop3 != null && prop3 != DependencyProperty.UnsetValue && prop3.Count > 0)
                 {
-                    if (prop3.Contains(TextDecorations.Underline[0])){
+                    if (prop3.Contains(TextDecorations.Underline[0]))
+                    {
                         UnderlineIsChecked = true;
                     }
                 }
@@ -224,11 +166,24 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 {
                     NoteFontSelected = prop5;
                 }
-            } 
+            }
         }
-
+        public RelayCommand NextOfflinePageCommand { get; set; }
+        public RelayCommand PrevOfflinePageCommand { get; set; }
+        public RelayCommand NextPageCommand { get; set; }
+        public RelayCommand PrevPageCommand { get; set; }
+        public RelayCommand ExitCommand { get; set; }
+        public RelayCommand UpHandButton { get; set; }
+        public RelayCommand OpenRemoteTerminalCommand { get; set; }
+        public RelayCommand ShowOfflineManual { get; set; }
+        public RelayCommand NoteSyncCommand { get; set; }
+        public RelayCommand NoteLoadCommand { get; set; }
+        public RelayCommand NoteOpenCommand { get; set; }
+        public RelayCommand NoteSaveCommand { get; set; }
+        public RelayCommand NoteBoldCommand { get; set; }
+        public RelayCommand NoteItallicCommand { get; set; }
+        public RelayCommand NoteUnderLineCommand { get; set; }
         public ReadOnlyCollection<System.Windows.Media.FontFamily> NoteFonts { get; set; } = (ReadOnlyCollection<System.Windows.Media.FontFamily>)System.Windows.Media.Fonts.SystemFontFamilies;
-        private System.Windows.Media.FontFamily noteFontSelected;
         public System.Windows.Media.FontFamily NoteFontSelected
         {
             get { return noteFontSelected; }
@@ -242,15 +197,13 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 OnPropsChanged("NoteFontSelected");
             }
         }
-
         public List<double> NoteTextSizes { get; set; } = new List<double>() { 8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72 };
-        private double noteTextSizeSelected;
         public double NoteTextSizeSelected
         {
             get { return noteTextSizeSelected; }
             set
             {
-                if (selection != null) 
+                if (selection != null)
                 {
                     selection.ApplyPropertyValue(Inline.FontSizeProperty, value);
                 }
@@ -258,18 +211,45 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 OnPropsChanged("NoteTextSizeSelected");
             }
         }
-
-
-        private bool boldIsChecked;
         public bool BoldIsChecked { get { return boldIsChecked; } set { boldIsChecked = value; OnPropsChanged("BoldIsChecked"); } }
-
-        private bool italicIsChecked;
         public bool ItalicIsChecked { get { return italicIsChecked; } set { italicIsChecked = value; OnPropsChanged("ItalicIsChecked"); } }
-
-        private bool underlineIsChecked;
         public bool UnderlineIsChecked { get { return underlineIsChecked; } set { underlineIsChecked = value; OnPropsChanged("UnderlineIsChecked"); } }
-
         public RemoteTerminalViewModel RemoteTerminalVM { get; set; }
+        #endregion
+
+        #region закрытые поля
+        private ManualData manual;
+        private List<UserAtLesson> usersAtLesson;
+        private Visibility upHandVisibility;
+        private Visibility nextPageBtnVisibility;
+        private Visibility prevPageBtnVisibility;
+        private Visibility offlineManualVisibility;
+        private int courseId;
+        private string currentPageId;
+        private Core.Material.Page currentPage;
+        private string currentOfflinePageId;
+        private Core.Material.Page currentOfflinePage;
+        private List<FileData> manualFiles;
+        private List<Core.Material.Page> manualPages;
+        private FixedDocumentSequence activeDocument;
+        private FixedDocumentSequence activeOfflineDocument;
+        private readonly string wordDirPath;
+        private string documentReady;
+        private string documentOffReady;
+        private string documentXpsPath;
+        private string documentWordPath;
+        private SignalHub hub;
+        private FixedDocumentSequence sequence;
+        private FixedDocumentSequence offlineSequence;
+        private FileData fileData;
+        private FileData fileDataOffline;
+        private TextSelection selection;
+        private System.Windows.Media.FontFamily noteFontSelected;
+        private double noteTextSizeSelected;
+        private bool boldIsChecked;
+        private bool italicIsChecked;
+        private bool underlineIsChecked;
+        #endregion
 
         public LessonWindowViewModel()
         {
@@ -278,7 +258,6 @@ namespace JointLessonTerminal.MVVM.ViewModel
             {
                 Directory.CreateDirectory(wordDirPath);
             }
-
             wordDirPath += "/WordFiles";
             if (!Directory.Exists(wordDirPath))
             {
@@ -400,6 +379,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
             OpenRemoteTerminalCommand = new RelayCommand(x => openRemoteTerminal());
         }
 
+        #region открытые методы
         public void InitData(OnOpenCourseModel data)
         {
             manualPages = new List<Core.Material.Page>();
@@ -441,6 +421,9 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 SendEventSignal(signal);
             }
         }
+        #endregion
+
+        #region закрытые методы
         private void onSignalRConnected(object o, EventArgs e)
         {
             Task.Factory.StartNew(async x =>
@@ -490,7 +473,6 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
                 if (!responsePost.isSuccess)
                 {
-                    System.Windows.Forms.MessageBox.Show("Error");
                 }
                 else
                 {
@@ -529,10 +511,9 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     };
                     var sender = new RequestSender<SendNoteRequest, SendNoteResponse>();
                     var responsePost = await sender.SendRequest(sendNoteRequest, "/user/send-note");
-                    
+
                     if (!responsePost.isSuccess)
                     {
-                        System.Windows.Forms.MessageBox.Show("Error");
                     }
                 }
             }
@@ -548,7 +529,6 @@ namespace JointLessonTerminal.MVVM.ViewModel
             var responsePost = await sender.SendRequest(joinLessonRequest, "/user/join-lesson");
             if (!responsePost.isSuccess)
             {
-                System.Windows.Forms.MessageBox.Show("Error");
             }
             return responsePost;
         }
@@ -559,7 +539,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 Method = Core.HTTPRequests.Enums.RequestMethod.Post,
                 Body = new GetManualFilesRequest()
                 {
-                     FileDataIds = initManualPagesDataIds()
+                    FileDataIds = initManualPagesDataIds()
                 }
             };
             var sender = new RequestSender<GetManualFilesRequest, GetManualFilesResponse>();
@@ -571,7 +551,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
                 if (string.IsNullOrEmpty(currentPageId)) currentPage = getFirstPage();
                 else currentPage = getPageById(currentPageId);
-                
+
                 currentOfflinePage = currentPage;
                 System.Windows.Application.Current.Dispatcher.Invoke(() =>
                 {
@@ -596,7 +576,6 @@ namespace JointLessonTerminal.MVVM.ViewModel
             var responsePost = await sender.SendRequest(upHandRequest, "/user/up-hand");
             if (!responsePost.isSuccess)
             {
-                MessageBox.Show("Error");
             }
             return responsePost;
         }
@@ -627,11 +606,10 @@ namespace JointLessonTerminal.MVVM.ViewModel
             var responsePost = await sender.SendRequest(leaveLessonRequest, "/user/leave-lesson");
             if (!responsePost.isSuccess)
             {
-                MessageBox.Show("Error");
             }
             return responsePost;
         }
-        private async Task <bool> nextPage(bool forward, bool online)
+        private async Task<bool> nextPage(bool forward, bool online)
         {
             if (online)
             {
@@ -654,11 +632,13 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
             var currentPageIndex = -1;
 
-            if (online) {
-                currentPageIndex = manualPages.FindIndex(x => x.id == currentPageId); 
+            if (online)
+            {
+                currentPageIndex = manualPages.FindIndex(x => x.id == currentPageId);
             }
-            else {
-                currentPageIndex = manualPages.FindIndex(x => x.id == currentOfflinePageId); 
+            else
+            {
+                currentPageIndex = manualPages.FindIndex(x => x.id == currentOfflinePageId);
             }
 
             var nextPageIndex = currentPageIndex;
@@ -822,5 +802,6 @@ namespace JointLessonTerminal.MVVM.ViewModel
             XpsDocument xpsDoc = new XpsDocument(xpsFilePath, FileAccess.Read);
             return xpsDoc;
         }
+        #endregion
     }
 }

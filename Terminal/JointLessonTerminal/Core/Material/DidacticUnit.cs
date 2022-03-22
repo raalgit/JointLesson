@@ -61,8 +61,6 @@ namespace JointLessonTerminal.Core.Material
         public RelayCommand RemoveCommand { get; set; }
         [JsonIgnore]
         public EventHandler OnUnitRemove { get; set; }
-        [JsonIgnore]
-        public EventHandler OnFileUpload { get; set; }
         #endregion
 
 
@@ -125,10 +123,6 @@ namespace JointLessonTerminal.Core.Material
                 sr.Close();
                 var uploadStatus = await fileHandler.UploadFile(bytes, fileDialog.FileName);
                 NewItemDocId = uploadStatus.FileId;
-                string message = uploadStatus.IsSuccess ?
-                    $"Файл {NewItemDocId} успешно загружен и готов к прикреплению к странице!" : "Во время загрузки файла возникла ошибка!";
-
-                OnFileUpload?.Invoke(this, new AlertArg(message, uploadStatus.IsSuccess));
             }
         }
 

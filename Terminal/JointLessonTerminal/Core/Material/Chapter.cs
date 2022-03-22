@@ -26,7 +26,6 @@ namespace JointLessonTerminal.Core.Material
                 foreach (var topic in _topics)
                 {
                     topic.OnTopicRemove += RemoveTopic;
-                    topic.OnFileUpload += uploadFileEvent;
                 }
             } 
         }
@@ -54,8 +53,6 @@ namespace JointLessonTerminal.Core.Material
         public RelayCommand RemoveCommand { get; set; }
         [JsonIgnore]
         public EventHandler OnChapterRemove { get; set; }
-        [JsonIgnore]
-        public EventHandler OnFileUpload { get; set; }
         #endregion
 
         private ObservableCollection<Topic> _topics;
@@ -86,7 +83,6 @@ namespace JointLessonTerminal.Core.Material
             topics.Add(newTopic);
             parts++;
             newTopic.OnTopicRemove += RemoveTopic;
-            newTopic.OnFileUpload += uploadFileEvent;
             OnPropsChanged("Chapter");
         }
 
@@ -97,11 +93,6 @@ namespace JointLessonTerminal.Core.Material
             topics.Remove(topic);
             OnPropsChanged("topics");
             parts--;
-        }
-
-        private void uploadFileEvent(object sender, EventArgs arg)
-        {
-            OnFileUpload?.Invoke(sender, arg);
         }
     }
 }

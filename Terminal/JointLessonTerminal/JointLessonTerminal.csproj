@@ -512,6 +512,7 @@
     <Compile Include="MVVM\Model\HttpModels\Response\StartSyncLessonResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\UpdateMaterialResponse.cs" />
     <Compile Include="MVVM\Model\HttpModels\Response\UpHandResponse.cs" />
+    <Compile Include="MVVM\Model\NotificationType.cs" />
     <Compile Include="MVVM\Model\UIBehaviors\RichTextSelectionBehavior.cs" />
     <Compile Include="MVVM\Model\ServerModels\AuthData.cs" />
     <Compile Include="MVVM\Model\ServerModels\Course.cs" />

@@ -64,7 +64,7 @@ namespace JL.Service.Teacher.Implementation
             var response = new StartSyncLessonResponse();
             
             var groupsAtCourse = _groupAtCourseRepository.Get().Where(x => x.CourseId == request.CourseId).ToList();
-            if (groupsAtCourse == null || groupsAtCourse.Count == 0) throw new ArgumentNullException(nameof(groupsAtCourse));
+            if (groupsAtCourse == null || groupsAtCourse.Count == 0) throw new ArgumentNullException("Не найдены группы, привязанные к курсу");
 
             foreach (var group in groupsAtCourse)
             {
@@ -90,6 +90,7 @@ namespace JL.Service.Teacher.Implementation
             _groupAtCourseRepository.SaveChanges();
 
             response.CanConnectToSyncLesson = true;
+            response.Message = $"Занятие успешно активировано. Кабинет открыт";
             return response;
         }
 
@@ -98,7 +99,7 @@ namespace JL.Service.Teacher.Implementation
             var response = new CloseLessonResponse();
 
             var groupsAtCourse = _groupAtCourseRepository.Get().Where(x => x.CourseId == request.CourseId).ToList();
-            if (groupsAtCourse == null || groupsAtCourse.Count == 0) throw new NullReferenceException(nameof(response));
+            if (groupsAtCourse == null || groupsAtCourse.Count == 0) throw new NullReferenceException("Не найдены группы, привязанные к курсу");
 
             var groupsAtCourseIds = groupsAtCourse.Select(x => x.Id).ToList();
             var closedLessons = _lessonRepository.Get()
@@ -119,6 +120,7 @@ namespace JL.Service.Teacher.Implementation
             _lessonRepository.SaveChanges();
 
             response.CanConnectToSyncLesson = false;
+            response.Message = $"Занятие завершено. Кабинет закрыт";
             return response;
         }
 
@@ -172,6 +174,7 @@ namespace JL.Service.Teacher.Implementation
             // отправка signalR нотификации об изменении страницы всем участникам групп
             await _hubContext.Clients.Clients(connectionIds).SendAsync("PageSync", request.NextPage);
 
+            response.Message = $"Текущая страница изменена на {request.NextPage} с синхронизацией";
             return response;
         }
     }

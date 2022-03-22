@@ -23,29 +23,16 @@ namespace JointLessonTerminal.MVVM.ViewModel
         public CourseCollection CourseCollection { get; set; }
         public Visibility EnterBtnVisibility
         {
-            get
-            {
-                return enterBtnVisibility;
-            }
-            set
-            {
-                enterBtnVisibility = value;
-                OnPropsChanged("EnterBtnVisibility");
-            }
+            get { return enterBtnVisibility; }
+            set { enterBtnVisibility = value; OnPropsChanged("EnterBtnVisibility"); }
         }
         public CourseModel SelectedCourse
         {
-            get
-            {
-                return selectedCourse;
-            }
-            set
-            {
-                OpenCourse(value);
-                OnPropsChanged("SelectedCourse");
-            }
+            get { return selectedCourse; }
+            set { OpenCourse(value); OnPropsChanged("SelectedCourse"); }
         }
         #endregion
+
         #region закрытые поля
         private UserSettings userSettings;
         private CourseModel selectedCourse;

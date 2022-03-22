@@ -20,30 +20,11 @@ namespace JointLessonTerminal.MVVM.ViewModel
 {
     public class SrsLessonWindowViewModel : ObservableObject
     {
-        private ManualData manual;
+        #region открытые поля
         public ManualData Manual { get; set; }
-
         public Visibility NextPageBtnVisibility { get { return nextPageBtnVisibility; } set { nextPageBtnVisibility = value; OnPropsChanged("NextPageBtnVisibility"); } }
-        private Visibility nextPageBtnVisibility;
         public Visibility PrevPageBtnVisibility { get { return prevPageBtnVisibility; } set { prevPageBtnVisibility = value; OnPropsChanged("PrevPageBtnVisibility"); } }
-        private Visibility prevPageBtnVisibility;
-
-        private int courseId;
-        private string currentPageId;
-        private Core.Material.Page currentPage;
-
-        private List<FileData> manualFiles;
-        private List<Core.Material.Page> manualPages;
-
-        private FixedDocumentSequence activeDocument;
         public FixedDocumentSequence ActiveDocument { get { return activeDocument; } set { activeDocument = value; OnPropsChanged("ActiveDocument"); } }
-
-        private string wordDirPath;
-        private string documentXpsPath;
-        private string documentWordPath;
-
-        private FixedDocumentSequence sequence;
-        private FileData fileData;
         public FileData FileData
         {
             get
@@ -89,12 +70,29 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 }
             }
         }
-
         public RelayCommand NextPageCommand { get; set; }
         public RelayCommand PrevPageCommand { get; set; }
         public RelayCommand ExitCommand { get; set; }
+        #endregion
 
+        #region закрытые поля
+        private ManualData manual;
+        private Visibility nextPageBtnVisibility;
+        private Visibility prevPageBtnVisibility;
+        private int courseId;
+        private string currentPageId;
+        private Core.Material.Page currentPage;
+        private List<FileData> manualFiles;
+        private List<Core.Material.Page> manualPages;
+        private FixedDocumentSequence activeDocument;
+        private string wordDirPath;
+        private string documentXpsPath;
+        private string documentWordPath;
+        private FixedDocumentSequence sequence;
+        private FileData fileData;
+        #endregion
 
+        #region открытые методы
         public void InitData(OnOpenCourseModel model)
         {
             wordDirPath = AppDomain.CurrentDomain.BaseDirectory + "WORD";
@@ -113,10 +111,13 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
             System.Threading.Tasks.Task.Factory.StartNew(async x => await openSrsLesson(), null);
         }
+        #endregion
+
+        #region закрытые методы
         private async System.Threading.Tasks.Task<bool> openSrsLesson()
         {
-            var startSrsResponse =  await startSrsLesson();
-            if (!string.IsNullOrEmpty(startSrsResponse.page)) 
+            var startSrsResponse = await startSrsLesson();
+            if (!string.IsNullOrEmpty(startSrsResponse.page))
                 currentPageId = startSrsResponse.page;
 
             try
@@ -337,5 +338,6 @@ namespace JointLessonTerminal.MVVM.ViewModel
             XpsDocument xpsDoc = new XpsDocument(xpsFilePath, FileAccess.Read);
             return xpsDoc;
         }
+        #endregion
     }
 }

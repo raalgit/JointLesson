@@ -1,10 +1,10 @@
 ﻿<Window x:Name="mainWin" x:Class="JointLessonTerminal.MVVM.View.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:JointLessonTerminal.MVVM.View"
-        xmlns:viewModel="clr-namespace:JointLessonTerminal.MVVM.ViewModel"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:local="clr-namespace:JointLessonTerminal.MVVM.View"
+	xmlns:viewModel="clr-namespace:JointLessonTerminal.MVVM.ViewModel"
         mc:Ignorable="d"
         Title="Joint lesson" Height="auto" Width="auto"
         WindowStyle="None"
@@ -12,7 +12,6 @@
         ResizeMode="CanResizeWithGrip"
         WindowState="Maximized"
         MouseDown="Window_MouseDown">
-
     <Window.Background>
         <ImageBrush ImageSource="../../Images/background.png" />
     </Window.Background>
@@ -25,19 +24,16 @@
             <RowDefinition />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-
         <StackPanel
                 Grid.Row="0" 
                 Grid.Column="0"
                 Background="#1A1A1A">
             <Grid x:Name="top_menu_layout">
-
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-
                 <StackPanel HorizontalAlignment="Left"
                                 Orientation="Horizontal"
                                 Grid.Column="0">
@@ -58,7 +54,6 @@
                                            FontSize="14"/>
                         </StackPanel>
                     </Button>
-
                     <Button Visibility="{Binding MenuVisibility.BackBtnVisibility}"
                                 Command="{Binding BackCommand}"
                                 Margin="20 0 0 0"
@@ -83,7 +78,6 @@
                             HorizontalAlignment="Center" 
                             VerticalAlignment="Bottom"
                             Margin="0 0 0 10">
-                    
                     <Button Background="Transparent" 
                             Name="mini_btn" 
                             BorderThickness="0"
@@ -92,7 +86,6 @@
                                Height="30"
                                Source="../../Images/min-btn.png" />
                     </Button>
-                    
                     <Button Background="Transparent" 
                             Name="maximize_btn"
                             BorderThickness="0"
@@ -102,7 +95,6 @@
                                Height="30"
                                Name="WinStateBtnImage"/>
                     </Button>
-                    
                     <Button Background="Transparent" 
                             Name="exit_btn" 
                             BorderThickness="0"
@@ -112,7 +104,6 @@
                                Height="30"
                                Source="../../Images/close-win-btn.png" />
                     </Button>
-
                 </StackPanel>
                 <StackPanel HorizontalAlignment="Right"
                                 Orientation="Horizontal"
@@ -137,17 +128,12 @@
                         </StackPanel>
                     </Button>
                 </StackPanel>
-
             </Grid>
         </StackPanel>
-
         <ContentControl Background="Transparent"
                         Grid.Row="1" 
                         Grid.Column="0"
-                        Content="{Binding CurrentView}">
-
-        </ContentControl>
-
+                        Content="{Binding CurrentView}"></ContentControl>
         <StackPanel Grid.Row="2" Grid.Column="0" Background="#EFEFEF">
             <TextBlock Text="© Все права защищены JointLesson"
                        VerticalAlignment="Center"

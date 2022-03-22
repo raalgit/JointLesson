@@ -55,17 +55,18 @@ namespace JL.Service.Auth.Implementation
 
             var roles = await GetRolesByUserId(user.Id);
             
-            loginUtility = _serviceProvider.GetService<ILoginUtility>() ?? throw new NullReferenceException(nameof(loginUtility));
+            loginUtility = _serviceProvider.GetService<ILoginUtility>() ?? throw new NullReferenceException("Не удалось поднять сервис авторизации");
 
             var utilityResponse = await loginUtility.Login(new Utility.UtilityModels.Request.LoginRequest(), user);
             if (!utilityResponse.IsSuccess)
             {
-                throw new Exception(nameof(utilityResponse));
+                throw new Exception("Не удалось создать авторизационный токен");
             }
 
             response.JWT = utilityResponse.JWT;
             response.Roles = roles;
             response.User = user;
+            response.Message = $"{user.FirstName} {user.ThirdName}, Добро пожаловать в JointLesson";
 
             return response;
         }
@@ -76,14 +77,15 @@ namespace JL.Service.Auth.Implementation
 
             ILogoutUtility? logoutUtility = null;
 
-            logoutUtility = _serviceProvider.GetService<ILogoutUtility>() ?? throw new NullReferenceException(nameof(logoutUtility));
+            logoutUtility = _serviceProvider.GetService<ILogoutUtility>() ?? throw new NullReferenceException("Не удалось поднять сервис авторизации");
 
             var utilityResponse = await logoutUtility.Logout(new Utility.UtilityModels.Request.LogoutRequest());
             if (!utilityResponse.IsSuccess)
             {
-                throw new Exception(nameof(utilityResponse));
+                throw new Exception("Не удалось выйти из системы");
             }
 
+            response.Message = "Вы успешно покинули систему";
             return new LogoutResponse();
         }
 

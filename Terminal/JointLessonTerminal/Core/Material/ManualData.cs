@@ -44,7 +44,6 @@ namespace JointLessonTerminal.Core.Material
                 foreach (var chapter in _chapters)
                 {
                     chapter.OnChapterRemove += RemoveChapter;
-                    chapter.OnFileUpload += uploadFileEvent;
                 }
             }
         }
@@ -67,8 +66,6 @@ namespace JointLessonTerminal.Core.Material
         public int NewItemAccess { get { return newItemAccess; } set { newItemAccess = value; OnPropsChanged("NewItemAccess"); } }
         [JsonIgnore]
         public RelayCommand AddCommand { get; set; }
-        [JsonIgnore]
-        public EventHandler OnFileUpload { get; set; }
         #endregion
 
         private string _discipline;
@@ -98,7 +95,6 @@ namespace JointLessonTerminal.Core.Material
             };
             chapters.Add(newChapter);
             newChapter.OnChapterRemove += RemoveChapter;
-            newChapter.OnFileUpload += uploadFileEvent;
             parts++;
         }
 
@@ -109,10 +105,6 @@ namespace JointLessonTerminal.Core.Material
             chapters.Remove(chapter);
             OnPropsChanged("chapters");
             parts--;
-        }
-        private void uploadFileEvent(object sender, EventArgs arg)
-        {
-            OnFileUpload?.Invoke(sender, arg);
         }
     }
 }
