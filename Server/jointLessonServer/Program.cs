@@ -61,8 +61,8 @@ builder.Services.AddCors(options =>
 });
 
 // Добавление контекста базы данных
-var environment = Environment.GetEnvironmentVariable("environment") ?? throw new NullReferenceException();
-var configuration = getConfiguration(environment);
+// var environment = Environment.GetEnvironmentVariable("environment") ?? throw new NullReferenceException();
+var configuration = getConfiguration("local");
 builder.Services.AddDbContext<JLContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddHttpContextAccessor();
 

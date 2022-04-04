@@ -17,7 +17,8 @@ namespace JointLessonMigrator
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
 
             Console.WriteLine("Получение данных о среде проета");
-            string environment = Environment.GetEnvironmentVariable("environment");
+            //string environment = Environment.GetEnvironmentVariable("environment");
+            string environment = "local";
 
             Console.WriteLine($"Установлена среда {environment}");
 
@@ -27,7 +28,7 @@ namespace JointLessonMigrator
             Console.WriteLine("Получение строки подключения к базе данных");
             string connectionString = configuration.GetConnectionString("DefaultConnection");
 
-            DataBase.EnsureDatabase(connectionString);
+            //DataBase.EnsureDatabase(connectionString);
 
             Console.WriteLine("Инициализация сервиса мигратора");
             IServiceCollection services = new ServiceCollection()
