@@ -9,6 +9,8 @@ namespace JL.Utility2L.Models.Material
     public class Page : Block, IBlock
     {
         public int Type { get; set; }
+        public string DirPath { get; set; }
+        public string FileName { get; set; }
         public int FileDataId { get; set; }
         public List<Module>? Modules { get; set; }
     }

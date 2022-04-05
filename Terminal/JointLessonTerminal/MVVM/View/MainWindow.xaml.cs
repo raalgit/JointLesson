@@ -22,27 +22,33 @@ namespace JointLessonTerminal.MVVM.View
     {
         public ImageSource maximizeBtnImage { get; set; }
         public ImageSource normalizeBtnImage { get; set; }
+        int lastClickTimeStamp;
 
         public MainWindow()
         {
             InitializeComponent();
+            lastClickTimeStamp = 1000;
             maximizeBtnImage = new BitmapImage(new Uri("../../Images/max-btn.png", UriKind.Relative));
             normalizeBtnImage = new BitmapImage(new Uri("../../Images/norm-btn.png", UriKind.Relative));
             WinStateBtnImage.Source = normalizeBtnImage;
             mainWin.StateChanged += MainWin_StateChanged;
-            mainWin.MouseDoubleClick += MainWin_MouseDoubleClick;
+            topMenu.MouseLeftButtonUp += TopMenu_MouseLeftButtonUp;
         }
 
-        private void MainWin_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void TopMenu_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (WindowState == WindowState.Normal || WindowState == WindowState.Minimized)
+            if (e.Timestamp - lastClickTimeStamp < 300)
             {
-                WindowState = WindowState.Maximized;
+                if (WindowState == WindowState.Normal || WindowState == WindowState.Minimized)
+                {
+                    WindowState = WindowState.Maximized;
+                }
+                else
+                {
+                    WindowState = WindowState.Normal;
+                }
             }
-            else
-            {
-                WindowState = WindowState.Normal;
-            }
+            lastClickTimeStamp = e.Timestamp;
         }
 
         private void MainWin_StateChanged(object sender, EventArgs e)

@@ -24,6 +24,12 @@ namespace JL.Utility2L.Implementation
 
         public async Task<int> CreateNewFileAsync(Stream fileStream, string originalFileName, string fileExtension)
         {
+            var originalFile = _fileDataRepository.Get().FirstOrDefault(x => x.OriginalName == originalFileName);
+            if (originalFile != null)
+            {
+                return originalFile.Id;
+            }
+
             string mongoName = _mongoRepository.GetNewFileName(fileExtension);
 
             var file = new FileData();

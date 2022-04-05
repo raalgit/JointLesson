@@ -32,6 +32,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
         public RelayCommand ExitFromSystemCommand { get; set; }
         public RelayCommand BackCommand { get; set; }
         public TopMenuVisibility MenuVisibility { get; set; }
+        public int ScreenWidth { get; set; }
         public object CurrentView { get { return _currentView; } set { _currentView = value; OnPropsChanged(); } }
         public string FIO { get { return fio; } set { fio = value; OnPropsChanged("FIO"); } }
         #endregion
@@ -171,6 +172,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
             switch (e.Type)
             {
                 case WindowEventType.NEEDTOOPENLESSONPPAGE:
+                    (e.Argument as OnOpenCourseModel).HalfOfScreenWidth = ScreenWidth / 2;
                     LessonVM.InitData(e.Argument as OnOpenCourseModel);
                     MenuVisibility.BackBtnVisibility = Visibility.Hidden;
                     CurrentView = LessonVM;
@@ -192,7 +194,8 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     CurrentView = CurrentCourseVM;
                     break;
                 case WindowEventType.NEEDTOOPENEDITORPAGE:
-                    EditorVM.InitData();
+                    var arg = e.Argument as OnOpenEditorPageArg;
+                    EditorVM.InitData(arg.Offline);
                     MenuVisibility.BackBtnVisibility = Visibility.Visible;
                     CurrentView = EditorVM;
                     break;
@@ -213,6 +216,14 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     break;
                 case WindowEventType.AUTH_EMPTYLOGIN:
                     _notifier.ShowError("Пожалуйста, введите Ваш логин и пароль!");
+                    break;
+                case WindowEventType.NEEDTOOPENEDITORPAGE:
+                    var arg = e.Argument as OnOpenEditorPageArg;
+                    EditorVM.InitData(arg.Offline);
+                    MenuVisibility.BackBtnVisibility = Visibility.Hidden;
+                    MenuVisibility.ProfileBtnVisibility = Visibility.Hidden;
+                    MenuVisibility.ExitBtnVisibility = Visibility.Hidden;
+                    CurrentView = EditorVM;
                     break;
             }
         } 

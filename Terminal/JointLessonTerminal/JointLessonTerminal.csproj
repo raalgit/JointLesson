@@ -455,6 +455,7 @@
     <Compile Include="MVVM\Model\EventModels\Inner\UserAtLesson.cs" />
     <Compile Include="MVVM\Model\EventModels\OnLessonUserListUpdateArg.cs" />
     <Compile Include="MVVM\Model\EventModels\OnOpenCourseModel.cs" />
+    <Compile Include="MVVM\Model\EventModels\OnOpenEditorPageArg.cs" />
     <Compile Include="MVVM\Model\EventModels\OnPageChangeEventArg.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\AddNewFileRequest.cs" />
     <Compile Include="MVVM\Model\HttpModels\Request\ChangeLessonManualPageRequest.cs" />
@@ -569,6 +570,10 @@
     <Page Include="MVVM\View\SrsLessonWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\ImgButtonThemes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Theme\ButtonThemes.xaml">
       <SubType>Designer</SubType>

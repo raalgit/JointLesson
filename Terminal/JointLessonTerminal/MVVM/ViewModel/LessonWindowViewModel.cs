@@ -24,12 +24,14 @@ using System.Collections.ObjectModel;
 using JointLessonTerminal.MVVM.Model.EventModels.Inner;
 using System.Windows.Forms;
 using MessageBox = System.Windows.Forms.MessageBox;
+using System.Threading;
 
 namespace JointLessonTerminal.MVVM.ViewModel
 {
     public class LessonWindowViewModel : ObservableObject
     {
         #region открытые поля
+        public int HalfOfScreenWidth { get { return halfOfScreenWidth; } set { halfOfScreenWidth = value; OnPropsChanged("HalfOfScreenWidth"); } }
         public ManualData Manual { get; set; }
         public List<UserAtLesson> UsersAtLesson { get { return usersAtLesson; } set { usersAtLesson = value; OnPropsChanged("UsersAtLesson"); } }
         public Visibility UpHandVisibility { get { return upHandVisibility; } set { upHandVisibility = value; OnPropsChanged("UpHandVisibility"); } }
@@ -64,14 +66,8 @@ namespace JointLessonTerminal.MVVM.ViewModel
                             var resp = await downloadWord(fileData.id, wordPath, xpsPath);
                             if (resp.isSuccess)
                             {
-                                File.WriteAllBytes(wordPath, resp.file);
-                                saveXPSDoc(wordPath, xpsPath);
-                                System.Windows.Application.Current.Dispatcher.Invoke(() =>
-                                {
-                                    sequence = getFixedDoc(documentXpsPath).GetFixedDocumentSequence();
-                                    ActiveDocument = sequence;
-                                    DocumentReady = "True";
-                                });
+                                createDoc(wordPath, resp.file);
+                                saveXPSDoc(wordPath, xpsPath, documentXpsPath, true);
                             }
                         }, new System.Threading.CancellationToken());
                     }
@@ -107,17 +103,11 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     {
                         Task.Factory.StartNew(async x =>
                         {
-                            var resp = await downloadWord(fileData.id, wordPath, xpsPath);
+                            var resp = await downloadWord(fileDataOffline.id, wordPath, xpsPath);
                             if (resp.isSuccess)
                             {
-                                File.WriteAllBytes(wordPath, resp.file);
-                                saveXPSDoc(wordPath, xpsPath);
-                                System.Windows.Application.Current.Dispatcher.Invoke(() =>
-                                {
-                                    offlineSequence = getFixedDoc(documentXpsPath).GetFixedDocumentSequence();
-                                    ActiveOfflineDocument = offlineSequence;
-                                    DocumentOffReady = "True";
-                                });
+                                createDoc(wordPath, resp.file);
+                                saveXPSDoc(wordPath, xpsPath, documentXpsPath, false);
                             }
                         }, new System.Threading.CancellationToken());
                     }
@@ -218,6 +208,11 @@ namespace JointLessonTerminal.MVVM.ViewModel
         #endregion
 
         #region закрытые поля
+        private object wordSaveLocker;
+        private bool wordSaveLock;
+        private object xpsSaveLocker;
+        private bool xpsSaveLock;
+        private int halfOfScreenWidth;
         private ManualData manual;
         private List<UserAtLesson> usersAtLesson;
         private Visibility upHandVisibility;
@@ -263,6 +258,8 @@ namespace JointLessonTerminal.MVVM.ViewModel
             {
                 Directory.CreateDirectory(wordDirPath);
             }
+            wordSaveLocker = new object();
+            xpsSaveLocker = new object();
 
             DocumentOffReady = "False";
             DocumentReady = "False";
@@ -382,6 +379,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
         #region открытые методы
         public void InitData(OnOpenCourseModel data)
         {
+            HalfOfScreenWidth = data.HalfOfScreenWidth;
             manualPages = new List<Core.Material.Page>();
             manual = data.Manual;
             courseId = data.CourseId;
@@ -424,6 +422,26 @@ namespace JointLessonTerminal.MVVM.ViewModel
         #endregion
 
         #region закрытые методы
+        private void createDoc(string wordPath, byte[] file)
+        {
+            try
+            {
+                Monitor.Enter(wordSaveLocker);
+                File.WriteAllBytes(wordPath, file);
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DocumentReady = "True";
+                DocumentOffReady = "True";
+            }
+            finally
+            {
+
+                Monitor.Exit(wordSaveLocker);
+            }
+        }
+
         private void onSignalRConnected(object o, EventArgs e)
         {
             Task.Factory.StartNew(async x =>
@@ -780,20 +798,41 @@ namespace JointLessonTerminal.MVVM.ViewModel
             var sender = new RequestSender<object, GetFileResponse>();
             return await sender.SendRequest(fileGetRequest, "/user/file");
         }
-        private string saveXPSDoc(string wordDocName, string xpsDocName)
+        private string saveXPSDoc(string wordDocName, string xpsDocName, string documentXpsPath, bool online)
         {
-            Microsoft.Office.Interop.Word.Application wordApplication = new Microsoft.Office.Interop.Word.Application();
-            wordApplication.Documents.Add(wordDocName);
-            Document doc = wordApplication.ActiveDocument;
             try
             {
+                Monitor.Enter(xpsSaveLocker);
+                Microsoft.Office.Interop.Word.Application wordApplication = new Microsoft.Office.Interop.Word.Application();
+                wordApplication.Documents.Add(wordDocName);
+                Document doc = wordApplication.ActiveDocument;
                 doc.SaveAs(xpsDocName, WdSaveFormat.wdFormatXPS);
                 wordApplication.Quit();
-                return xpsDocName;
+                System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                {
+                    if (online)
+                    {
+                        sequence = getFixedDoc(documentXpsPath).GetFixedDocumentSequence();
+                        ActiveDocument = sequence;
+                        DocumentReady = "True";
+                    }
+                    else
+                    {
+                        offlineSequence = getFixedDoc(documentXpsPath).GetFixedDocumentSequence();
+                        ActiveOfflineDocument = offlineSequence;
+                        DocumentOffReady = "True";
+                    }
+                });
             }
-            catch (Exception exp)
+            catch (Exception er)
             {
-                string str = exp.Message;
+                MessageBox.Show(er.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DocumentReady = "True";
+                DocumentOffReady = "True";
+            }
+            finally
+            {
+                Monitor.Exit(xpsSaveLocker);
             }
             return null;
         }

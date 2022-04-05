@@ -81,7 +81,6 @@ namespace JointLessonTerminal.Core.Material
         public void AddPage(string name, int access, int fileDataId, int type)
         {
             if (pages == null) pages = new ObservableCollection<Page>();
-            if (newItemDocId == -1) return;
 
             var newPage = new Page()
             {
@@ -90,7 +89,7 @@ namespace JointLessonTerminal.Core.Material
                 number = pages.Count,
                 modules = new List<Module>(),
                 parts = 0,
-                fileDataId = fileDataId,
+                fileDataId = -1,
                 type = type,
                 id = Guid.NewGuid().ToString()
             };

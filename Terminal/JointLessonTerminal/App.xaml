@@ -10,6 +10,7 @@
 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Theme/MenuButtonTheme.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="Theme/ImgButtonThemes.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="Theme/MenuInputBoxTheme.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="Theme/ButtonThemes.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="Theme/TextThemes.xaml"></ResourceDictionary>

@@ -57,7 +57,7 @@
                      Color="Transparent"/>
 
     <SolidColorBrush x:Key="AvalonDock_ThemeVS2010_BaseColor5" 
-                     Color="#293955"/>
+                     Color="#5B6B87"/>
 
     <LinearGradientBrush x:Key="AvalonDock_ThemeVS2010_BaseColor6"
                          StartPoint="0,0"
@@ -115,8 +115,8 @@
     <LinearGradientBrush x:Key="AvalonDock_ThemeVS2010_BaseColor16"
                          StartPoint="0,0"
                          EndPoint="0,1">
-        <GradientStop Color="#4D6082" Offset="0" />
-        <GradientStop Color="#3D5277" Offset="1" />
+        <GradientStop Color="#7D90B0" Offset="0" />
+        <GradientStop Color="#6E7E99" Offset="1" />
     </LinearGradientBrush>
 
     <!--<SolidColorBrush x:Key="AvalonDock_ThemeVS2010_BaseColor17" 
@@ -184,5 +184,5 @@
                      Color="Transparent"/>-->
 
     <SolidColorBrush x:Key="AvalonDock_ThemeVS2010_BaseColor33"
-        Color="#3D5277"/>    
+        Color="#6E7E99"/>    
 </ResourceDictionary>

@@ -4,27 +4,32 @@
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="MaxHeight" Value="40" />
         <Setter Property="Background" Value="#383838" />
-        <Setter Property="Foreground" Value="#EFEFEF" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border CornerRadius="10">
-                        <Grid Background="{TemplateBinding Background}">
-                            <TextBlock Text="{TemplateBinding Content}"
-                                       Margin="5"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       TextWrapping="Wrap"/>
-                        </Grid>
+                    <Border BorderBrush="#EFEFEF" Background="#383838" Name="buttonTemplate" CornerRadius="2" BorderThickness="1">
+                        <TextBlock Text="{TemplateBinding Content}"
+                                   Name="txtBlockTemplate"
+                                   Foreground="#EFEFEF"
+                                    Margin="5"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    TextWrapping="Wrap"/>
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="CornerRadius" TargetName="buttonTemplate" Value="6" />
+                            <Setter Property="Foreground" TargetName="txtBlockTemplate" Value="#383838" />
+                            <Setter Property="Background" TargetName="buttonTemplate" Value="#EFEFEF" />
+                            <Setter Property="BorderBrush" TargetName="buttonTemplate" Value="#383838" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" TargetName="buttonTemplate" Value="#8c8c8c" />
+                            <Setter Property="Foreground" TargetName="txtBlockTemplate" Value="#dadada" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Background" Value="#8c8c8c"/>
-                <Setter Property="Foreground" Value="#dadada"/>
-            </Trigger>
-        </Style.Triggers>
     </Style>
 </ResourceDictionary>

@@ -1,6 +1,7 @@
 ﻿using JointLessonTerminal.Core;
 using JointLessonTerminal.Core.HTTPRequests;
 using JointLessonTerminal.MVVM.Model;
+using JointLessonTerminal.MVVM.Model.EventModels;
 using JointLessonTerminal.MVVM.Model.HttpModels.Response;
 using JointLessonTerminal.MVVM.Model.SignalR;
 using System;
@@ -77,6 +78,9 @@ namespace JointLessonTerminal.MVVM.ViewModel
         {
             var signal = new WindowEvent();
             signal.Type = WindowEventType.NEEDTOOPENEDITORPAGE;
+            var arg = new OnOpenEditorPageArg();
+            arg.Offline = false;
+            signal.Argument = arg;
             SendEventSignal(signal);
         }
 

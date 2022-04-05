@@ -1,6 +1,7 @@
 ﻿using JointLessonTerminal.Core;
 using JointLessonTerminal.Core.HTTPRequests;
 using JointLessonTerminal.MVVM.Model;
+using JointLessonTerminal.MVVM.Model.EventModels;
 using JointLessonTerminal.MVVM.Model.HttpModels.Request;
 using JointLessonTerminal.MVVM.Model.HttpModels.Response;
 using System;
@@ -18,14 +19,29 @@ namespace JointLessonTerminal.MVVM.ViewModel
 
         #region открытые поля
         public RelayCommand SendRequestCommand { get; set; }
+        public RelayCommand OfflineEditorCommand { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
+        public string LoadingCompleted { get { return loadingCompleted; } set { loadingCompleted = value; OnPropsChanged("LoadingCompleted"); } }
         #endregion
 
+        #region закрытые поля
+        private string loadingCompleted;
+        #endregion
 
         public AuthWindowViewModel()
         {
-            // Событие при нажатии на кнопку
+            OfflineEditorCommand = new RelayCommand(x =>
+            {
+                var signal = new WindowEvent();
+                signal.Type = WindowEventType.NEEDTOOPENEDITORPAGE;
+                var arg = new OnOpenEditorPageArg();
+                arg.Offline = true;
+                signal.Argument = arg;
+                SendEventSignal(signal);
+            });
+
+            // Событие при нажатии на кнопку войти
             SendRequestCommand = new RelayCommand(async x =>
             {
                 // Если пароль и/или логин не ввели
@@ -36,6 +52,8 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     SendEventSignal(signal);
                     return;
                 }
+
+                LoadingCompleted = "False";
 
                 // Создание модели http запроса
                 var loginRequest = new RequestModel<LoginRequest>()
@@ -59,6 +77,8 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     // Если авторизация прошла
                     if (responsePost.isSuccess)
                     {
+                        LoadingCompleted = "True";
+
                         // Сохранение токена авторизации
                         settings.JWT = responsePost.jwt;
                         settings.CurrentUser = responsePost.user;
@@ -71,6 +91,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     }
                     else
                     {
+                        LoadingCompleted = "True";
                         var signal = new WindowEvent();
                         signal.Type = WindowEventType.AUTH_ERROR;
                         signal.Argument = "Во время авторизации возникла ошибка!";
@@ -79,6 +100,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 }
                 catch (Exception er)
                 {
+                    LoadingCompleted = "True";
                     var signal = new WindowEvent();
                     signal.Type = WindowEventType.AUTH_ERROR;
                     signal.Argument = er.Message;

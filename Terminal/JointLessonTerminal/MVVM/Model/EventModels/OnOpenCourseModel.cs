@@ -11,6 +11,7 @@ namespace JointLessonTerminal.MVVM.Model.EventModels
     {
         public int CourseId { get; set; }
         public ManualData Manual { get; set; }
+        public int HalfOfScreenWidth { get; set; }
         public string Page { get; set; }
     }
 }

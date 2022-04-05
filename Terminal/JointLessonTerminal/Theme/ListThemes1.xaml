@@ -20,7 +20,7 @@
                             <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="Border" Property="Background" Value="#383838"/>
+                            <Setter TargetName="Border" Property="Background" Value="#AEB6BF"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

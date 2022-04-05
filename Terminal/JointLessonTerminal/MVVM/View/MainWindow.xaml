@@ -6,7 +6,9 @@
 	xmlns:local="clr-namespace:JointLessonTerminal.MVVM.View"
 	xmlns:viewModel="clr-namespace:JointLessonTerminal.MVVM.ViewModel"
         mc:Ignorable="d"
-        Title="Joint lesson" Height="auto" Width="auto"
+        Title="Joint lesson" 
+        Height="auto" 
+        Width="{Binding ScreenWidth, Mode=OneWayToSource}"
         WindowStyle="None"
         AllowsTransparency="True"
         ResizeMode="CanResizeWithGrip"
@@ -27,7 +29,8 @@
         <StackPanel
                 Grid.Row="0" 
                 Grid.Column="0"
-                Background="#1A1A1A">
+                Background="#1A1A1A"
+                Name="topMenu">
             <Grid x:Name="top_menu_layout">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>

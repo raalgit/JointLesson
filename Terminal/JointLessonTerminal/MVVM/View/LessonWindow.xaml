@@ -1,15 +1,16 @@
-﻿<UserControl x:Class="JointLessonTerminal.MVVM.View.LessonWindow"
+﻿<UserControl 
+    x:Class="JointLessonTerminal.MVVM.View.LessonWindow"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:viewmodel="clr-namespace:JointLessonTerminal.MVVM.ViewModel"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodel="clr-namespace:JointLessonTerminal.MVVM.ViewModel"
 	xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
 	xmlns:local1="clr-namespace:JointLessonTerminal.MVVM.Model.UIBehaviors"
 	xmlns:cefsharpwpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
-             d:DataContext="{d:DesignInstance Type=viewmodel:LessonWindowViewModel}"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+    d:DataContext="{d:DesignInstance Type=viewmodel:LessonWindowViewModel}"
+    mc:Ignorable="d" 
+    d:DesignHeight="450" d:DesignWidth="800">
     <Grid
         Background="Transparent">
         <Grid.RowDefinitions>
@@ -59,14 +60,9 @@
             </DockingManager.Theme>
             <LayoutRoot>
                 <LayoutPanel Orientation="Horizontal" DockHeight="*" DockWidth="*">
-                    <LayoutPanel DockWidth="750" DockMinWidth="500">
-                        <LayoutAnchorablePane DockHeight="*" DockWidth="*">
-                            <LayoutAnchorable
-                                Title="Главное окно online занятия"
-                                CanClose="False"
-                                CanHide="False"
-                                ContentId="OnlineLessonMainWin"
-                                ToolTip="Главное окно online занятия">
+                    <LayoutDocumentPaneGroup DockMinWidth="750" DockWidth="*">
+                        <LayoutDocumentPane DockWidth="*">
+                            <LayoutDocument Title="Главное окно online занятия" CanClose="False" ContentId="OnlineLessonMainWin" ToolTip="Главное окно online занятия">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="12*"/>
@@ -74,105 +70,64 @@
                                     </Grid.RowDefinitions>
                                     <DocumentViewer Grid.Row="0" Document="{Binding ActiveDocument}" />
                                     <StackPanel Grid.Row="1" 
-                                HorizontalAlignment="Center"
-                                Orientation="Horizontal">
+                                                HorizontalAlignment="Center"
+                                                Orientation="Horizontal">
                                         <Button 
-                            Visibility="{Binding PrevPageBtnVisibility}"
+                                            Visibility="{Binding PrevPageBtnVisibility}"
                                             IsEnabled="{Binding DocumentReady}"
-                            Command="{Binding PrevPageCommand}"
-                            Margin="20 0 0 0"
-                                Background="Transparent"
-                                Width="40"
-                                Height="40"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                BorderThickness="0">
+                                            Command="{Binding PrevPageCommand}"
+                                            Style="{StaticResource ImageButtonStyle}"
+                                            Margin="20 0 0 0"
+                                                Width="40"
+                                                Height="40"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center">
                                             <Image Width="40"
-                                   Height="40"
-                                   Source="../../Images/left-arrow-btn.png" />
+                                                    Height="40"
+                                                    Source="../../Images/left-arrow-btn.png">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsEnabled" Value="False">
+                                                                <Setter Property="Opacity" Value="0.2" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
                                         </Button>
                                         <Button
-                            Visibility="{Binding NextPageBtnVisibility}"
+                                            Visibility="{Binding NextPageBtnVisibility}"
                                             IsEnabled="{Binding DocumentReady}"
-                            Command="{Binding NextPageCommand}"
-                            Margin="20 0 0 0"
-                            Background="Transparent"
-                            Width="40"
-                                    Height="40"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    BorderThickness="0">
-                                            <Image Width="40"
-                                   Height="40"
-                                   Source="../../Images/right-arrow-btn.png" />
-                                        </Button>
-                                    </StackPanel>
-                                </Grid>
-                            </LayoutAnchorable>
-                        </LayoutAnchorablePane>
-                    </LayoutPanel>
-                    <LayoutDocumentPaneGroup DockWidth="*" DockMinWidth="500">
-                        <LayoutDocumentPane DockWidth="*">
-                            <LayoutDocument Title="Окно offline материала" x:Name="tab2" CanClose="False">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="12*"/>
-                                        <RowDefinition Height="1*"/>
-                                    </Grid.RowDefinitions>
-                                    <StackPanel Grid.Row="0" Orientation="Horizontal">
-                                        <TextBlock Style="{StaticResource BaseTextStyle}" FontWeight="Bold" FontSize="16" Text="Оффлайн пособие"/>
-                                        <Button 
-                        Command="{Binding ShowOfflineManual}"
-                                            IsEnabled="{Binding DocumentOffReady}"
-                        Margin="20 0 0 0"
-                            Background="Transparent"
-                            Width="30"
-                            Height="30"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            BorderThickness="0">
-                                            <Image Width="30"
-                               Height="30"
-                               Source="../../Images/open-book-btn.png" />
-                                        </Button>
-                                    </StackPanel>
-                                    <DocumentViewer Visibility="{Binding OfflineManualVisibility}" Grid.Row="1" Document="{Binding ActiveOfflineDocument}"></DocumentViewer>
-                                    <StackPanel Visibility="{Binding OfflineManualVisibility}" 
-                            Grid.Row="2" 
-                            HorizontalAlignment="Center"
-                            Orientation="Horizontal">
-                                        <Button 
+                                            Command="{Binding NextPageCommand}"
+                                            Style="{StaticResource ImageButtonStyle}"
                                             Margin="20 0 0 0"
-                                            Command="{Binding PrevOfflinePageCommand}"
-                                            IsEnabled="{Binding DocumentOffReady}"
-                        Background="Transparent"
-                            Width="40"
-                            Height="40"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            BorderThickness="0">
+                                            Width="40"
+                                            Height="40"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center">
                                             <Image Width="40"
-                               Height="40"
-                               Source="../../Images/left-arrow-btn.png" />
-                                        </Button>
-                                        <Button Margin="20 0 0 0" 
-                                                Command="{Binding NextOfflinePageCommand}" 
-                                                IsEnabled="{Binding DocumentOffReady}"
-                                                Background="Transparent"
-										Width="40"
-                                Height="40"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                BorderThickness="0">
-                                            <Image Width="40"
-                               Height="40"
-                               Source="../../Images/right-arrow-btn.png" />
+                                               Height="40"
+                                               Source="../../Images/right-arrow-btn.png">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsEnabled" Value="False">
+                                                                <Setter Property="Opacity" Value="0.2" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
                                         </Button>
                                     </StackPanel>
                                 </Grid>
                             </LayoutDocument>
-                            <LayoutDocument Title="Панель управления занятием" x:Name="tab3" CanClose="False">
+                        </LayoutDocumentPane>
+                    </LayoutDocumentPaneGroup>
+                    <LayoutDocumentPaneGroup DockMinWidth="550" DockWidth="*">
+                        <LayoutDocumentPane DockWidth="*">
+                            <LayoutDocument Title="Панель управления занятием" x:Name="tab2" CanClose="False" IsSelected="True">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="auto"/>
@@ -204,7 +159,7 @@
                                    FontSize="14"
                                    FontWeight="Bold"
                                    VerticalAlignment="Center"></TextBlock>
-                                                
+
                                             </StackPanel>
                                             <StackPanel Visibility="{Binding UpHandVisibility}" 
                                     Margin="5" Orientation="Horizontal">
@@ -319,6 +274,65 @@
                                             </DockPanel>
                                         </StackPanel>
                                     </Grid>
+                                </Grid>
+                            </LayoutDocument>
+                            <LayoutDocument Title="Окно offline материала" x:Name="tab3" CanClose="False">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="9*"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
+                                    <DocumentViewer Visibility="{Binding OfflineManualVisibility}" Grid.Row="0" Document="{Binding ActiveOfflineDocument}"></DocumentViewer>
+                                    <StackPanel Visibility="{Binding OfflineManualVisibility}" 
+                            Grid.Row="1" 
+                            HorizontalAlignment="Center"
+                            Orientation="Horizontal">
+                                        <Button 
+                                            Margin="20 0 0 0"
+                                            Command="{Binding PrevOfflinePageCommand}"
+                                            IsEnabled="{Binding DocumentOffReady}"
+                                            Style="{StaticResource ImageButtonStyle}"
+                                            Width="40"
+                                            Height="40"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center">
+                                            <Image Width="40"
+                                                   Height="40"
+                                                   Source="../../Images/left-arrow-btn.png">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsEnabled" Value="False">
+                                                                <Setter Property="Opacity" Value="0.2" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+                                        </Button>
+                                        <Button Margin="20 0 0 0" 
+                                                Command="{Binding NextOfflinePageCommand}" 
+                                                IsEnabled="{Binding DocumentOffReady}"
+                                                Style="{StaticResource ImageButtonStyle}"
+										        Width="40"
+                                                Height="40"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center">
+                                            <Image Width="40"
+                                                    Height="40"
+                                                    Source="../../Images/right-arrow-btn.png">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsEnabled" Value="False">
+                                                                <Setter Property="Opacity" Value="0.2" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+                                        </Button>
+                                    </StackPanel>
                                 </Grid>
                             </LayoutDocument>
                             <LayoutDocument Title="JavaScript console" x:Name="tab4" CanClose="False">
