@@ -77,6 +77,9 @@ namespace JointLessonTerminal.MVVM.ViewModel
                         ActiveDocument = sequence;
                         DocumentReady = "True";
                     }
+
+                    currentOfflinePage = currentPage;
+                    showWordPage(false);
                 }
             }
         }
@@ -441,7 +444,6 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 Monitor.Exit(wordSaveLocker);
             }
         }
-
         private void onSignalRConnected(object o, EventArgs e)
         {
             Task.Factory.StartNew(async x =>
@@ -574,7 +576,6 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 System.Windows.Application.Current.Dispatcher.Invoke(() =>
                 {
                     showWordPage(true);
-                    showWordPage(false);
                 });
             }
         }

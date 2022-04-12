@@ -544,6 +544,7 @@
     <Compile Include="MVVM\ViewModel\MainWindowViewModel.cs" />
     <Compile Include="MVVM\ViewModel\RemoteTerminalViewModel.cs" />
     <Compile Include="MVVM\ViewModel\SrsLessonWindowViewModel.cs" />
+    <Compile Include="MVVM\ViewModel\WordDocumentPreviewViewModel.cs" />
     <Compile Include="MVVM\View\AuthWindow.xaml.cs">
       <DependentUpon>AuthWindow.xaml</DependentUpon>
     </Compile>
@@ -568,6 +569,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MVVM\View\SrsLessonWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\View\WordDocumentPreviewWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -606,6 +611,9 @@
     </Compile>
     <Compile Include="MVVM\View\SrsLessonWindow.xaml.cs">
       <DependentUpon>SrsLessonWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\View\WordDocumentPreviewWindow.xaml.cs">
+      <DependentUpon>WordDocumentPreviewWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -651,6 +659,7 @@
     <Resource Include="Images\sync-note-btn.png" />
     <Resource Include="Images\load-note-server-btn.png" />
     <Resource Include="Images\computer-btn.png" />
+    <Resource Include="Images\show-btn.png" />
     <Content Include="index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

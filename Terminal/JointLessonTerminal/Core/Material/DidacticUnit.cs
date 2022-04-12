@@ -127,9 +127,15 @@ namespace JointLessonTerminal.Core.Material
 
         public void RemovePage(object sender, EventArgs args)
         {
-            var page = (Page)sender;
-            if (page == null) return;
-            pages.Remove(page);
+            var pageForRemove = (Page)sender;
+            if (pageForRemove == null) return;
+            pages.Remove(pageForRemove);
+            int index = 0;
+            foreach (var page in pages)
+            {
+                page.number = index;
+                index++;
+            }
             OnPropsChanged("pages");
             parts--;
         }

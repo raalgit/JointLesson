@@ -107,8 +107,8 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     }
                 },
                 access = 0,
-                discipline = "Программная инженерия",
-                name = "Материал программная инженерии",
+                discipline = "",
+                name = "",
                 materialDate = new MaterialDate()
                 {
                     created = DateTime.Now,

@@ -8,17 +8,17 @@
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <EncryptedPassword />
     <_PublishTargetUrl>ftp://JointLessonSystem.somee.com/www.JointLessonSystem.somee.com</_PublishTargetUrl>
-    <History>True|2022-03-31T19:33:06.1869907Z;True|2022-03-31T20:06:44.4649403+03:00;False|2022-03-31T19:59:06.8480060+03:00;True|2022-03-31T19:45:17.3115543+03:00;False|2022-03-31T19:37:41.3578683+03:00;False|2022-03-31T19:29:30.7941444+03:00;False|2022-03-31T19:25:27.3417024+03:00;False|2022-03-31T19:24:28.6426340+03:00;False|2022-03-31T19:22:35.1015964+03:00;</History>
+    <History>True|2022-04-05T20:01:46.4066761Z;True|2022-03-31T22:33:06.1869907+03:00;True|2022-03-31T20:06:44.4649403+03:00;False|2022-03-31T19:59:06.8480060+03:00;True|2022-03-31T19:45:17.3115543+03:00;False|2022-03-31T19:37:41.3578683+03:00;False|2022-03-31T19:29:30.7941444+03:00;False|2022-03-31T19:25:27.3417024+03:00;False|2022-03-31T19:24:28.6426340+03:00;False|2022-03-31T19:22:35.1015964+03:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="appsettings-local.json">
-      <publishTime>03/31/2022 22:27:20</publishTime>
+      <publishTime>04/05/2022 22:56:28</publishTime>
     </File>
     <File Include="appsettings-test.json">
       <publishTime>02/11/2022 00:16:33</publishTime>
     </File>
     <File Include="appsettings.Development.json">
-      <publishTime>02/01/2022 13:44:16</publishTime>
+      <publishTime>01/02/2022 13:44:16</publishTime>
     </File>
     <File Include="appsettings.json">
       <publishTime>02/06/2022 15:58:59</publishTime>
@@ -27,16 +27,16 @@
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="JL.ApiModels.dll">
-      <publishTime>03/27/2022 20:22:17</publishTime>
+      <publishTime>04/05/2022 22:56:58</publishTime>
     </File>
     <File Include="JL.ApiModels.pdb">
-      <publishTime>03/27/2022 20:22:17</publishTime>
+      <publishTime>04/05/2022 22:56:58</publishTime>
     </File>
     <File Include="JL.BLL.dll">
-      <publishTime>03/27/2022 20:22:18</publishTime>
+      <publishTime>04/05/2022 22:56:59</publishTime>
     </File>
     <File Include="JL.BLL.pdb">
-      <publishTime>03/27/2022 20:22:18</publishTime>
+      <publishTime>04/05/2022 22:56:59</publishTime>
     </File>
     <File Include="JL.DAL.dll">
       <publishTime>03/27/2022 20:22:15</publishTime>
@@ -51,10 +51,10 @@
       <publishTime>03/27/2022 20:22:14</publishTime>
     </File>
     <File Include="JL.Service.dll">
-      <publishTime>03/27/2022 20:22:18</publishTime>
+      <publishTime>04/05/2022 22:56:59</publishTime>
     </File>
     <File Include="JL.Service.pdb">
-      <publishTime>03/27/2022 20:22:18</publishTime>
+      <publishTime>04/05/2022 22:56:59</publishTime>
     </File>
     <File Include="JL.Settings.dll">
       <publishTime>03/27/2022 20:22:16</publishTime>
@@ -69,34 +69,34 @@
       <publishTime>03/27/2022 20:22:16</publishTime>
     </File>
     <File Include="JL.Utility2L.dll">
-      <publishTime>03/27/2022 20:22:16</publishTime>
+      <publishTime>04/05/2022 22:56:57</publishTime>
     </File>
     <File Include="JL.Utility2L.pdb">
-      <publishTime>03/27/2022 20:22:16</publishTime>
+      <publishTime>04/05/2022 22:56:57</publishTime>
     </File>
     <File Include="jointLessonServer.deps.json">
-      <publishTime>03/31/2022 22:28:43</publishTime>
+      <publishTime>04/05/2022 22:57:17</publishTime>
     </File>
     <File Include="jointLessonServer.dll">
-      <publishTime>03/31/2022 22:28:43</publishTime>
+      <publishTime>04/05/2022 22:57:16</publishTime>
     </File>
     <File Include="jointLessonServer.exe">
-      <publishTime>03/31/2022 22:28:43</publishTime>
+      <publishTime>04/05/2022 22:57:16</publishTime>
     </File>
     <File Include="jointLessonServer.pdb">
-      <publishTime>03/31/2022 22:28:43</publishTime>
+      <publishTime>04/05/2022 22:57:16</publishTime>
     </File>
     <File Include="jointLessonServer.runtimeconfig.json">
       <publishTime>03/31/2022 19:22:23</publishTime>
     </File>
     <File Include="Microsoft.AspNetCore.JsonPatch.dll">
-      <publishTime>11/12/2018 20:28:34</publishTime>
+      <publishTime>12/11/2018 20:28:34</publishTime>
     </File>
     <File Include="Microsoft.AspNetCore.Mvc.Razor.Extensions.dll">
-      <publishTime>11/12/2018 20:29:40</publishTime>
+      <publishTime>12/11/2018 20:29:40</publishTime>
     </File>
     <File Include="Microsoft.AspNetCore.Razor.Language.dll">
-      <publishTime>11/12/2018 20:29:28</publishTime>
+      <publishTime>12/11/2018 20:29:28</publishTime>
     </File>
     <File Include="Microsoft.CodeAnalysis.CSharp.dll">
       <publishTime>04/30/2018 19:29:02</publishTime>
@@ -105,7 +105,7 @@
       <publishTime>04/30/2018 19:29:02</publishTime>
     </File>
     <File Include="Microsoft.CodeAnalysis.Razor.dll">
-      <publishTime>11/12/2018 20:29:30</publishTime>
+      <publishTime>12/11/2018 20:29:30</publishTime>
     </File>
     <File Include="Microsoft.Data.SqlClient.dll">
       <publishTime>09/21/2021 02:59:32</publishTime>
@@ -159,16 +159,16 @@
       <publishTime>10/23/2021 02:40:24</publishTime>
     </File>
     <File Include="MongoDB.Bson.dll">
-      <publishTime>12/03/2021 01:38:42</publishTime>
+      <publishTime>03/12/2021 01:38:42</publishTime>
     </File>
     <File Include="MongoDB.Driver.Core.dll">
-      <publishTime>12/03/2021 01:38:52</publishTime>
+      <publishTime>03/12/2021 01:38:52</publishTime>
     </File>
     <File Include="MongoDB.Driver.dll">
-      <publishTime>12/03/2021 01:39:22</publishTime>
+      <publishTime>03/12/2021 01:39:22</publishTime>
     </File>
     <File Include="MongoDB.Driver.GridFS.dll">
-      <publishTime>12/03/2021 01:39:30</publishTime>
+      <publishTime>03/12/2021 01:39:30</publishTime>
     </File>
     <File Include="MongoDB.Libmongocrypt.dll">
       <publishTime>11/19/2021 01:05:34</publishTime>
@@ -180,22 +180,22 @@
       <publishTime>03/24/2018 20:44:14</publishTime>
     </File>
     <File Include="runtimes/linux/native/libmongocrypt.so">
-      <publishTime>11/04/2021 18:21:00</publishTime>
+      <publishTime>04/11/2021 18:21:00</publishTime>
     </File>
     <File Include="runtimes/linux/native/libsnappy64.so">
-      <publishTime>12/02/2021 20:10:56</publishTime>
+      <publishTime>02/12/2021 20:10:56</publishTime>
     </File>
     <File Include="runtimes/linux/native/libzstd.so">
-      <publishTime>12/02/2021 20:10:56</publishTime>
+      <publishTime>02/12/2021 20:10:56</publishTime>
     </File>
     <File Include="runtimes/osx/native/libmongocrypt.dylib">
-      <publishTime>11/04/2021 18:20:54</publishTime>
+      <publishTime>04/11/2021 18:20:54</publishTime>
     </File>
     <File Include="runtimes/osx/native/libsnappy64.dylib">
-      <publishTime>12/02/2021 20:10:56</publishTime>
+      <publishTime>02/12/2021 20:10:56</publishTime>
     </File>
     <File Include="runtimes/osx/native/libzstd.dylib">
-      <publishTime>12/02/2021 20:10:56</publishTime>
+      <publishTime>02/12/2021 20:10:56</publishTime>
     </File>
     <File Include="runtimes/unix/lib/net6.0/System.Drawing.Common.dll">
       <publishTime>10/23/2021 02:51:42</publishTime>
@@ -234,16 +234,16 @@
       <publishTime>11/15/2019 11:53:44</publishTime>
     </File>
     <File Include="runtimes/win/native/libzstd.dll">
-      <publishTime>12/02/2021 20:10:56</publishTime>
+      <publishTime>02/12/2021 20:10:56</publishTime>
     </File>
     <File Include="runtimes/win/native/mongocrypt.dll">
-      <publishTime>11/04/2021 18:20:54</publishTime>
+      <publishTime>04/11/2021 18:20:54</publishTime>
     </File>
     <File Include="runtimes/win/native/snappy32.dll">
-      <publishTime>12/02/2021 20:10:56</publishTime>
+      <publishTime>02/12/2021 20:10:56</publishTime>
     </File>
     <File Include="runtimes/win/native/snappy64.dll">
-      <publishTime>12/02/2021 20:10:56</publishTime>
+      <publishTime>02/12/2021 20:10:56</publishTime>
     </File>
     <File Include="SharpCompress.dll">
       <publishTime>11/22/2021 12:21:32</publishTime>
@@ -306,7 +306,7 @@
       <publishTime>10/23/2021 02:49:44</publishTime>
     </File>
     <File Include="web.config">
-      <publishTime>03/31/2022 22:28:44</publishTime>
+      <publishTime>04/05/2022 22:57:18</publishTime>
     </File>
   </ItemGroup>
 </Project>

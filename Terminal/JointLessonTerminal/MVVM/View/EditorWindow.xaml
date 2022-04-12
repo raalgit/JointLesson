@@ -79,7 +79,7 @@
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0">
+                    <Grid Grid.Column="1" Visibility="Collapsed">
                         <StackPanel Orientation="Vertical">
                             <TextBlock Grid.Row="0"
                                            Text="Дисциплина"
@@ -94,7 +94,7 @@
                                          Text="{Binding ManualData.discipline}"/>
                         </StackPanel>
                     </Grid>
-                    <Grid Grid.Column="1">
+                    <Grid Grid.Column="0">
                         <StackPanel Orientation="Vertical">
                             <TextBlock Grid.Row="0"
                                            Text="Название материала"
@@ -412,9 +412,21 @@
                                                     Command="{Binding RemoveCommand}"
                                                     Style="{StaticResource DarkButtonStyle}"
                                                     Content="Удалить"></Button>
-                                                <TextBox Grid.Column="1"
+                                                <TextBlock Grid.Column="1"
                                                      FontSize="14"
-                                                     Text="{Binding name}"/>
+                                                     Text="{Binding number}"/>
+                                                <Button Command="{Binding ShowPageCommand}"
+                                                        Grid.Column="2"
+                                                        Style="{StaticResource ImageButtonStyle}"
+                                                        Width="40"
+                                                        Height="40"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Center">
+                                                    <Image Width="40"
+                                                           Height="40"
+                                                           Source="../../Images/show-btn.png">
+                                                    </Image>
+                                                </Button>
                                             </Grid>
                                             <Grid Grid.Row="1">
                                                 <Grid.ColumnDefinitions>

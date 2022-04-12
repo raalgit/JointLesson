@@ -18,8 +18,9 @@ namespace JointLessonTerminal.MVVM.ViewModel
     public class CurrentCourseWindowViewModel : ObservableObject
     {
         #region открытые поля
+        public string PageData { get { return pageData; } set { pageData = value; OnPropsChanged("PageData"); } }
         public CourseModel Course { get; set; }
-        public string CurrentPageId { get { return currentPageId; } set { currentPageId = value; OnPropsChanged("CurrentPageId"); } }
+        public string CurrentPageId { get { return currentPageId; } set { currentPageId = value; findPage(); OnPropsChanged("CurrentPageId"); } }
         public Manual Manual { get { return manual; } set { manual = value; OnPropsChanged("Manual"); } }
         public ManualData ManualData { get { return manualData; } set { manualData = value; OnPropsChanged("ManualData"); } }
         public bool IsCourseTeacher { get { return isCourseTeacher; } set { isCourseTeacher = value; OnPropsChanged("IsCourseTeacher"); } }
@@ -35,6 +36,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
         #endregion
 
         #region закрытые поля
+        private string pageData;
         private string currentPageId;
         private Manual manual;
         private MaterialHandler materialHandler;
@@ -101,6 +103,43 @@ namespace JointLessonTerminal.MVVM.ViewModel
         #endregion
 
         #region закрытые методы
+        private void findPage()
+        {
+            if (currentPageId == null)
+            {
+                System.Windows.Forms.MessageBox.Show("Начальная страница не определена!",
+                                            "Ошибка",
+                                            System.Windows.Forms.MessageBoxButtons.OK,
+                                            System.Windows.Forms.MessageBoxIcon.Error);
+                return;
+            }
+
+            if (manualData == null)
+            {
+                return;
+            }
+
+            Core.Material.Page page = null;
+            foreach (var chapter in manualData.chapters)
+            {
+                if (chapter.topics == null || chapter.topics.Count == 0) continue;
+                foreach (var topic in chapter.topics)
+                {
+                    if (topic.didacticUnits == null || topic.didacticUnits.Count == 0) continue;
+                    foreach (var unit in topic.didacticUnits)
+                    {
+                        if (unit.pages == null || unit.pages.Count == 0) continue;
+                        page = unit.pages.FirstOrDefault(x => x.id == currentPageId);
+
+                        if (page != null)
+                        {
+                            PageData = $"{chapter.name} - {topic.name} - {unit.name} - {page.number}";
+                            break;
+                        }
+                    }
+                }
+            }
+        }
         private void onSelectPageSubscribe()
         {
             if (manualData == null) throw new NullReferenceException(nameof(manual));
@@ -141,6 +180,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
         {
             var currentManual = await loadManual(Course.ManualId);
             ManualData = await materialHandler.LoadById(manual.fileDataId.Value);
+            findPage();
             return ManualData;
         }
         private async Task<GetCourseDataResponse> loadCourseData()
