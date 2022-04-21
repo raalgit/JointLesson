@@ -33,14 +33,15 @@
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <Image 
                                 Source="{Binding UserImagePath}"
-                                Width="35"
-                                Height="35"
+                                Width="45"
+                                Height="45"
+                                VerticalAlignment="Top"
                                 HorizontalAlignment="Center"/>
                             <Image 
                                 Visibility="{Binding UpHandVisibility}"
                                 Source="../../Images/hand-btn.png"
-                                Width="25"
-                                Height="25"
+                                Width="35"
+                                Height="35"
                                 HorizontalAlignment="Center"/>
                         </StackPanel>
                         <TextBlock Text="{Binding UserFio}" Style="{StaticResource BaseTextStyle}" FontWeight="Bold" Foreground="White"/>
@@ -147,9 +148,9 @@
                                     BorderThickness="0">
                                                     <StackPanel Cursor="Hand">
                                                         <Image HorizontalAlignment="Left"
-                                       Source="../../Images/computer-btn.png"
-                                       Width="35"
-                                       Height="35"/>
+                                       Source="../../Images/demo-btn.png"
+                                       Width="50"
+                                       Height="50"/>
                                                     </StackPanel>
                                                 </Button>
                                                 <TextBlock 
@@ -171,8 +172,8 @@
                                                     <StackPanel Cursor="Hand">
                                                         <Image HorizontalAlignment="Left"
                                        Source="../../Images/hand-btn.png"
-                                       Width="35"
-                                       Height="35"/>
+                                       Width="50"
+                                       Height="50"/>
                                                     </StackPanel>
                                                 </Button>
                                                 <TextBlock  Style="{StaticResource BaseTextStyle}"
@@ -192,8 +193,8 @@
                                                     <StackPanel Cursor="Hand">
                                                         <Image HorizontalAlignment="Left"
                                        Source="../../Images/sign-out.png"
-                                       Width="35"
-                                       Height="35"/>
+                                       Width="50"
+                                       Height="50"/>
                                                     </StackPanel>
                                                 </Button>
                                                 <TextBlock
@@ -218,40 +219,40 @@
                                                         <Button.CommandParameter>
                                                             <Binding Path="Document" ElementName="tb1"/>
                                                         </Button.CommandParameter>
-                                                        <Image Source="../../Images/folder-btn.png" Width="25" Height="25" />
+                                                        <Image Source="../../Images/folder-btn.png" Width="40" Height="40" />
                                                     </Button>
                                                     <Button ToolTip="Сохранение конспекта на локальном устройстве" Command="{Binding NoteSaveCommand}">
                                                         <Button.CommandParameter>
                                                             <Binding Path="Document" ElementName="tb1"/>
                                                         </Button.CommandParameter>
-                                                        <Image Source="../../Images/save-file-btn.png" Width="25" Height="25" />
+                                                        <Image Source="../../Images/save-file-btn.png" Width="40" Height="40" />
                                                     </Button>
                                                     <Separator />
                                                     <Button ToolTip="Синхронизация и отправка конспекта на сервер" Command="{Binding NoteSyncCommand}">
                                                         <Button.CommandParameter>
                                                             <Binding Path="Document" ElementName="tb1"/>
                                                         </Button.CommandParameter>
-                                                        <Image Source="../../Images/sync-note-btn.png" Width="25" Height="25" />
+                                                        <Image Source="../../Images/sync-note-btn.png" Width="40" Height="40" />
                                                     </Button>
                                                     <Button ToolTip="Загрузка конспекта с сервера" Command="{Binding NoteLoadCommand}">
                                                         <Button.CommandParameter>
                                                             <Binding Path="Document" ElementName="tb1"/>
                                                         </Button.CommandParameter>
-                                                        <Image Source="../../Images/load-note-server-btn.png" Width="25" Height="25" />
+                                                        <Image Source="../../Images/load-note-server-btn.png" Width="40" Height="40" />
                                                     </Button>
                                                     <Separator />
                                                     <ToggleButton IsChecked="{Binding BoldIsChecked, Mode=TwoWay}" Command="{Binding NoteBoldCommand}" Name="btnBold">
-                                                        <Image Source="../../Images/bold-btn.png" Width="25" Height="25" />
+                                                        <Image Source="../../Images/bold-btn.png" Width="40" Height="40" />
                                                     </ToggleButton>
                                                     <ToggleButton IsChecked="{Binding ItalicIsChecked, Mode=TwoWay}" Command="{Binding NoteItallicCommand}" Name="btnItalic">
-                                                        <Image Source="../../Images/italic-btn.png" Width="25" Height="25" />
+                                                        <Image Source="../../Images/italic-btn.png" Width="40" Height="40" />
                                                     </ToggleButton>
                                                     <ToggleButton IsChecked="{Binding UnderlineIsChecked, Mode=TwoWay}" Command="{Binding NoteUnderLineCommand}" Name="btnUnderline">
-                                                        <Image Source="../../Images/underline-btn.png" Width="25" Height="25" />
+                                                        <Image Source="../../Images/underline-btn.png" Width="40" Height="40" />
                                                     </ToggleButton>
                                                     <Separator />
-                                                    <ComboBox MinWidth="50" ItemsSource="{Binding NoteFonts}" SelectedItem="{Binding NoteFontSelected}" />
-                                                    <ComboBox MinWidth="50" ItemsSource="{Binding NoteTextSizes}" IsEditable="True" SelectedItem="{Binding NoteTextSizeSelected}" />
+                                                    <ComboBox MinWidth="50" Height="30" ItemsSource="{Binding NoteFonts}" SelectedItem="{Binding NoteFontSelected}" />
+                                                    <ComboBox MinWidth="50" Height="30" ItemsSource="{Binding NoteTextSizes}" IsEditable="True" SelectedItem="{Binding NoteTextSizeSelected}" />
                                                 </ToolBar>
                                                 <RichTextBox
                                 MinHeight="250"

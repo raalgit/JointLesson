@@ -118,8 +118,17 @@
                       Margin="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
+
+                        <ColumnDefinition Width="Auto" />
+                        
                         <ColumnDefinition Width="1*"/>
+
+                        <ColumnDefinition Width="Auto" />
+                        
                         <ColumnDefinition Width="1*"/>
+
+                        <ColumnDefinition Width="Auto" />
+                        
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0">
@@ -163,10 +172,14 @@
                             </StackPanel>
                             <Button Margin="5"
                                     FontSize="14"
+                                    Width="40"
+                                    Height="40"
                                     HorizontalAlignment="Left"
-                                    Content="Добавить"
-                                    Style="{StaticResource DarkButtonStyle}"
-                                    Command="{Binding ManualData.AddCommand}" />
+                                    Command="{Binding ManualData.AddCommand}">
+                                <Image Source="../../Images/add-btn.png"
+                                       Width="40"
+                                       Height="40"/>
+                            </Button>
                         </StackPanel>
                         <ScrollViewer Grid.Row="2" 
                                       HorizontalScrollBarVisibility="Auto" 
@@ -180,14 +193,18 @@
                                         <Grid VerticalAlignment="Stretch">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="1*"/>
-                                                <ColumnDefinition Width="2*"/>
+                                                <ColumnDefinition Width="4*"/>
                                                 <ColumnDefinition Width="1*"/>
                                             </Grid.ColumnDefinitions>
                                             <Button Grid.Column="0"
                                                         Margin="5"
-                                                        Command="{Binding RemoveCommand}"
-                                                        Style="{StaticResource DarkButtonStyle}"
-                                                        Content="Удалить"></Button>
+                                                    Height="40"
+                                                    Width="40"
+                                                        Command="{Binding RemoveCommand}">
+                                                <Image Source="../../Images/remove-btn.png"
+                                                       Width="40"
+                                                       Height="40"/>
+                                            </Button>
                                             <TextBox Grid.Column="1"
                                                          FontSize="14"
                                                          FontFamily="../../Fonts/#Golos-UI_Medium"
@@ -198,7 +215,11 @@
                             </ListView>
                         </ScrollViewer>
                     </Grid>
-                    <Grid Grid.Column="1">
+
+                    <GridSplitter Grid.Column="1" ShowsPreview="False" Width="3"
+        HorizontalAlignment="Center" VerticalAlignment="Stretch" />
+
+                    <Grid Grid.Column="2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
@@ -238,9 +259,13 @@
                             <Button Margin="5"
                                     FontSize="14"
                                     HorizontalAlignment="Left"
-                                    Style="{StaticResource DarkButtonStyle}"
-                                    Content="Добавить"
-                                    Command="{Binding ManualData.SelectedChapter.AddCommand}"></Button>
+                                    Width="40"
+                                    Height="40"
+                                    Command="{Binding ManualData.SelectedChapter.AddCommand}">
+                                <Image Source="../../Images/add-btn.png"
+                                       Width="40"
+                                       Height="40"/>
+                            </Button>
                         </StackPanel>
                         <ScrollViewer Grid.Row="2" 
                                       HorizontalScrollBarVisibility="Auto" 
@@ -254,14 +279,18 @@
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="1*"/>
-                                                <ColumnDefinition Width="2*"/>
+                                                <ColumnDefinition Width="4*"/>
                                                 <ColumnDefinition Width="1*"/>
                                             </Grid.ColumnDefinitions>
                                             <Button Grid.Column="0"
                                                         Margin="5"
-                                                        Style="{StaticResource DarkButtonStyle}"
-                                                        Command="{Binding RemoveCommand}"
-                                                        Content="Удалить"></Button>
+                                                    Width="40"
+                                                    Height="40"
+                                                        Command="{Binding RemoveCommand}">
+                                                <Image Source="../../Images/remove-btn.png"
+                                                       Width="40"
+                                                       Height="40"/>
+                                            </Button>
                                             <TextBox Grid.Column="1" 
                                                                  FontSize="14"
                                                            Text="{Binding name}"/>
@@ -271,7 +300,11 @@
                             </ListView>
                         </ScrollViewer>
                     </Grid>
-                    <Grid Grid.Column="2">
+
+                    <GridSplitter Grid.Column="3" ShowsPreview="False" Width="3"
+        HorizontalAlignment="Center" VerticalAlignment="Stretch" />
+
+                    <Grid Grid.Column="4">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
@@ -309,9 +342,13 @@
                             <Button Margin="5" 
                                     FontSize="14"
                                     HorizontalAlignment="Left"
-                                    Style="{StaticResource DarkButtonStyle}"
-                                    Content="Добавить"
-                                    Command="{Binding ManualData.SelectedChapter.SelectedTopic.AddCommand}"></Button>
+                                    Width="40"
+                                    Height="40"
+                                    Command="{Binding ManualData.SelectedChapter.SelectedTopic.AddCommand}">
+                                <Image Source="../../Images/add-btn.png"
+                                       Width="40"
+                                       Height="40"/>
+                            </Button>
                         </StackPanel>
                         <ScrollViewer Grid.Row="2" 
                                       HorizontalScrollBarVisibility="Auto" 
@@ -325,14 +362,18 @@
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="1*"/>
-                                                <ColumnDefinition Width="2*"/>
+                                                <ColumnDefinition Width="4*"/>
                                                 <ColumnDefinition Width="1*"/>
                                             </Grid.ColumnDefinitions>
                                             <Button Grid.Column="0"
+                                                    Width="40"
+                                                    Height="40"
                                                         Margin="5"
-                                                        Command="{Binding RemoveCommand}"
-                                                        Style="{StaticResource DarkButtonStyle}"
-                                                        Content="Удалить"></Button>
+                                                        Command="{Binding RemoveCommand}">
+                                                <Image Source="../../Images/remove-btn.png"
+                                                       Width="40"
+                                                       Height="40"/>
+                                            </Button>
                                             <TextBox Grid.Column="1" 
                                                                  FontSize="14"
                                                            Text="{Binding name}"/>
@@ -342,7 +383,11 @@
                             </ListView>
                         </ScrollViewer>
                     </Grid>
-                    <Grid Grid.Column="3">
+
+                    <GridSplitter Grid.Column="5" ShowsPreview="False" Width="3"
+        HorizontalAlignment="Center" VerticalAlignment="Stretch" />
+
+                    <Grid Grid.Column="6">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
@@ -382,10 +427,14 @@
                             </StackPanel>
                             <Button Margin="5"
                                     FontSize="14"
+                                    Width="40"
+                                    Height="40"
                                     HorizontalAlignment="Left"
-                                    Style="{StaticResource DarkButtonStyle}"
-                                    Content="Добавить"
-                                    Command="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit.AddCommand}"></Button>
+                                    Command="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit.AddCommand}">
+                                <Image Source="../../Images/add-btn.png"
+                                       Width="40"
+                                       Height="40"/>
+                            </Button>
                         </StackPanel>
                         <ScrollViewer Grid.Row="2" 
                                       HorizontalScrollBarVisibility="Auto" 
@@ -395,28 +444,38 @@
                                           SelectedItem="{Binding ManualData.SelectedChapter.SelectedTopic.SelectedDidacticUnit.SelectedPage}">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="*"/>
-                                                <RowDefinition Height="*"/>
-                                            </Grid.RowDefinitions>
-
-                                            <Grid Grid.Row="0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="2*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <Button Grid.Column="0"
+                                        <Grid Grid.Row="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="2*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="4*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Button Grid.Column="0"
                                                     Margin="5"
-                                                    Command="{Binding RemoveCommand}"
-                                                    Style="{StaticResource DarkButtonStyle}"
-                                                    Content="Удалить"></Button>
-                                                <TextBlock Grid.Column="1"
+                                                    Width="40"
+                                                    Height="40"
+                                                    Command="{Binding RemoveCommand}">
+                                                <Image Source="../../Images/remove-btn.png"
+                                                           Width="40"
+                                                           Height="40"/>
+                                            </Button>
+                                            <TextBlock Grid.Column="1"
                                                      FontSize="14"
+                                                       VerticalAlignment="Center"
                                                      Text="{Binding number}"/>
+                                            <StackPanel Orientation="Horizontal"
+                                                        Grid.Column="2">
+                                                <Button Margin="5"
+                                                        Width="40"
+                                                        Height="40"
+                                                        Command="{Binding ChooseFile}">
+                                                    <Image Width="40"
+                                                           Height="40"
+                                                           Source="../../Images/document-btn.png">
+                                                    </Image>
+                                                </Button>
                                                 <Button Command="{Binding ShowPageCommand}"
-                                                        Grid.Column="2"
                                                         Style="{StaticResource ImageButtonStyle}"
                                                         Width="40"
                                                         Height="40"
@@ -427,27 +486,16 @@
                                                            Source="../../Images/show-btn.png">
                                                     </Image>
                                                 </Button>
-                                            </Grid>
-                                            <Grid Grid.Row="1">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                </Grid.ColumnDefinitions>
-                                                <Button Grid.Column="0"
-                                                        Margin="5"
-                                                        Command="{Binding ChooseFile}"
-                                                        Style="{StaticResource DarkButtonStyle}"
-                                                        Content="Документ"></Button>
                                                 <TextBlock Text="{Binding fileName}"
-                                                           Grid.Column="1"
+                                                           Margin="20 0 0 0"
                                                            Style="{StaticResource BaseTextStyle}"
                                                            FontSize="16"/>
-                                                <TextBlock Text="{Binding fileDataId}"
-                                                           Grid.Column="2"
+                                            </StackPanel>
+                                            <TextBlock Text="{Binding fileDataId}"
+                                                       Margin="20 0 0 0"
+                                                           Grid.Column="3"
                                                            Style="{StaticResource BaseTextStyle}"
                                                            FontSize="16"/>
-                                            </Grid>
                                         </Grid>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>

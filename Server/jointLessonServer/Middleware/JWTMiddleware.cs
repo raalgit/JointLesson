@@ -13,13 +13,11 @@ namespace jointLessonServer.Middleware
     {
         private readonly RequestDelegate _next;
         private readonly ApplicationSettings _appSettings;
-
         public JWTMiddleware(RequestDelegate next, IOptions<ApplicationSettings> appSettings)
         {
             _next = next;
             _appSettings = appSettings.Value;
         }
-
         public async Task Invoke(HttpContext context, IAuthService authService)
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
@@ -31,14 +29,12 @@ namespace jointLessonServer.Middleware
             }
             await _next(context);
         }
-
         private JL.Persist.User attachUserToContext(HttpContext context, IAuthService authService, string token)
         {
             try
             {
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var key = Encoding.ASCII.GetBytes(_appSettings.SecretWord);
-
                 tokenHandler.ValidateToken(token, new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
@@ -50,16 +46,11 @@ namespace jointLessonServer.Middleware
 
                 var jwtToken = (JwtSecurityToken)validatedToken;
                 var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
-
                 var userData = authService.GetUserById(userId).Result;
-
                 context.Items["User"] = userData;
                 return userData;
             }
-            catch
-            {
-                throw new Exception(nameof(token));
-            }
+            catch (Exception er) { throw new Exception(nameof(token)); }
         }
 
         private JL.Persist.Role[] attachRolesToContext(HttpContext context, IAuthService authService, JL.Persist.User user)

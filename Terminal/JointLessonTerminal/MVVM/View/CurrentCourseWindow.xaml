@@ -94,8 +94,8 @@
                                     <StackPanel Cursor="Hand">
                                         <Image HorizontalAlignment="Left"
                                        Source="../../Images/start-btn.png"
-                                       Width="35"
-                                       Height="35"/>
+                                       Width="50"
+                                       Height="50"/>
                                     </StackPanel>
                                 </Button>
                             </Grid>
@@ -121,8 +121,8 @@
                                     <StackPanel Cursor="Hand">
                                         <Image HorizontalAlignment="Left"
                                        Source="../../Images/stop-btn.png"
-                                       Width="35"
-                                       Height="35"/>
+                                       Width="50"
+                                       Height="50"/>
                                     </StackPanel>
                                 </Button>
                             </Grid>
@@ -148,8 +148,8 @@
                                     <StackPanel Cursor="Hand">
                                         <Image HorizontalAlignment="Left"
                                        Source="../../Images/enter-btn.png"
-                                       Width="35"
-                                       Height="35"/>
+                                       Width="50"
+                                       Height="50"/>
                                     </StackPanel>
                                 </Button>
                             </Grid>
@@ -174,8 +174,8 @@
                                     <StackPanel Cursor="Hand">
                                         <Image HorizontalAlignment="Left"
                                        Source="../../Images/enter-btn.png"
-                                       Width="35"
-                                       Height="35"/>
+                                       Width="50"
+                                       Height="50"/>
                                     </StackPanel>
                                 </Button>
                             </Grid>

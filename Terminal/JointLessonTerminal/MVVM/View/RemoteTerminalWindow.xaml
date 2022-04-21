@@ -46,8 +46,8 @@
                                 Margin="10">
                         <Image HorizontalAlignment="Left"
                                Source="../../Images/demo-btn.png"
-                               Width="35"
-                               Height="35"/>
+                               Width="50"
+                               Height="50"/>
                     </StackPanel>
                 </ToggleButton>
             </Grid>
@@ -74,8 +74,8 @@
                                 Margin="10">
                         <Image HorizontalAlignment="Left"
                                Source="../../Images/win-controll-btn.png"
-                               Width="35"
-                               Height="35"/>
+                               Width="50"
+                               Height="50"/>
                     </StackPanel>
                 </ToggleButton>
             </Grid>

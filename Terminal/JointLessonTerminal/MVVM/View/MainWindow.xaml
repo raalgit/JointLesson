@@ -49,8 +49,8 @@
                                 VerticalAlignment="Center"
                                 BorderThickness="0">
                         <StackPanel>
-                            <Image Width="30"
-                                       Height="30"
+                            <Image Width="40"
+                                       Height="40"
                                        Source="../../Images/profile-btn.png" />
                             <TextBlock Text="Профиль"
                                            Foreground="#EFEFEF"
@@ -67,8 +67,8 @@
                                 VerticalAlignment="Center"
                                 BorderThickness="0">
                         <StackPanel>
-                            <Image Width="30"
-                                       Height="30"
+                            <Image Width="40"
+                                       Height="40"
                                        Source="../../Images/back-btn.png" />
                             <TextBlock Text="Вернуться"
                                            Foreground="#EFEFEF"
@@ -85,8 +85,8 @@
                             Name="mini_btn" 
                             BorderThickness="0"
                             Click="mini_btn_Click">
-                        <Image Width="30"
-                               Height="30"
+                        <Image Width="40"
+                               Height="40"
                                Source="../../Images/min-btn.png" />
                     </Button>
                     <Button Background="Transparent" 
@@ -94,8 +94,8 @@
                             BorderThickness="0"
                             Click="maximize_btn_Click"
                              Margin="20 0 0 0">
-                        <Image Width="30"
-                               Height="30"
+                        <Image Width="40"
+                               Height="40"
                                Name="WinStateBtnImage"/>
                     </Button>
                     <Button Background="Transparent" 
@@ -103,8 +103,8 @@
                             BorderThickness="0"
                             Click="exit_btn_Click"
                             Margin="20 0 0 0">
-                        <Image Width="30"
-                               Height="30"
+                        <Image Width="40"
+                               Height="40"
                                Source="../../Images/close-win-btn.png" />
                     </Button>
                 </StackPanel>
@@ -121,8 +121,8 @@
                                 VerticalAlignment="Center"
                                 BorderThickness="0">
                         <StackPanel>
-                            <Image Width="30"
-                                       Height="30"
+                            <Image Width="40"
+                                       Height="40"
                                        Source="../../Images/sign-out.png" />
                             <TextBlock Text="{Binding FIO}"
                                        Style="{StaticResource BaseTextStyle}"
