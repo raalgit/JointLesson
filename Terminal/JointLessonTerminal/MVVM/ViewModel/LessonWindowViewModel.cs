@@ -1,6 +1,5 @@
 ﻿using JointLessonTerminal.Core;
 using JointLessonTerminal.MVVM.Model.ServerModels;
-using Microsoft.Office.Interop.Word;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +24,7 @@ using JointLessonTerminal.MVVM.Model.EventModels.Inner;
 using System.Windows.Forms;
 using MessageBox = System.Windows.Forms.MessageBox;
 using System.Threading;
+using Microsoft.Office.Interop.Word;
 
 namespace JointLessonTerminal.MVVM.ViewModel
 {
@@ -51,7 +51,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
             set
             {
                 fileData = value;
-                if (fileData.mongoName.Contains(".doc"))
+                if (fileData.mongoName.Contains(".doc") && officeAvailable != false)
                 {
                     var wordPath = Path.Combine(wordDirPath, fileData.mongoName.Replace(":", "-"));
                     wordPath = wordPath.Replace("\\", "/").Replace(" ", "_");
@@ -67,7 +67,14 @@ namespace JointLessonTerminal.MVVM.ViewModel
                             if (resp.isSuccess)
                             {
                                 createDoc(wordPath, resp.file);
-                                saveXPSDoc(wordPath, xpsPath, documentXpsPath, true);
+                                try
+                                {
+                                    saveXPSDoc(wordPath, xpsPath, documentXpsPath, true);
+                                }
+                                catch (Exception er)
+                                {
+                                    MessageBox.Show(er.Message, "Ошибка загрузки документа", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
                             }
                         }, new System.Threading.CancellationToken());
                     }
@@ -81,6 +88,11 @@ namespace JointLessonTerminal.MVVM.ViewModel
                     currentOfflinePage = currentPage;
                     showWordPage(false);
                 }
+                else
+                {
+                    MessageBox.Show("Пожалуйста, проверьте наличие Microsoft Office 2013 и правильность документа, чтобы продолжить просмотр", 
+                        "Ошибка доступа к документу", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
         public FileData FileDataOffline
@@ -93,7 +105,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
             {
                 fileDataOffline = value;
 
-                if (fileDataOffline.mongoName.Contains(".doc"))
+                if (fileDataOffline.mongoName.Contains(".doc") && officeAvailable != false)
                 {
                     var wordPath = Path.Combine(wordDirPath, fileDataOffline.mongoName.Replace(":", "-"));
                     wordPath = wordPath.Replace("\\", "/").Replace(" ", "_");
@@ -110,7 +122,14 @@ namespace JointLessonTerminal.MVVM.ViewModel
                             if (resp.isSuccess)
                             {
                                 createDoc(wordPath, resp.file);
-                                saveXPSDoc(wordPath, xpsPath, documentXpsPath, false);
+                                try
+                                {
+                                    saveXPSDoc(wordPath, xpsPath, documentXpsPath, false);
+                                }
+                                catch (Exception er)
+                                {
+                                    MessageBox.Show(er.Message, "Ошибка загрузки документа", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
                             }
                         }, new System.Threading.CancellationToken());
                     }
@@ -120,6 +139,11 @@ namespace JointLessonTerminal.MVVM.ViewModel
                         ActiveOfflineDocument = offlineSequence;
                         DocumentOffReady = "True";
                     }
+                }
+                else
+                {
+                    MessageBox.Show("Пожалуйста, проверьте наличие Microsoft Office 2013 и правильность документа, чтобы продолжить просмотр",
+                        "Ошибка доступа к документу", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -211,6 +235,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
         #endregion
 
         #region закрытые поля
+        private bool? officeAvailable;
         private object wordSaveLocker;
         private bool wordSaveLock;
         private object xpsSaveLocker;
@@ -440,7 +465,6 @@ namespace JointLessonTerminal.MVVM.ViewModel
             }
             finally
             {
-
                 Monitor.Exit(wordSaveLocker);
             }
         }
@@ -804,11 +828,25 @@ namespace JointLessonTerminal.MVVM.ViewModel
             try
             {
                 Monitor.Enter(xpsSaveLocker);
-                Microsoft.Office.Interop.Word.Application wordApplication = new Microsoft.Office.Interop.Word.Application();
+
+                Microsoft.Office.Interop.Word.Application wordApplication = null;
+
+                try
+                {
+                    wordApplication = new Microsoft.Office.Interop.Word.Application();
+                }
+                catch (Exception er)
+                {
+                    if (officeAvailable == null) officeAvailable = false;
+                    throw er;
+                }
+
                 wordApplication.Documents.Add(wordDocName);
                 Document doc = wordApplication.ActiveDocument;
                 doc.SaveAs(xpsDocName, WdSaveFormat.wdFormatXPS);
                 wordApplication.Quit();
+                officeAvailable = true;
+
                 System.Windows.Application.Current.Dispatcher.Invoke(() =>
                 {
                     if (online)
@@ -827,7 +865,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
             }
             catch (Exception er)
             {
-                MessageBox.Show(er.Message + ": " + er.StackTrace, "Ошибка saveXPSDoc", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(er.Message + ": " + er.StackTrace, "Ошибка загрузки документа", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 DocumentReady = "True";
                 DocumentOffReady = "True";
             }

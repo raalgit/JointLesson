@@ -16,8 +16,10 @@ using AvalonDock.Layout.Serialization;
 using AvalonDock.Layout;
 using AvalonDock;
 using System.Diagnostics;
-//using CefSharp;
 using System.IO;
+using Microsoft.JScript;
+using System.CodeDom.Compiler;
+using System.Reflection;
 
 namespace JointLessonTerminal.MVVM.View
 {
@@ -29,42 +31,84 @@ namespace JointLessonTerminal.MVVM.View
         public LessonWindow()
         {
             InitializeComponent();
-            //Browser.Loaded += Browser_Loaded;
+
+            var paragraph = new Paragraph();
+            paragraph.Inlines.Add(new Run("function main() { /* Точка входа в программу */ }"));
+            ScriptTextBox.Document.Blocks.Add(paragraph);
+
+            var subparagraph = new Paragraph();
+            subparagraph.Inlines.Add(new Run("/* Поле для ввода кода , который можно вызвать из main */"));
+            ScriptTextBox2.Document.Blocks.Add(subparagraph);
+
+            var resparagraph = new Paragraph();
+            resparagraph.Inlines.Add(new Run("Результат выполнения скрипта"));
+            ScriptResponse.Document.Blocks.Add(resparagraph);
         }
 
         private async void ExecuteJavaScriptBtn_Click(object sender, RoutedEventArgs e)
         {
-            //if (Browser.CanExecuteJavascriptInMainFrame && !string.IsNullOrWhiteSpace(ScriptTextBox.Text))
-            //{
-            //    JavascriptResponse response = await Browser.EvaluateScriptAsync(ScriptTextBox.Text);
+            string script = new TextRange(ScriptTextBox.Document.ContentStart, ScriptTextBox.Document.ContentEnd).Text.Replace('\n', ' ').Replace('\r', ' ');
 
-            //    if (!response.Success) MessageBox.Show(response.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
-            //    if (response.Result != null)
-            //    {
-            //        var paragraph = new Paragraph();
-            //        paragraph.Inlines.Add(new Run(string.Format("JavaScript Result {0}", response.Result.ToString())));
-            //        ScriptResponse.Document.Blocks.Add(paragraph);
-            //    }
-            //}
-        }
+            if (string.IsNullOrEmpty(script)) return;
 
-        private void Browser_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (File.Exists("index.html"))
+            string subscript = new TextRange(ScriptTextBox2.Document.ContentStart, ScriptTextBox2.Document.ContentEnd).Text.Replace('\n', ' ').Replace('\r', ' ');
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append("package pack")
+            .Append("{")
+            .Append("class program")
+            .Append("{")
+            .Append(script)
+            .Append("}")
+            .Append("}")
+            .Append(subscript);
+            script = sb.ToString();
+
+            using (var provider = new JScriptCodeProvider())
             {
-                var content = File.ReadAllText("index.html");
-                //Browser.LoadHtml(content);
+                CompilerParameters options = new CompilerParameters();
+                options.GenerateExecutable = false;
+                options.GenerateInMemory = true;
+                options.ReferencedAssemblies.Add("system.dll");
+
+                var results = provider.CompileAssemblyFromSource(options, script);
+
+                if (results.Errors.HasErrors)
+                {
+                    foreach (var error in results.Errors)
+                    {
+                        var paragraphError = new Paragraph();
+                        paragraphError.Inlines.Add(new Run(string.Format("Ошибка > {0}", error.ToString())));
+                        ScriptResponse.Document.Blocks.Add(paragraphError);
+                    }
+                    return;
+                }
+                var assembly = results.CompiledAssembly;
+
+                try
+                {
+                    var myblahtype = assembly.GetType("pack.program");
+                    var myblah = Activator.CreateInstance(myblahtype);
+                    var result = myblahtype.InvokeMember("main", System.Reflection.BindingFlags.InvokeMethod, null, myblah, new string[0]);
+
+                    if (result == null) return;
+
+                    var paragraph = new Paragraph();
+                    paragraph.Inlines.Add(new Run(string.Format("Результат > {0}", result.ToString())));
+                    ScriptResponse.Document.Blocks.Add(paragraph);
+                }
+                catch (Exception er)
+                {
+                    var paragraph = new Paragraph();
+                    paragraph.Inlines.Add(new Run(string.Format("Ошибка выполнения скрипта > {0}", er.Message)));
+                    ScriptResponse.Document.Blocks.Add(paragraph);
+                }
             }
         }
 
         private void ClearJavaScriptBtn_Click(object sender, RoutedEventArgs e)
         {
             ScriptResponse.Document.Blocks.Clear();
-        }
-
-        private void BackJavaScriptBtn_Click(object sender, RoutedEventArgs e)
-        {
-            //Browser.Back();
         }
     }
 }
