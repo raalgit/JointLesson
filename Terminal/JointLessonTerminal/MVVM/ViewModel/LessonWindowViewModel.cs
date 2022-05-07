@@ -434,7 +434,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
             }
             catch (Exception er)
             {
-                MessageBox.Show(er.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(er.Message + ": " + er.StackTrace, "Ошибка createDoc", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 DocumentReady = "True";
                 DocumentOffReady = "True";
             }
@@ -827,7 +827,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
             }
             catch (Exception er)
             {
-                MessageBox.Show(er.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(er.Message + ": " + er.StackTrace, "Ошибка saveXPSDoc", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 DocumentReady = "True";
                 DocumentOffReady = "True";
             }
@@ -839,8 +839,15 @@ namespace JointLessonTerminal.MVVM.ViewModel
         }
         private XpsDocument getFixedDoc(string xpsFilePath)
         {
-            XpsDocument xpsDoc = new XpsDocument(xpsFilePath, FileAccess.Read);
-            return xpsDoc;
+            try
+            {
+                XpsDocument xpsDoc = new XpsDocument(xpsFilePath, FileAccess.Read);
+                return xpsDoc;
+            }
+            catch (Exception er)
+            {
+                throw er;
+            }
         }
         #endregion
     }

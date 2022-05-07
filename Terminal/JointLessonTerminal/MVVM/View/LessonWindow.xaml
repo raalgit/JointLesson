@@ -343,8 +343,7 @@
                                         <RowDefinition Height="4*"></RowDefinition>
                                         <RowDefinition Height="1*"></RowDefinition>
                                     </Grid.RowDefinitions>
-                                    <cefsharpwpf:ChromiumWebBrowser Name="Browser" 
-                                                                    Grid.Row="0"></cefsharpwpf:ChromiumWebBrowser>
+
                                     <Border Grid.Row="1"
                                             BorderBrush="Red"
                                             BorderThickness="2">

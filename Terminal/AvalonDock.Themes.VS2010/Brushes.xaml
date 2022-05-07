@@ -18,14 +18,14 @@
 				Stretch="None">
         <DrawingBrush.Drawing>
             <DrawingGroup>
-                <GeometryDrawing Brush="#2C3D5A">
+                <GeometryDrawing Brush="#FF6A717D">
                     <GeometryDrawing.Geometry>
                         <RectangleGeometry Rect="0,0,10,10"/>
                     </GeometryDrawing.Geometry>
                 </GeometryDrawing>
                 <GeometryDrawing>
                     <GeometryDrawing.Pen>
-                        <Pen Thickness="1" Brush="#35496A" />
+                        <Pen Thickness="1" Brush="#FF6A717D" />
                     </GeometryDrawing.Pen>
                     <GeometryDrawing.Geometry>
                         <GeometryGroup>
@@ -35,7 +35,7 @@
                 </GeometryDrawing>
                 <GeometryDrawing>
                     <GeometryDrawing.Pen>
-                        <Pen Thickness="1" Brush="#293955" />
+                        <Pen Thickness="1" Brush="#FF6A717D" />
                     </GeometryDrawing.Pen>
                     <GeometryDrawing.Geometry>
                         <GeometryGroup>
@@ -184,5 +184,5 @@
                      Color="Transparent"/>-->
 
     <SolidColorBrush x:Key="AvalonDock_ThemeVS2010_BaseColor33"
-        Color="#6E7E99"/>    
+        Color="#FF888D96"/>    
 </ResourceDictionary>

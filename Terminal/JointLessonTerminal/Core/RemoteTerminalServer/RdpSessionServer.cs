@@ -10,6 +10,7 @@ namespace JointLessonTerminal.Core.RemoteTerminalServer
     public class RdpSessionServer : IDisposable
     {
         private readonly RDPSession _rdpSession;
+        private CTRL_LEVEL _accessLevel;
 
         public RdpSessionServer()
         {
@@ -38,8 +39,9 @@ namespace JointLessonTerminal.Core.RemoteTerminalServer
             }
         }
 
-        public void Open()
+        public void Open(CTRL_LEVEL accessLevel)
         {
+            _accessLevel = accessLevel;
             _rdpSession.Open();
         }
 
@@ -91,7 +93,7 @@ namespace JointLessonTerminal.Core.RemoteTerminalServer
         private void OnAttendeeConnected(object pAttendee)
         {
             var attendee = (IRDPSRAPIAttendee)pAttendee;
-            attendee.ControlLevel = CTRL_LEVEL.CTRL_LEVEL_VIEW;
+            attendee.ControlLevel = _accessLevel;
         }
     }
 }

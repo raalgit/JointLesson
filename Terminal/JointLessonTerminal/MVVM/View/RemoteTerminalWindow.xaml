@@ -214,19 +214,69 @@
                             <ColumnDefinition Width="3*"/>
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0"
                                    Grid.Column="0"
-                                   Text="Доступ ко всему окну"
+                                   Text="Удаленный просмотр"
                                    FontSize="14"
                                    FontWeight="Bold"
-                                   VerticalAlignment="Center"></TextBlock>
+                                   VerticalAlignment="Center">
+                        </TextBlock>
+                        <Button
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Command="{Binding ServerStartCommand}"
+                            HorizontalAlignment="Right"
+                            Background="Transparent"
+                            BorderThickness="0">
+                            <StackPanel Cursor="Hand">
+                                <Image HorizontalAlignment="Left"
+                                       Source="../../Images/win-controll-btn.png"
+                                       Width="35"
+                                       Height="35"/>
+                            </StackPanel>
+                        </Button>
+
+                        <TextBlock Grid.Row="1"
+                                   Grid.Column="0"
+                                   Text="Удаленное управление"
+                                   FontSize="14"
+                                   FontWeight="Bold"
+                                   VerticalAlignment="Center">
+                        </TextBlock>
                         <Button 
-                                    Grid.Row="0"
-                                    Grid.Column="1"
-                                Command="{Binding ServerStartCommand}"
-                                    HorizontalAlignment="Right"
-                                    Background="Transparent"
-                                    BorderThickness="0">
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Command="{Binding RATStartCommand}"
+                            HorizontalAlignment="Right"
+                            Background="Transparent"
+                            BorderThickness="0">
+                            <StackPanel Cursor="Hand">
+                                <Image HorizontalAlignment="Left"
+                                       Source="../../Images/win-controll-btn.png"
+                                       Width="35"
+                                       Height="35"/>
+                            </StackPanel>
+                        </Button>
+
+                        <TextBlock Grid.Row="2"
+                                   Grid.Column="0"
+                                   Text="Удаленный просмотр (окно)"
+                                   FontSize="14"
+                                   FontWeight="Bold"
+                                   VerticalAlignment="Center">
+                        </TextBlock>
+                        <Button 
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Command="{Binding SingleStartCommand}"
+                            HorizontalAlignment="Right"
+                            Background="Transparent"
+                            BorderThickness="0">
                             <StackPanel Cursor="Hand">
                                 <Image HorizontalAlignment="Left"
                                        Source="../../Images/win-controll-btn.png"

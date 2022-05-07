@@ -43,6 +43,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
         }
         public RdpManager RdpManagerInst { get; set; }
         public RelayCommand ServerStartCommand { get; set; }
+        public RelayCommand RATStartCommand { get; set; }
         public RelayCommand CopyCommand { get; set; }
         public RelayCommand SingleStartCommand { get; set; }
         public RelayCommand StopCommand { get; set; }
@@ -82,10 +83,11 @@ namespace JointLessonTerminal.MVVM.ViewModel
             RdpManagerInst.OnAttendeeDisconnected += info => SessionTerminated();
 
             StopCommand = new RelayCommand(x => Stop());
-            SingleStartCommand = new RelayCommand(x => SingleStart(), o => !_actionChoosen);
+            SingleStartCommand = new RelayCommand(x => SingleStart(CTRL_LEVEL.CTRL_LEVEL_VIEW), o => !_actionChoosen);
             ConnectCommand = new RelayCommand(x => Connect());
             DisconnectCommand = new RelayCommand(x => Disconnect());
-            ServerStartCommand = new RelayCommand(x => ServerStart(), o => !_actionChoosen);
+            ServerStartCommand = new RelayCommand(x => ServerStart(CTRL_LEVEL.CTRL_LEVEL_VIEW), o => !_actionChoosen);
+            RATStartCommand = new RelayCommand(x => ServerStart(CTRL_LEVEL.CTRL_LEVEL_MAX), o => !_actionChoosen);
             CopyCommand = new RelayCommand(x => Copy());
 
             GetConnectionListCommand = new RelayCommand(async x => 
@@ -109,7 +111,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 StopTerminalVisibility = Visibility.Collapsed;
             }
         }
-        private void SingleStart()
+        private void SingleStart(CTRL_LEVEL level)
         {
             if (!SupportUtils.CheckOperationSytem())
             {
@@ -118,7 +120,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
             }
 
             server = new RdpSessionServer();
-            server.Open();
+            server.Open(level);
 
             var executableName = GetApplicationName(AppDomain.CurrentDomain.FriendlyName);
 
@@ -151,7 +153,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
         {
             Clipboard.SetText(ServerConnectionText);
         }
-        private void ServerStart()
+        private void ServerStart(CTRL_LEVEL level)
         {
             if (!SupportUtils.CheckOperationSytem())
             {
@@ -160,7 +162,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
             }
 
             server = new RdpSessionServer();
-            server.Open();
+            server.Open(level);
 
             ServerConnectionText = server.CreateInvitation(GroupName, Password);
             ServerStarted();
