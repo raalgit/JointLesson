@@ -47,17 +47,18 @@ namespace JointLessonTerminal.MVVM.View
 
         private async void ExecuteJavaScriptBtn_Click(object sender, RoutedEventArgs e)
         {
-            string script = new TextRange(ScriptTextBox.Document.ContentStart, ScriptTextBox.Document.ContentEnd).Text.Replace('\n', ' ').Replace('\r', ' ');
+            string script = new TextRange(ScriptTextBox.Document.ContentStart, ScriptTextBox.Document.ContentEnd).Text.Replace('\r', ' ');
 
             if (string.IsNullOrEmpty(script)) return;
 
-            string subscript = new TextRange(ScriptTextBox2.Document.ContentStart, ScriptTextBox2.Document.ContentEnd).Text.Replace('\n', ' ').Replace('\r', ' ');
+            string subscript = new TextRange(ScriptTextBox2.Document.ContentStart, ScriptTextBox2.Document.ContentEnd).Text.Replace('\r', ' ');
 
             StringBuilder sb = new StringBuilder();
             sb.Append("package pack")
-            .Append("{")
-            .Append("class program")
-            .Append("{")
+            .Append(" {")
+            .Append("\nclass program")
+            .Append(" {")
+            .Append(" \n")
             .Append(script)
             .Append("}")
             .Append("}")
@@ -70,11 +71,25 @@ namespace JointLessonTerminal.MVVM.View
                 options.GenerateExecutable = false;
                 options.GenerateInMemory = true;
                 options.ReferencedAssemblies.Add("system.dll");
+                options.ReferencedAssemblies.Add("system.windows.forms.dll");
 
                 var results = provider.CompileAssemblyFromSource(options, script);
 
                 if (results.Errors.HasErrors)
                 {
+                    var paragraphProg = new Paragraph();
+                    StringBuilder linesWithNumbers = new StringBuilder();
+                    int index = 1;
+                    var lines = script.Split('\n');
+                    foreach (var line in lines)
+                    {
+                        linesWithNumbers.Append(index).Append("). ").Append(line).Append("\n");
+                        index++;
+                    }
+                    paragraphProg.Inlines.Add(new Run(string.Format("Ошибка в программе > \n{0}", linesWithNumbers.ToString())));
+                    paragraphProg.FontSize = 12;
+                    paragraphProg.FontStyle = FontStyles.Italic;
+                    ScriptResponse.Document.Blocks.Add(paragraphProg);
                     foreach (var error in results.Errors)
                     {
                         var paragraphError = new Paragraph();

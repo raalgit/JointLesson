@@ -413,6 +413,13 @@
 
                                         <StackPanel Orientation="Horizontal" 
                                                 Grid.Row="0">
+                                            <TextBlock Text="🛈" FontSize="18" FontWeight="Bold">
+                                                <TextBlock.ToolTip>
+                                                    <ToolTip>
+                                                        <Image Source="../../Images/JS.png" />
+                                                    </ToolTip>
+                                                </TextBlock.ToolTip>
+                                            </TextBlock>
                                             <Button Style="{StaticResource DarkButtonStyle}"
                                                 Width="100"
                                                 Height="40"

@@ -668,6 +668,7 @@
     <Content Include="Images\document-btn.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Images\JS.png" />
     <Content Include="Images\load-note-server-btn.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
