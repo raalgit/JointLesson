@@ -11,5 +11,6 @@ namespace JointLessonTerminal.MVVM.Model.HttpModels.Request
     {
         public int CourseId { get; set; }
         public string NextPage { get; set; }
+        public bool isOnline { get; set; }
     }
 }

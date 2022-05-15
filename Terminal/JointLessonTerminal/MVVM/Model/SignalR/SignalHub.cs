@@ -67,7 +67,9 @@ namespace JointLessonTerminal.MVVM.Model.SignalR
                 System.Windows.Application.Current.Dispatcher.Invoke(() =>
                 {
                     var arg = new OnPageChangeEventArg();
-                    arg.NewPageId = val;
+                    string[] data = val.Split('/');
+                    arg.NewPageId = data[0];
+                    arg.IsOnline = bool.Parse(data[1]);
                     OnPageSync?.Invoke(this, arg);
                 });
             });

@@ -127,7 +127,7 @@ namespace JL.Service.Teacher.Implementation
         public async Task<ChangeLessonManualPageResponse> ChangeActivePage(ChangeLessonManualPageRequest request)
         {
             var response = new ChangeLessonManualPageResponse();
-
+ 
             // получение списка групп и участников групп
             var groupsData = (from grpAtCourse in _groupAtCourseRepository.Get()
                               join grp in _groupRepository.Get() on grpAtCourse.GroupId equals grp.Id
@@ -145,25 +145,29 @@ namespace JL.Service.Teacher.Implementation
             // Получение участников групп текущего курса
             var users = groupsData.Select(x => x.user).Distinct().ToList();
 
-            // установка текущей страницы для групп курса
-            groupsAtCourse.ForEach(x => x.LastMaterialPage = request.NextPage);
+            if (request.IsOnline)
+            {
 
-            var groupsAtCourseIds = groupsAtCourse.Select(x => x.Id);
+                // установка текущей страницы для групп курса
+                groupsAtCourse.ForEach(x => x.LastMaterialPage = request.NextPage);
 
-            // получение списка активных занятий текущего курса
-            var activeLessons = _lessonRepository.Get()
-                .Where(x =>
-                    x.GroupAtCourseId.HasValue &&
-                    groupsAtCourseIds.Contains(x.GroupAtCourseId.Value) &&
-                    !x.EndDate.HasValue
-                    )
-                .ToList();
+                var groupsAtCourseIds = groupsAtCourse.Select(x => x.Id);
 
-            // установка текущей страницы для всех занятий
-            activeLessons.ForEach(x => x.LastMaterialPage = request.NextPage);
+                // получение списка активных занятий текущего курса
+                var activeLessons = _lessonRepository.Get()
+                    .Where(x =>
+                        x.GroupAtCourseId.HasValue &&
+                        groupsAtCourseIds.Contains(x.GroupAtCourseId.Value) &&
+                        !x.EndDate.HasValue
+                        )
+                    .ToList();
 
-            _groupAtCourseRepository.SaveChanges();
-            _lessonRepository.SaveChanges();
+                // установка текущей страницы для всех занятий
+                activeLessons.ForEach(x => x.LastMaterialPage = request.NextPage);
+
+                _groupAtCourseRepository.SaveChanges();
+                _lessonRepository.SaveChanges();
+            }
 
             var userIds = users.Select(x => x.Id);
 
@@ -172,7 +176,7 @@ namespace JL.Service.Teacher.Implementation
             var connectionIds = connectionInfo.Select(x => x.ConnectionId).ToArray();
 
             // отправка signalR нотификации об изменении страницы всем участникам групп
-            await _hubContext.Clients.Clients(connectionIds).SendAsync("PageSync", request.NextPage);
+            await _hubContext.Clients.Clients(connectionIds).SendAsync("PageSync", request.NextPage + "/" + request.IsOnline.ToString());
 
             response.Message = $"Текущая страница изменена на {request.NextPage} с синхронизацией";
             return response;

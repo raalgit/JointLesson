@@ -44,7 +44,11 @@
                              FontSize="24"
                              FontWeight="Bold"
                             Style="{StaticResource MenuInputBoxTheme}"
-                            Text="{Binding Login}"/>
+                            Text="{Binding Login, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Return" Command="{Binding SendRequestCommand}" />
+                    </TextBox.InputBindings>
+                </TextBox>
                 <TextBlock Grid.Row="2"
                                Grid.Column="0"
                                Margin="0 20 0 0"
@@ -58,7 +62,11 @@
                              FontSize="24"
                              FontWeight="Bold"
                              Style="{StaticResource MenuInputBoxTheme}"
-                             Text="{Binding Password}"/>
+                             Text="{Binding Password, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Enter" Command="{Binding SendRequestCommand}" />
+                    </TextBox.InputBindings>
+                </TextBox>
             </Grid>
             <Button Margin="5"
                     IsEnabled="{Binding LoadingCompleted}"

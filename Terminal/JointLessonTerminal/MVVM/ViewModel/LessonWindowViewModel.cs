@@ -38,10 +38,12 @@ namespace JointLessonTerminal.MVVM.ViewModel
         public Visibility NextPageBtnVisibility { get { return nextPageBtnVisibility; } set { nextPageBtnVisibility = value; OnPropsChanged("NextPageBtnVisibility"); } }
         public Visibility PrevPageBtnVisibility { get { return prevPageBtnVisibility; } set { prevPageBtnVisibility = value; OnPropsChanged("PrevPageBtnVisibility"); } }
         public Visibility OfflineManualVisibility { get { return offlineManualVisibility; } set { offlineManualVisibility = value; OnPropsChanged("OfflineManualVisibility"); } }
+        public Visibility SyncOfflineDocVisibility { get { return syncOfflineDocVisibility; } set { syncOfflineDocVisibility = value; OnPropsChanged("SyncOfflineDocVisibility"); }  }
         public FixedDocumentSequence ActiveDocument { get { return activeDocument; } set { activeDocument = value; OnPropsChanged("ActiveDocument"); } }
         public FixedDocumentSequence ActiveOfflineDocument { get { return activeOfflineDocument; } set { activeOfflineDocument = value; OnPropsChanged("ActiveOfflineDocument"); } }
         public string DocumentReady { get { return documentReady; } set { documentReady = value; OnPropsChanged("DocumentReady"); } }
         public string DocumentOffReady { get { return documentOffReady; } set { documentOffReady = value; OnPropsChanged("DocumentOffReady"); } }
+        public string CanSyncOfflineDoc { get { return canSyncOfflineDoc; } set { canSyncOfflineDoc = value; OnPropsChanged("CanSyncOfflineDoc"); } }
         public FileData FileData
         {
             get
@@ -85,7 +87,8 @@ namespace JointLessonTerminal.MVVM.ViewModel
                         DocumentReady = "True";
                     }
 
-                    currentOfflinePage = currentPage;
+                    currentOfflinePage = getPrevPageByPageId(currentPage.id);
+                    currentOfflinePageId = currentOfflinePage?.id;
                     showWordPage(false);
                 }
                 else
@@ -138,6 +141,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
                         offlineSequence = getFixedDoc(xpsPath).GetFixedDocumentSequence();
                         ActiveOfflineDocument = offlineSequence;
                         DocumentOffReady = "True";
+                        CanSyncOfflineDoc = "True";
                     }
                 }
                 else
@@ -186,6 +190,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
             }
         }
         public RelayCommand NextOfflinePageCommand { get; set; }
+        public RelayCommand SyncOfflinePageCommand { get; set; }
         public RelayCommand PrevOfflinePageCommand { get; set; }
         public RelayCommand NextPageCommand { get; set; }
         public RelayCommand PrevPageCommand { get; set; }
@@ -247,6 +252,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
         private Visibility nextPageBtnVisibility;
         private Visibility prevPageBtnVisibility;
         private Visibility offlineManualVisibility;
+        private Visibility syncOfflineDocVisibility;
         private int courseId;
         private string currentPageId;
         private Core.Material.Page currentPage;
@@ -257,6 +263,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
         private FixedDocumentSequence activeDocument;
         private FixedDocumentSequence activeOfflineDocument;
         private readonly string wordDirPath;
+        private string canSyncOfflineDoc;
         private string documentReady;
         private string documentOffReady;
         private string documentXpsPath;
@@ -289,12 +296,14 @@ namespace JointLessonTerminal.MVVM.ViewModel
             wordSaveLocker = new object();
             xpsSaveLocker = new object();
 
+            CanSyncOfflineDoc = "False";
             DocumentOffReady = "False";
             DocumentReady = "False";
 
             NextPageCommand = new RelayCommand(async x => await nextPage(true, true));
             PrevPageCommand = new RelayCommand(async x => await nextPage(false, true));
             NextOfflinePageCommand = new RelayCommand(async x => await nextPage(true, false));
+            SyncOfflinePageCommand = new RelayCommand(async x => await SyncPage(false));
             PrevOfflinePageCommand = new RelayCommand(async x => await nextPage(false, false));
             ShowOfflineManual = new RelayCommand(x =>
             {
@@ -412,19 +421,21 @@ namespace JointLessonTerminal.MVVM.ViewModel
             manual = data.Manual;
             courseId = data.CourseId;
             currentPageId = data.Page;
-            currentOfflinePageId = data.Page;
+            currentOfflinePageId = getPrevPageByPageId(data.Page)?.id;
 
             var user = UserSettings.GetInstance();
             if (user.Roles.Select(x => x.systemName).Contains("Teacher"))
             {
                 NextPageBtnVisibility = Visibility.Visible;
                 PrevPageBtnVisibility = Visibility.Visible;
+                SyncOfflineDocVisibility = Visibility.Visible;
                 UpHandVisibility = Visibility.Collapsed;
             }
             else
             {
                 NextPageBtnVisibility = Visibility.Collapsed;
                 PrevPageBtnVisibility = Visibility.Collapsed;
+                SyncOfflineDocVisibility = Visibility.Collapsed;
                 UpHandVisibility = Visibility.Visible;
             }
 
@@ -484,11 +495,18 @@ namespace JointLessonTerminal.MVVM.ViewModel
             var arg = e as OnPageChangeEventArg;
             if (arg != null)
             {
-                if (currentPageId != arg.NewPageId)
+                bool isOnline = arg.IsOnline;
+                if (isOnline && currentPageId != arg.NewPageId)
                 {
                     currentPageId = arg.NewPageId;
                     currentPage = getPageById(currentPageId);
                     showWordPage(true);
+                }
+                else if (!isOnline && currentOfflinePageId != arg.NewPageId)
+                {
+                    currentOfflinePageId = arg.NewPageId;
+                    currentOfflinePage = getPageById(currentOfflinePageId);
+                    showWordPage(false);
                 }
             }
         }
@@ -701,11 +719,12 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 DocumentReady = "False";
                 currentPage = manualPages.ElementAt(nextPageIndex);
                 currentPageId = currentPage.id;
-                var response = await SyncPage();
+                var response = await SyncPage(true);
             }
             else
             {
                 DocumentOffReady = "False";
+                CanSyncOfflineDoc = "False";
                 currentOfflinePage = manualPages.ElementAt(nextPageIndex);
                 currentOfflinePageId = currentOfflinePage.id;
             }
@@ -713,7 +732,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
             showWordPage(online);
             return true;
         }
-        private async Task<ChangeLessonManualPageResponse> SyncPage()
+        private async Task<ChangeLessonManualPageResponse> SyncPage(bool online)
         {
             var changePageRequest = new RequestModel<ChangeLessonManualPageRequest>()
             {
@@ -721,7 +740,8 @@ namespace JointLessonTerminal.MVVM.ViewModel
                 Body = new ChangeLessonManualPageRequest()
                 {
                     CourseId = courseId,
-                    NextPage = currentPage.id
+                    NextPage = online ? currentPage.id : currentOfflinePage.id,
+                    isOnline = online
                 }
             };
             var sender = new RequestSender<ChangeLessonManualPageRequest, ChangeLessonManualPageResponse>();
@@ -739,16 +759,53 @@ namespace JointLessonTerminal.MVVM.ViewModel
         {
             if (online)
             {
+                if (currentPage == null) 
+                {
+                    sequence = null;
+                    activeDocument = null;
+                    return;
+                }
                 var currentFileData = manualFiles.Where(x => x.id == currentPage.fileDataId).FirstOrDefault()
                     ?? throw new Exception("Данные для страницы не найдены");
                 FileData = currentFileData;
             }
             else
             {
+                if (currentOfflinePage == null) 
+                {
+                    offlineSequence = null;
+                    ActiveOfflineDocument = null;
+                    CanSyncOfflineDoc = "False";
+                    return;
+                }
                 var currentFileData = manualFiles.Where(x => x.id == currentOfflinePage.fileDataId).FirstOrDefault()
                     ?? throw new Exception("Данные для страницы не найдены");
                 FileDataOffline = currentFileData;
             }
+        }
+        private Core.Material.Page getPrevPageByPageId(string id)
+        {
+            if (manual == null) throw new NullReferenceException(nameof(manual));
+
+            Core.Material.Page prevPage = null;
+            foreach (var chapter in manual.chapters)
+            {
+                if (chapter.topics == null || chapter.topics.Count == 0) continue;
+                foreach (var topic in chapter.topics)
+                {
+                    if (topic.didacticUnits == null || topic.didacticUnits.Count == 0) continue;
+                    foreach (var unit in topic.didacticUnits)
+                    {
+                        if (unit.pages == null || unit.pages.Count == 0) continue;
+                        foreach (var page in unit.pages)
+                        {
+                            if (page.id == id) return prevPage;
+                            prevPage = page;
+                        }
+                    }
+                }
+            }
+            return null;
         }
         private Core.Material.Page getPageById(string id)
         {
@@ -860,6 +917,7 @@ namespace JointLessonTerminal.MVVM.ViewModel
                         offlineSequence = getFixedDoc(documentXpsPath).GetFixedDocumentSequence();
                         ActiveOfflineDocument = offlineSequence;
                         DocumentOffReady = "True";
+                        CanSyncOfflineDoc = "True";
                     }
                 });
             }

@@ -9,5 +9,6 @@ namespace JointLessonTerminal.MVVM.Model.EventModels
     public class OnPageChangeEventArg : EventArgs
     {
         public string NewPageId { get; set; }
+        public bool IsOnline { get; set; }
     }
 }

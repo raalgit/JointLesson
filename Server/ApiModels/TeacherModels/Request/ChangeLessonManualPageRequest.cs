@@ -11,5 +11,6 @@ namespace JL.ApiModels.TeacherModels.Request
     {
         public int CourseId { get; set; }
         public string NextPage { get; set; }
+        public bool IsOnline { get; set; }
     }
 }

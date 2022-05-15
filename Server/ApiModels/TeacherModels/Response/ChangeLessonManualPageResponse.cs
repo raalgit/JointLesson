@@ -10,5 +10,6 @@ namespace JL.ApiModels.TeacherModels.Response
     public class ChangeLessonManualPageResponse : ResponseBase, IResponse
     {
         public string NewPage { get; set; }
+        public string IsOnline { get; set; }
     }
 }

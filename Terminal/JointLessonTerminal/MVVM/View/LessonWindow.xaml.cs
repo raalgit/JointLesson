@@ -54,14 +54,12 @@ namespace JointLessonTerminal.MVVM.View
             string subscript = new TextRange(ScriptTextBox2.Document.ContentStart, ScriptTextBox2.Document.ContentEnd).Text.Replace('\r', ' ');
 
             StringBuilder sb = new StringBuilder();
-            sb.Append("package pack")
-            .Append(" {")
-            .Append("\nclass program")
-            .Append(" {")
-            .Append(" \n")
+            sb.Append("package pack").Append(" {")
+            .Append("\n class program").Append(" {")
+            .Append("\n")
             .Append(script)
-            .Append("}")
-            .Append("}")
+            .Append(" }")
+            .Append("\n}")
             .Append(subscript);
             script = sb.ToString();
 

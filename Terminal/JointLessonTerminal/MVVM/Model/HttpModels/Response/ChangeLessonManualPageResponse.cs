@@ -13,5 +13,6 @@ namespace JointLessonTerminal.MVVM.Model.HttpModels.Response
         public bool isSuccess { get; set; }
         public string message { get; set; }
         public string newPage { get; set; }
+        public bool IsOnline { get; set; }
     }
 }
